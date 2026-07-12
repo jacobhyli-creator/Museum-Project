@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {
   timeOptions,
   interestOptions,
+  interestGroups,
   explanationStyles,
   moodOptions,
   knowledgeLevels,
@@ -24,14 +25,23 @@ export default function PreferenceQuiz({
 }) {
   const [step, setStep] = useState(0)
   const [showMore, setShowMore] = useState(false) // interests: "More interests" expander
+  const [openGroupHelp, setOpenGroupHelp] = useState(null) // group key whose "?" popover is open
+  const [showMeanings, setShowMeanings] = useState(false) // "What do these mean?" helper panel
   const museum = getMuseum(museumId)
   const exhibition = getExhibition(exhibitionId)
   const key = STEPS[step]
 
-  // Popular interests are always visible; the rest live behind an expander.
-  // Selections are keyed on `value` in parent state, so collapsing never clears them.
+  // Popular interests are always visible; the rest live behind an expander,
+  // organized into labelled groups. Selections are keyed on `value` in parent
+  // state, so collapsing/regrouping never clears them.
   const popularInterests = interestOptions.filter((o) => o.tier === 'popular')
   const moreInterests = interestOptions.filter((o) => o.tier !== 'popular')
+  const groupedMore = interestGroups.map((g) => ({
+    ...g,
+    options: moreInterests.filter((o) => o.group === g.key),
+  }))
+  // Chips with an explanation, for the "What do these mean?" helper.
+  const explainable = moreInterests.filter((o) => o.hint)
 
   const toggleInterest = (value) => {
     setPrefs((p) => {
@@ -142,17 +152,80 @@ export default function PreferenceQuiz({
             </button>
 
             {showMore && (
-              <div className="mt-4 flex animate-fadeUp flex-wrap gap-2.5">
-                {moreInterests.map((o) => (
-                  <Chip
-                    key={o.value}
-                    active={prefs.interests.includes(o.value)}
-                    onClick={() => toggleInterest(o.value)}
-                    title={o.hint}
-                  >
-                    {o.label}
-                  </Chip>
+              <div className="mt-5 animate-fadeUp space-y-5">
+                {groupedMore.map((g) => (
+                  <div key={g.key}>
+                    <div className="mb-2.5 flex items-center gap-1.5">
+                      <p className="eyebrow text-stone">{g.label}</p>
+                      <div className="relative">
+                        <button
+                          type="button"
+                          aria-label={`What does ${g.label} mean?`}
+                          aria-expanded={openGroupHelp === g.key}
+                          onClick={() =>
+                            setOpenGroupHelp((k) => (k === g.key ? null : g.key))
+                          }
+                          className="flex h-4 w-4 items-center justify-center rounded-full border border-line text-[10px] font-semibold text-stone transition-colors hover:border-charcoal hover:text-charcoal"
+                        >
+                          ?
+                        </button>
+                        {openGroupHelp === g.key && (
+                          <div
+                            role="tooltip"
+                            className="absolute left-0 top-6 z-10 w-[min(15rem,calc(100vw-3rem))] animate-fadeIn rounded-xl border border-line bg-white px-3 py-2 text-[12px] leading-snug text-charcoal shadow-lift"
+                          >
+                            {g.blurb}
+                            <button
+                              type="button"
+                              aria-label="Dismiss"
+                              onClick={() => setOpenGroupHelp(null)}
+                              className="absolute right-1.5 top-1 text-mist hover:text-charcoal"
+                            >
+                              ×
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-2.5">
+                      {g.options.map((o) => (
+                        <Chip
+                          key={o.value}
+                          active={prefs.interests.includes(o.value)}
+                          onClick={() => toggleInterest(o.value)}
+                          title={o.hint}
+                        >
+                          {o.label}
+                        </Chip>
+                      ))}
+                    </div>
+                  </div>
                 ))}
+
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => setShowMeanings((v) => !v)}
+                    aria-expanded={showMeanings}
+                    className="btn-ghost text-[13px] text-stone underline decoration-line underline-offset-2 hover:text-charcoal"
+                  >
+                    {showMeanings ? 'Hide explanations' : 'What do these mean?'}
+                  </button>
+                  {showMeanings && (
+                    <dl className="mt-3 animate-fadeIn space-y-2.5 rounded-xl border border-line bg-white/60 px-4 py-3">
+                      {explainable.map((o) => (
+                        <div key={o.value}>
+                          <dt className="text-[13px] font-semibold text-charcoal">
+                            {o.label}
+                          </dt>
+                          <dd className="text-[12px] leading-snug text-stone">
+                            {o.hint}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+                </div>
               </div>
             )}
           </QuizStep>
