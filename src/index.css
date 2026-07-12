@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-cream text-charcoal font-sans antialiased;
+    overscroll-behavior-y: none;
+  }
+  /* Hide scrollbars for a cleaner app feel while keeping scroll */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@layer components {
+  .app-frame {
+    @apply mx-auto w-full max-w-[440px] min-h-[100dvh] bg-canvas relative flex flex-col;
+  }
+  .btn-primary {
+    @apply w-full rounded-full bg-charcoal text-cream text-[15px] font-medium tracking-wide
+           py-4 px-6 transition-all duration-200 active:scale-[0.98]
+           disabled:opacity-30 disabled:active:scale-100;
+  }
+  .btn-secondary {
+    @apply w-full rounded-full bg-transparent text-ink text-[15px] font-medium tracking-wide
+           py-4 px-6 border border-line transition-all duration-200 active:scale-[0.98];
+  }
+  .btn-ghost {
+    @apply text-stone text-[14px] font-medium tracking-wide transition-colors active:text-charcoal;
+  }
+  .chip {
+    @apply inline-flex items-center rounded-full border border-line bg-white/60
+           px-3.5 py-2 text-[13px] font-medium text-stone transition-all duration-150
+           active:scale-95 select-none;
+  }
+  .chip-active {
+    @apply border-charcoal bg-charcoal text-cream;
+  }
+  .theme-tag {
+    @apply inline-flex items-center rounded-full bg-gold/10 px-2.5 py-1
+           text-[11px] font-medium tracking-wide text-bronze;
+  }
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.18em] text-mist;
+  }
+  .divider {
+    @apply h-px w-full bg-line;
+  }
+}

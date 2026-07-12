@@ -1,0 +1,672 @@
+{
+ "A001": {
+  "localImage": "/artworks/A001.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Sigmar Polke/IMG_0155.jpg",
+  "converted": true
+ },
+ "A002": {
+  "localImage": "/artworks/A002.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Sigmar Polke/IMG_0159.jpg",
+  "converted": true
+ },
+ "A003": {
+  "localImage": "/artworks/A003.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Sigmar Polke/IMG_0163.jpg",
+  "converted": true
+ },
+ "A004": {
+  "localImage": "/artworks/A004.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Sigmar Polke/IMG_0162.jpg",
+  "converted": true
+ },
+ "A005": {
+  "localImage": "/artworks/A005.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Sigmar Polke/IMG_0158.jpg",
+  "converted": true
+ },
+ "A006": {
+  "localImage": "/artworks/A006.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Sigmar Polke/IMG_0154.jpg",
+  "converted": true
+ },
+ "A007": {
+  "localImage": "/artworks/A007.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Sigmar Polke/IMG_0161.jpg",
+  "converted": true
+ },
+ "A008": {
+  "localImage": "/artworks/A008.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Sigmar Polke/IMG_0160.jpg",
+  "converted": true
+ },
+ "A009": {
+  "localImage": "/artworks/A009.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Sigmar Polke/IMG_0156.jpg",
+  "converted": true
+ },
+ "A010": {
+  "localImage": "/artworks/A010.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Cy Twombly/IMG_0122.jpg",
+  "converted": true
+ },
+ "A011": {
+  "localImage": "/artworks/A011.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Cy Twombly/IMG_0123.jpg",
+  "converted": true
+ },
+ "A012": {
+  "localImage": "/artworks/A012.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Cy Twombly/IMG_0124.jpg",
+  "converted": true
+ },
+ "A013": {
+  "localImage": "/artworks/A013.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Cy Twombly/IMG_0128.jpg",
+  "converted": true
+ },
+ "A014": {
+  "localImage": "/artworks/A014.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Cy Twombly/IMG_0129.jpg",
+  "converted": true
+ },
+ "A015": {
+  "localImage": "/artworks/A015.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Cy Twombly/IMG_0125.jpg",
+  "converted": true
+ },
+ "A016": {
+  "localImage": "/artworks/A016.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Cy Twombly/IMG_0126.jpg",
+  "converted": true
+ },
+ "A017": {
+  "localImage": "/artworks/A017.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Cy Twombly/IMG_0127.jpg",
+  "converted": true
+ },
+ "A018": {
+  "localImage": "/artworks/A018.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Cy Twombly/IMG_0121.jpg",
+  "converted": true
+ },
+ "A019": {
+  "localImage": "/artworks/A019.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Dan Flavin/IMG_0211.jpg",
+  "converted": true
+ },
+ "A020": {
+  "localImage": "/artworks/A020.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Dan Flavin/IMG_0201.jpg",
+  "converted": true
+ },
+ "A021": {
+  "localImage": "/artworks/A021.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Dan Flavin/IMG_0203.jpg",
+  "converted": true
+ },
+ "A022": {
+  "localImage": "/artworks/A022.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Dan Flavin/IMG_0218.jpg",
+  "converted": true
+ },
+ "A023": {
+  "localImage": "/artworks/A023.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Dan Flavin/IMG_0205.jpg",
+  "converted": true
+ },
+ "A024": {
+  "localImage": "/artworks/A024.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Dan Flavin/IMG_0213.jpg",
+  "converted": true
+ },
+ "A025": {
+  "localImage": "/artworks/A025.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Roy Lichtenstein/IMG_0143.jpg",
+  "converted": true
+ },
+ "A026": {
+  "localImage": "/artworks/A026.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Roy Lichtenstein/IMG_0142.jpg",
+  "converted": true
+ },
+ "A027": {
+  "localImage": "/artworks/A027.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Roy Lichtenstein/IMG_0149.jpg",
+  "converted": true
+ },
+ "A028": {
+  "localImage": "/artworks/A028.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Roy Lichtenstein/IMG_0145.jpg",
+  "converted": true
+ },
+ "A029": {
+  "localImage": "/artworks/A029.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Roy Lichtenstein/IMG_0144.jpg",
+  "converted": true
+ },
+ "A030": {
+  "localImage": "/artworks/A030.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Roy Lichtenstein/IMG_0152.jpg",
+  "converted": true
+ },
+ "A031": {
+  "localImage": "/artworks/A031.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Roy Lichtenstein/IMG_0148.jpg",
+  "converted": true
+ },
+ "A032": {
+  "localImage": "/artworks/A032.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Roy Lichtenstein/IMG_0147.jpg",
+  "converted": true
+ },
+ "A033": {
+  "localImage": "/artworks/A033.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Roy Lichtenstein/IMG_0151.jpg",
+  "converted": true
+ },
+ "A034": {
+  "localImage": "/artworks/A034.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Roy Lichtenstein/IMG_0150.jpg",
+  "converted": true
+ },
+ "A035": {
+  "localImage": "/artworks/A035.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Roy Lichtenstein/IMG_0146.jpg",
+  "converted": true
+ },
+ "A036": {
+  "localImage": "/artworks/A036.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0180.jpg",
+  "converted": true
+ },
+ "A037": {
+  "localImage": "/artworks/A037.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0179.jpg",
+  "converted": true
+ },
+ "A038": {
+  "localImage": "/artworks/A038.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0175.jpg",
+  "converted": true
+ },
+ "A039": {
+  "localImage": "/artworks/A039.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0174.jpg",
+  "converted": true
+ },
+ "A040": {
+  "localImage": "/artworks/A040.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0178.jpg",
+  "converted": true
+ },
+ "A041": {
+  "localImage": "/artworks/A041.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0181.jpg",
+  "converted": true
+ },
+ "A042": {
+  "localImage": "/artworks/A042.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0165.jpg",
+  "converted": true
+ },
+ "A043": {
+  "localImage": "/artworks/A043.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0173.jpg",
+  "converted": true
+ },
+ "A044": {
+  "localImage": "/artworks/A044.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0169.jpg",
+  "converted": true
+ },
+ "A045": {
+  "localImage": "/artworks/A045.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0168.jpg",
+  "converted": true
+ },
+ "A046": {
+  "localImage": "/artworks/A046.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0172.jpg",
+  "converted": true
+ },
+ "A047": {
+  "localImage": "/artworks/A047.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0164.jpg",
+  "converted": true
+ },
+ "A048": {
+  "localImage": "/artworks/A048.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0171.jpg",
+  "converted": true
+ },
+ "A049": {
+  "localImage": "/artworks/A049.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0167.jpg",
+  "converted": true
+ },
+ "A050": {
+  "localImage": "/artworks/A050.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0184.jpg",
+  "converted": true
+ },
+ "A051": {
+  "localImage": "/artworks/A051.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0166.jpg",
+  "converted": true
+ },
+ "A052": {
+  "localImage": "/artworks/A052.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0170.jpg",
+  "converted": true
+ },
+ "A053": {
+  "localImage": "/artworks/A053.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0182.jpg",
+  "converted": true
+ },
+ "A054": {
+  "localImage": "/artworks/A054.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0177.jpg",
+  "converted": true
+ },
+ "A055": {
+  "localImage": "/artworks/A055.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0176.jpg",
+  "converted": true
+ },
+ "A056": {
+  "localImage": "/artworks/A056.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Andy Warhol/IMG_0183.jpg",
+  "converted": true
+ },
+ "A057": {
+  "localImage": "/artworks/A057.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Philip Guston/IMG_0138.jpg",
+  "converted": true
+ },
+ "A058": {
+  "localImage": "/artworks/A058.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Philip Guston/IMG_0134.jpg",
+  "converted": true
+ },
+ "A059": {
+  "localImage": "/artworks/A059.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Philip Guston/IMG_0135.jpg",
+  "converted": true
+ },
+ "A060": {
+  "localImage": "/artworks/A060.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Philip Guston/IMG_0139.jpg",
+  "converted": true
+ },
+ "A061": {
+  "localImage": "/artworks/A061.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Philip Guston/IMG_0132.jpg",
+  "converted": true
+ },
+ "A062": {
+  "localImage": "/artworks/A062.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Philip Guston/IMG_0133.jpg",
+  "converted": true
+ },
+ "A063": {
+  "localImage": "/artworks/A063.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Philip Guston/IMG_0130.jpg",
+  "converted": true
+ },
+ "A064": {
+  "localImage": "/artworks/A064.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Philip Guston/IMG_0131.jpg",
+  "converted": true
+ },
+ "A065": {
+  "localImage": "/artworks/A065.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Philip Guston/IMG_0136.jpg",
+  "converted": true
+ },
+ "A066": {
+  "localImage": "/artworks/A066.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Philip Guston/IMG_0137.jpg",
+  "converted": true
+ },
+ "A067": {
+  "localImage": "/artworks/A067.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Philip Guston/IMG_0140.jpg",
+  "converted": true
+ },
+ "A068": {
+  "localImage": "/artworks/A068.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Chuck Close/IMG_0227.jpg",
+  "converted": true
+ },
+ "A069": {
+  "localImage": "/artworks/A069.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Chuck Close/IMG_0226.jpg",
+  "converted": true
+ },
+ "A070": {
+  "localImage": "/artworks/A070.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Chuck Close/IMG_0221.jpg",
+  "converted": true
+ },
+ "A071": {
+  "localImage": "/artworks/A071.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Chuck Close/IMG_0220.jpg",
+  "converted": true
+ },
+ "A072": {
+  "localImage": "/artworks/A072.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Chuck Close/IMG_0219.jpg",
+  "converted": true
+ },
+ "A073": {
+  "localImage": "/artworks/A073.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Chuck Close/IMG_0223.jpg",
+  "converted": true
+ },
+ "A074": {
+  "localImage": "/artworks/A074.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Chuck Close/IMG_0222.jpg",
+  "converted": true
+ },
+ "A075": {
+  "localImage": "/artworks/A075.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Chuck Close/IMG_0229.jpg",
+  "converted": true
+ },
+ "A076": {
+  "localImage": "/artworks/A076.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Chuck Close/IMG_0225.jpg",
+  "converted": true
+ },
+ "A077": {
+  "localImage": "/artworks/A077.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Chuck Close/IMG_0224.jpg",
+  "converted": true
+ },
+ "A078": {
+  "localImage": "/artworks/A078.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Chuck Close/IMG_0228.jpg",
+  "converted": true
+ },
+ "A079": {
+  "localImage": "/artworks/A079.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Richard Serra/IMG_0231.jpg",
+  "converted": true
+ },
+ "A080": {
+  "localImage": "/artworks/A080.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Richard Serra/IMG_0230.jpg",
+  "converted": true
+ },
+ "A081": {
+  "localImage": "/artworks/A081.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Richard Serra/IMG_0237.jpg",
+  "converted": true
+ },
+ "A082": {
+  "localImage": "/artworks/A082.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Richard Serra/IMG_0240.jpg",
+  "converted": true
+ },
+ "A083": {
+  "localImage": "/artworks/A083.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Richard Serra/IMG_0236.jpg",
+  "converted": true
+ },
+ "A084": {
+  "localImage": "/artworks/A084.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Richard Serra/IMG_0235.jpg",
+  "converted": true
+ },
+ "A085": {
+  "localImage": "/artworks/A085.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Richard Serra/IMG_0239.jpg",
+  "converted": true
+ },
+ "A086": {
+  "localImage": "/artworks/A086.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Richard Serra/IMG_0238.jpg",
+  "converted": true
+ },
+ "A087": {
+  "localImage": "/artworks/A087.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Richard Serra/IMG_0234.jpg",
+  "converted": true
+ },
+ "A088": {
+  "localImage": "/artworks/A088.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Richard Serra/IMG_0233.jpg",
+  "converted": true
+ },
+ "A089": {
+  "localImage": "/artworks/A089.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Richard Serra/IMG_0232.jpg",
+  "converted": true
+ },
+ "A090": {
+  "localImage": "/artworks/A090.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Elizabeth Murray/IMG_0114.jpg",
+  "converted": true
+ },
+ "A091": {
+  "localImage": "/artworks/A091.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Elizabeth Murray/IMG_0112.jpg",
+  "converted": true
+ },
+ "A092": {
+  "localImage": "/artworks/A092.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Elizabeth Murray/IMG_0113.jpg",
+  "converted": true
+ },
+ "A093": {
+  "localImage": "/artworks/A093.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Elizabeth Murray/IMG_0109.jpg",
+  "converted": true
+ },
+ "A094": {
+  "localImage": "/artworks/A094.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Elizabeth Murray/IMG_0110.jpg",
+  "converted": true
+ },
+ "A095": {
+  "localImage": "/artworks/A095.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Elizabeth Murray/IMG_0111.jpg",
+  "converted": true
+ },
+ "A096": {
+  "localImage": "/artworks/A096.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Brice Marden/IMG_0246.jpg",
+  "converted": true
+ },
+ "A097": {
+  "localImage": "/artworks/A097.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Brice Marden/IMG_0241.jpg",
+  "converted": true
+ },
+ "A098": {
+  "localImage": "/artworks/A098.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Brice Marden/IMG_0242.jpg",
+  "converted": true
+ },
+ "A099": {
+  "localImage": "/artworks/A099.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Brice Marden/IMG_0244.jpg",
+  "converted": true
+ },
+ "A100": {
+  "localImage": "/artworks/A100.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Brice Marden/IMG_0248.jpg",
+  "converted": true
+ },
+ "A101": {
+  "localImage": "/artworks/A101.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Brice Marden/IMG_0245.jpg",
+  "converted": true
+ },
+ "A102": {
+  "localImage": "/artworks/A102.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Agnes Martin/IMG_0250.jpg",
+  "converted": true
+ },
+ "A103": {
+  "localImage": "/artworks/A103.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Agnes Martin/IMG_0251.jpg",
+  "converted": true
+ },
+ "A104": {
+  "localImage": "/artworks/A104.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Agnes Martin/IMG_0256.jpg",
+  "converted": true
+ },
+ "A105": {
+  "localImage": "/artworks/A105.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Agnes Martin/IMG_0257.jpg",
+  "converted": true
+ },
+ "A106": {
+  "localImage": "/artworks/A106.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Agnes Martin/IMG_0258.jpg",
+  "converted": true
+ },
+ "A107": {
+  "localImage": "/artworks/A107.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Agnes Martin/IMG_0254.jpg",
+  "converted": true
+ },
+ "A108": {
+  "localImage": "/artworks/A108.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Agnes Martin/IMG_0255.jpg",
+  "converted": true
+ },
+ "A109": {
+  "localImage": "/artworks/A109.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Agnes Martin/IMG_0252.jpg",
+  "converted": true
+ },
+ "A110": {
+  "localImage": "/artworks/A110.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Agnes Martin/IMG_0249.jpg",
+  "converted": true
+ },
+ "A111": {
+  "localImage": "/artworks/A111.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Agnes Martin/IMG_0253.jpg",
+  "converted": true
+ },
+ "A112": {
+  "localImage": "/artworks/A112.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0196.jpg",
+  "converted": true
+ },
+ "A113": {
+  "localImage": "/artworks/A113.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0197.jpg",
+  "converted": true
+ },
+ "A114": {
+  "localImage": "/artworks/A114.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0186.jpg",
+  "converted": true
+ },
+ "A115": {
+  "localImage": "/artworks/A115.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0190.jpg",
+  "converted": true
+ },
+ "A116": {
+  "localImage": "/artworks/A116.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0191.jpg",
+  "converted": true
+ },
+ "A117": {
+  "localImage": "/artworks/A117.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0200.jpg",
+  "converted": true
+ },
+ "A118": {
+  "localImage": "/artworks/A118.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0187.jpg",
+  "converted": true
+ },
+ "A119": {
+  "localImage": "/artworks/A119.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0188.jpg",
+  "converted": true
+ },
+ "A120": {
+  "localImage": "/artworks/A120.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0192.jpg",
+  "converted": true
+ },
+ "A121": {
+  "localImage": "/artworks/A121.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0185.jpg",
+  "converted": true
+ },
+ "A122": {
+  "localImage": "/artworks/A122.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0193.jpg",
+  "converted": true
+ },
+ "A123": {
+  "localImage": "/artworks/A123.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0189.jpg",
+  "converted": true
+ },
+ "A124": {
+  "localImage": "/artworks/A124.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0194.jpg",
+  "converted": true
+ },
+ "A125": {
+  "localImage": "/artworks/A125.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0198.jpg",
+  "converted": true
+ },
+ "A126": {
+  "localImage": "/artworks/A126.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0199.jpg",
+  "converted": true
+ },
+ "A127": {
+  "localImage": "/artworks/A127.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Gerhard Richter/IMG_0195.jpg",
+  "converted": true
+ },
+ "A128": {
+  "localImage": "/artworks/A128.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Joan Mitchell/IMG_0217.jpg",
+  "converted": true
+ },
+ "A129": {
+  "localImage": "/artworks/A129.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Joan Mitchell/IMG_0216.jpg",
+  "converted": true
+ },
+ "A130": {
+  "localImage": "/artworks/A130.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Joan Mitchell/IMG_0219.jpg",
+  "converted": true
+ },
+ "A131": {
+  "localImage": "/artworks/A131.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Joan Mitchell/IMG_0214.jpg",
+  "converted": true
+ },
+ "A132": {
+  "localImage": "/artworks/A132.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Joan Mitchell/IMG_0218.jpg",
+  "converted": true
+ },
+ "A133": {
+  "localImage": "/artworks/A133.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Joan Mitchell/IMG_0213.jpg",
+  "converted": true
+ },
+ "A134": {
+  "localImage": "/artworks/A134.jpg",
+  "sourcePhoto": "Modern Art LEVEL 4/Joan Mitchell/IMG_0116.jpg",
+  "converted": true
+ }
+}

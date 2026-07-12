@@ -1,0 +1,23 @@
+# Supabase CLI project config (version-controlled).
+# Docs: https://supabase.com/docs/guides/cli/config
+#
+# `project_id` is a local label for the Supabase CLI; it is NOT a secret and is
+# NOT your cloud project ref. You link the cloud project separately with:
+#   supabase link --project-ref <your-project-ref>
+project_id = "museum-tour-app"
+
+[db]
+# Local dev Postgres major version. Match your cloud project (15 is current
+# default for new Supabase projects; change if yours differs).
+major_version = 15
+
+[auth]
+# Admins and opt-in users authenticate via email/password. Anonymous visitors
+# never sign in — they run session-only in the browser (no row is written).
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+# Require email confirmation for real accounts. For a class demo you may turn
+# this off in the dashboard, but keep it on for anything public.
+enable_confirmations = true
