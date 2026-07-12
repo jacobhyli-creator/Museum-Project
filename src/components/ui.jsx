@@ -63,12 +63,13 @@ export function ScreenHeader({ eyebrow, title, subtitle, onBack }) {
   )
 }
 
-export function Chip({ active, disabled, children, onClick }) {
+export function Chip({ active, disabled, children, onClick, title }) {
   return (
     <button
       type="button"
       disabled={disabled}
       onClick={onClick}
+      title={title}
       className={`chip ${active ? 'chip-active' : ''} ${
         disabled ? 'opacity-40' : ''
       }`}

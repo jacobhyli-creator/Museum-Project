@@ -10,32 +10,66 @@ export const timeOptions = [
   { value: 90, label: '90 minutes', artworks: 8 },
 ]
 
-// Interests: { value (canonical key), label (shown in UI) }. Values must match
-// the keys in src/lib/aliasMap.js so interest matching resolves correctly.
+// Interests: { value (canonical key), label (shown in UI), tier, hint? }.
+//   - `value` MUST match the keys in src/lib/aliasMap.js so interest matching
+//     resolves correctly. It is the ONLY field the recommendation engine reads
+//     (see interestMatch() in src/lib/scoring.js) — labels/tier/hint are
+//     display-only and can be changed freely without affecting scoring.
+//   - `tier`: 'popular' chips show first (always visible); 'more' chips live
+//     behind the "More interests" expander in the quiz UI.
+//   - `hint`: optional short tooltip, shown only for the least-familiar concepts.
 export const interestOptions = [
-  { value: 'color', label: 'Color' },
-  { value: 'abstraction', label: 'Abstraction' },
-  { value: 'figuration', label: 'Figuration' },
-  { value: 'gesture', label: 'Gesture' },
-  { value: 'geometry', label: 'Geometry' },
-  { value: 'emotion', label: 'Emotion' },
-  { value: 'philosophy', label: 'Philosophy' },
-  { value: 'popular-culture', label: 'Popular culture' },
-  { value: 'identity', label: 'Identity' },
-  { value: 'materials', label: 'Materials & process' },
-  { value: 'light', label: 'Light' },
-  { value: 'history', label: 'History' },
-  { value: 'perception', label: 'Perception & seeing' },
-  { value: 'memory', label: 'Memory' },
-  { value: 'death', label: 'Mortality' },
-  { value: 'time', label: 'Time & repetition' },
-  { value: 'space', label: 'Space & scale' },
-  { value: 'everyday-life', label: 'Everyday life' },
-  { value: 'humor', label: 'Humor & the absurd' },
-  { value: 'nature', label: 'Nature & landscape' },
-  { value: 'photography', label: 'Photography & media' },
-  { value: 'process', label: 'Chance & transformation' },
-  { value: 'scale', label: 'Weight & monumentality' },
+  // Popular — always visible.
+  { value: 'color', label: 'Color', tier: 'popular' },
+  { value: 'figuration', label: 'People', tier: 'popular' },
+  { value: 'emotion', label: 'Emotion', tier: 'popular' },
+  { value: 'history', label: 'History', tier: 'popular' },
+  { value: 'nature', label: 'Nature', tier: 'popular' },
+  {
+    value: 'abstraction',
+    label: 'Abstraction',
+    tier: 'popular',
+    hint: 'Shapes, color and form rather than recognizable objects.',
+  },
+  { value: 'humor', label: 'Humor', tier: 'popular' },
+  { value: 'everyday-life', label: 'Everyday life', tier: 'popular' },
+
+  // More interests — behind the expander.
+  { value: 'identity', label: 'Identity', tier: 'more' },
+  { value: 'memory', label: 'Memory', tier: 'more' },
+  { value: 'philosophy', label: 'Philosophy & big questions', tier: 'more' },
+  { value: 'light', label: 'Light', tier: 'more' },
+  { value: 'materials', label: 'Materials & how art is made', tier: 'more' },
+  { value: 'photography', label: 'Photography & media', tier: 'more' },
+  {
+    value: 'time',
+    label: 'Time & repetition',
+    tier: 'more',
+    hint: 'Works about change, cycles or repeated patterns over time.',
+  },
+  {
+    value: 'scale',
+    label: 'Scale & monumentality',
+    tier: 'more',
+    hint: 'Very large or imposing works built to command a room.',
+  },
+  {
+    value: 'perception',
+    label: 'Perception & ways of seeing',
+    tier: 'more',
+    hint: 'How we look — optical effects, viewpoint and attention.',
+  },
+  { value: 'gesture', label: 'Gesture & movement', tier: 'more' },
+  { value: 'space', label: 'Space & environment', tier: 'more' },
+  {
+    value: 'process',
+    label: 'Experimentation, chance & change',
+    tier: 'more',
+    hint: 'Art made through experiments, accident or transformation.',
+  },
+  { value: 'geometry', label: 'Geometry', tier: 'more' },
+  { value: 'popular-culture', label: 'Popular culture & media', tier: 'more' },
+  { value: 'death', label: 'Life & mortality', tier: 'more' },
 ]
 
 export const explanationStyles = [

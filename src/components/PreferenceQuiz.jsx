@@ -23,9 +23,15 @@ export default function PreferenceQuiz({
   onChangeExhibition,
 }) {
   const [step, setStep] = useState(0)
+  const [showMore, setShowMore] = useState(false) // interests: "More interests" expander
   const museum = getMuseum(museumId)
   const exhibition = getExhibition(exhibitionId)
   const key = STEPS[step]
+
+  // Popular interests are always visible; the rest live behind an expander.
+  // Selections are keyed on `value` in parent state, so collapsing never clears them.
+  const popularInterests = interestOptions.filter((o) => o.tier === 'popular')
+  const moreInterests = interestOptions.filter((o) => o.tier !== 'popular')
 
   const toggleInterest = (value) => {
     setPrefs((p) => {
@@ -100,20 +106,55 @@ export default function PreferenceQuiz({
 
         {key === 'interests' && (
           <QuizStep
-            title="What are you most interested in today?"
-            hint="Choose as many as you like."
+            title="What kind of art would you most like to see today?"
+            hint="Pick 3–5 interests. You can choose both visual styles and ideas."
           >
             <div className="flex flex-wrap gap-2.5">
-              {interestOptions.map((o) => (
+              {popularInterests.map((o) => (
                 <Chip
                   key={o.value}
                   active={prefs.interests.includes(o.value)}
                   onClick={() => toggleInterest(o.value)}
+                  title={o.hint}
                 >
                   {o.label}
                 </Chip>
               ))}
             </div>
+
+            <button
+              type="button"
+              onClick={() => setShowMore((v) => !v)}
+              aria-expanded={showMore}
+              className="btn-ghost mt-4 flex items-center gap-1.5 text-bronze"
+            >
+              {showMore ? 'Fewer interests' : 'More interests'}
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden
+                className={`transition-transform ${showMore ? 'rotate-180' : ''}`}
+              >
+                <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+
+            {showMore && (
+              <div className="mt-4 flex animate-fadeUp flex-wrap gap-2.5">
+                {moreInterests.map((o) => (
+                  <Chip
+                    key={o.value}
+                    active={prefs.interests.includes(o.value)}
+                    onClick={() => toggleInterest(o.value)}
+                    title={o.hint}
+                  >
+                    {o.label}
+                  </Chip>
+                ))}
+              </div>
+            )}
           </QuizStep>
         )}
 
