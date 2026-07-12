@@ -8,6 +8,7 @@ import ImageAudit from './ImageAudit.jsx'
 import AnalyticsDashboard from './AnalyticsDashboard.jsx'
 import MLDashboard from './MLDashboard.jsx'
 import AudioNarration from './AudioNarration.jsx'
+import ExplanationImport from './ExplanationImport.jsx'
 
 // Admin shell: top bar (signed-in email + sign out), a section nav, and the
 // active section's content. Artworks, Images, Analytics, and ML are live; Rooms
@@ -20,6 +21,7 @@ const SECTIONS = [
   { key: 'images', label: 'Images', enabled: true },
   { key: 'audit', label: 'Image Audit', enabled: true },
   { key: 'audio', label: 'Audio', enabled: true },
+  { key: 'import', label: 'Import', enabled: true },
   { key: 'rooms', label: 'Rooms', enabled: false },
   { key: 'rules', label: 'Rules', enabled: false },
   { key: 'analytics', label: 'Analytics', enabled: true },
@@ -76,6 +78,7 @@ export default function AdminDashboard({ email }) {
         {section === 'images' && <ImageReview />}
         {section === 'audit' && <ImageAudit />}
         {section === 'audio' && <AudioNarration />}
+        {section === 'import' && <ExplanationImport />}
         {section === 'analytics' && <AnalyticsDashboard />}
         {section === 'ml' && <MLDashboard />}
       </ErrorBoundary>

@@ -66,14 +66,48 @@ export async function updateArtwork(id, patch) {
   return supabase.from('artworks').update(clean).eq('id', id).select('id').single()
 }
 
-// Create or update one explanation variant (keyed on artwork_id + style).
-export async function upsertExplanation(artworkId, style, body) {
+// Create or update one explanation variant. The table's unique key is
+// (artwork_id, style, language_code) since 0012, so we conflict on all three
+// (defaulting language_code to 'en') to update in place instead of duplicating.
+export async function upsertExplanation(artworkId, style, body, languageCode = 'en') {
   if (!isSupabaseEnabled()) return NOT_CONFIGURED
   return supabase
     .from('artwork_explanations')
-    .upsert({ artwork_id: artworkId, style, body }, { onConflict: 'artwork_id,style' })
+    .upsert(
+      { artwork_id: artworkId, style, language_code: languageCode, body },
+      { onConflict: 'artwork_id,style,language_code' }
+    )
     .select('id')
     .single()
+}
+
+// Bulk create/update explanation variants from a CSV import. Each row is
+// { artworkId, style, languageCode, body }. Conflicts on the real 3-column
+// unique key so re-imports update in place. Chunks the payload so a large sheet
+// doesn't exceed request limits. Runs under the admin session (RLS enforced).
+// Returns { data: { upserted }, error }; stops at the first failing chunk.
+export async function bulkUpsertExplanations(rows = [], chunkSize = 100) {
+  if (!isSupabaseEnabled()) return NOT_CONFIGURED
+  const payload = (rows || [])
+    .filter((r) => r && r.artworkId && r.style)
+    .map((r) => ({
+      artwork_id: r.artworkId,
+      style: r.style,
+      language_code: r.languageCode || 'en',
+      body: r.body,
+    }))
+  if (!payload.length) return { data: { upserted: 0 }, error: null }
+
+  let upserted = 0
+  for (let i = 0; i < payload.length; i += chunkSize) {
+    const chunk = payload.slice(i, i + chunkSize)
+    const { error } = await supabase
+      .from('artwork_explanations')
+      .upsert(chunk, { onConflict: 'artwork_id,style,language_code' })
+    if (error) return { data: { upserted }, error }
+    upserted += chunk.length
+  }
+  return { data: { upserted }, error: null }
 }
 
 // --- Literature & Music pairing --------------------------------------------
