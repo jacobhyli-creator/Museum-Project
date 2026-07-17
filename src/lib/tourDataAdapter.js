@@ -124,6 +124,12 @@ export function mapDbArtwork(row) {
     // Surfaced to visitors ONLY when approved AND published; otherwise null so
     // the tour UI hides the section entirely.
     pairing: mapPairing(row.artwork_pairings),
+
+    // "Look Closer" guided-looking set (whole-artwork prompt + numbered % marker
+    // hotspots + step-back reflection). Surfaced ONLY when the set is approved +
+    // published AND it has at least one published hotspot; otherwise null so the
+    // tour UI hides the section. Never exposes sources/notes/confidence.
+    lookCloser: mapLookCloser(row.guided_looking_sets),
   }
 }
 
@@ -155,6 +161,46 @@ function mapPairing(rows = []) {
   return { literature, music }
 }
 
+// Coordinates are percentages 0–100 authored over the artwork image. A hotspot
+// is only usable publicly when both are present, numeric, and in range.
+function usableCoord(v) {
+  const n = typeof v === 'string' ? Number(v) : v
+  return typeof n === 'number' && Number.isFinite(n) && n >= 0 && n <= 100
+}
+
+// Reduce the joined guided_looking_sets rows (0 or 1) to a visitor-facing
+// "Look Closer" object, gated on approved + published with at least one
+// published, coordinate-valid hotspot. Returns null when there is nothing to
+// show so the UI can simply hide the section. Deliberately omits all source /
+// notes / confidence / admin fields — those are never exposed to visitors.
+export function mapLookCloser(rows = []) {
+  const s = Array.isArray(rows) ? rows[0] : rows
+  if (!s) return null
+  if (s.review_status !== 'approved' || s.is_published !== true) return null
+
+  const hotspots = (s.guided_looking_hotspots || [])
+    .filter((h) => h && h.is_published === true)
+    .filter((h) => usableCoord(h.x_coordinate) && usableCoord(h.y_coordinate))
+    .map((h) => ({
+      number: h.hotspot_number,
+      title: h.title || null,
+      whatToLookAt: h.what_to_look_at || null,
+      whyItMatters: h.why_it_matters || null,
+      visitorQuestion: h.visitor_question || null,
+      x: Number(h.x_coordinate),
+      y: Number(h.y_coordinate),
+    }))
+    .sort((a, b) => (a.number ?? 0) - (b.number ?? 0))
+
+  if (hotspots.length === 0) return null
+
+  return {
+    wholeArtworkPrompt: s.whole_artwork_prompt || null,
+    stepBackReflection: s.step_back_reflection || null,
+    hotspots,
+  }
+}
+
 /**
  * Load published artworks for the toured exhibition from Supabase, mapped into
  * the frontend shape. Returns an array on success, or null on any failure /
@@ -184,7 +230,12 @@ export async function loadArtworksFromSupabase() {
        artwork_explanations ( style, body ),
        artwork_pairings ( literature_title, literature_author, literature_reason,
                           music_title, music_artist, music_genre, music_reason,
-                          review_status, is_published )`
+                          review_status, is_published ),
+       guided_looking_sets ( whole_artwork_prompt, step_back_reflection,
+                             review_status, is_published,
+                             guided_looking_hotspots ( hotspot_number, title,
+                               what_to_look_at, why_it_matters, visitor_question,
+                               x_coordinate, y_coordinate, is_published ) )`
     )
     .eq('exhibition_id', exh.data.id)
     .eq('is_published', true)

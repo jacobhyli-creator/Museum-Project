@@ -177,6 +177,157 @@ export async function setPairingState(artworkId, { reviewStatus, isPublished } =
     .maybeSingle()
 }
 
+// --- Look Closer (guided looking) ------------------------------------------
+// One optional guided_looking_sets row per artwork (unique artwork_id) plus up
+// to 3 guided_looking_hotspots (unique artwork_id + hotspot_number). Visitors
+// see the panel only when the set is review_status='approved' AND
+// is_published=true AND it has >=1 published hotspot with both coordinates.
+// These admin helpers let an editor read, edit, review, and publish it. They
+// write ONLY the two guided-looking tables.
+
+const GUIDED_SET_FIELDS = [
+  'whole_artwork_prompt',
+  'step_back_reflection',
+  'main_source_used',
+  'additional_source_used',
+  'source_notes',
+  'confidence', // High | Medium | Low
+  'human_reviewed', // boolean
+  'admin_notes',
+]
+
+const GUIDED_HOTSPOT_FIELDS = [
+  'title',
+  'what_to_look_at',
+  'why_it_matters',
+  'visitor_question',
+  'x_coordinate', // numeric 0..100
+  'y_coordinate', // numeric 0..100
+]
+
+// List every artwork's guided-looking set with its hotspots, for the dashboard.
+// Includes admin-only fields (sources/confidence) that the public adapter never
+// exposes. Newest-updated first so recently-touched sets surface at the top.
+export async function listGuidedLookingSets() {
+  if (!isSupabaseEnabled()) return NOT_CONFIGURED
+  return supabase
+    .from('guided_looking_sets')
+    .select(
+      'id, artwork_id, whole_artwork_prompt, step_back_reflection, ' +
+        'main_source_used, additional_source_used, source_notes, confidence, ' +
+        'human_reviewed, admin_notes, review_status, is_published, updated_at, ' +
+        'artworks ( code, title, artist, year ), ' +
+        'guided_looking_hotspots ( id, hotspot_number, title, what_to_look_at, ' +
+        'why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published )'
+    )
+    .order('updated_at', { ascending: false })
+}
+
+// Fetch the guided-looking set + hotspots for one artwork (or null if none).
+export async function getGuidedLooking(artworkId) {
+  if (!isSupabaseEnabled()) return NOT_CONFIGURED
+  return supabase
+    .from('guided_looking_sets')
+    .select(
+      'id, artwork_id, whole_artwork_prompt, step_back_reflection, ' +
+        'main_source_used, additional_source_used, source_notes, confidence, ' +
+        'human_reviewed, admin_notes, review_status, is_published, updated_at, ' +
+        'guided_looking_hotspots ( id, hotspot_number, title, what_to_look_at, ' +
+        'why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published )'
+    )
+    .eq('artwork_id', artworkId)
+    .maybeSingle()
+}
+
+// Create or update the set-level fields for an artwork. Only the content fields
+// above are written; review/publish state is managed by setGuidedLookingState.
+export async function upsertGuidedLookingSet(artworkId, fields = {}) {
+  if (!isSupabaseEnabled()) return NOT_CONFIGURED
+  const clean = { artwork_id: artworkId }
+  for (const key of GUIDED_SET_FIELDS) {
+    if (key in fields) clean[key] = fields[key] === '' ? null : fields[key]
+  }
+  return supabase
+    .from('guided_looking_sets')
+    .upsert(clean, { onConflict: 'artwork_id' })
+    .select('id')
+    .single()
+}
+
+// Create or update one hotspot (1..3) for an artwork. The hotspot's parent set
+// must already exist (upsertGuidedLookingSet first); we look up set_id here so
+// the denormalized set_id + artwork_id stay consistent. Conflicts on
+// (artwork_id, hotspot_number) so re-saving updates in place.
+export async function upsertGuidedLookingHotspot(artworkId, number, fields = {}) {
+  if (!isSupabaseEnabled()) return NOT_CONFIGURED
+  if (!Number.isInteger(number) || number < 1 || number > 3) {
+    return { data: null, error: { message: `Invalid hotspot number "${number}".` } }
+  }
+  const set = await supabase
+    .from('guided_looking_sets')
+    .select('id')
+    .eq('artwork_id', artworkId)
+    .maybeSingle()
+  if (set.error) return { data: null, error: set.error }
+  if (!set.data) {
+    return { data: null, error: { message: 'Create the set before adding hotspots.' } }
+  }
+  const clean = {
+    set_id: set.data.id,
+    artwork_id: artworkId,
+    hotspot_number: number,
+  }
+  for (const key of GUIDED_HOTSPOT_FIELDS) {
+    if (key in fields) clean[key] = fields[key] === '' ? null : fields[key]
+  }
+  return supabase
+    .from('guided_looking_hotspots')
+    .upsert(clean, { onConflict: 'artwork_id,hotspot_number' })
+    .select('id')
+    .single()
+}
+
+// Set the review status and/or published flag for a guided-looking set. Pass
+// either or both. review_status must be one of draft | needs_review | approved.
+export async function setGuidedLookingState(artworkId, { reviewStatus, isPublished } = {}) {
+  if (!isSupabaseEnabled()) return NOT_CONFIGURED
+  const patch = {}
+  if (typeof reviewStatus === 'string') {
+    if (!['draft', 'needs_review', 'approved'].includes(reviewStatus)) {
+      return { data: null, error: { message: `Invalid review status "${reviewStatus}".` } }
+    }
+    patch.review_status = reviewStatus
+  }
+  if (typeof isPublished === 'boolean') patch.is_published = isPublished
+  if (Object.keys(patch).length === 0) {
+    return { data: null, error: { message: 'Nothing to update.' } }
+  }
+  return supabase
+    .from('guided_looking_sets')
+    .update(patch)
+    .eq('artwork_id', artworkId)
+    .select('id')
+    .maybeSingle()
+}
+
+// Publish or unpublish one hotspot (1..3) for an artwork. A hotspot is only
+// shown publicly when it is published AND has both coordinates AND its parent
+// set is approved+published — the last two are enforced by the set state and
+// the public adapter, so this just flips the hotspot flag.
+export async function setHotspotPublished(artworkId, number, isPublished) {
+  if (!isSupabaseEnabled()) return NOT_CONFIGURED
+  if (typeof isPublished !== 'boolean') {
+    return { data: null, error: { message: 'isPublished must be a boolean.' } }
+  }
+  return supabase
+    .from('guided_looking_hotspots')
+    .update({ is_published: isPublished })
+    .eq('artwork_id', artworkId)
+    .eq('hotspot_number', number)
+    .select('id')
+    .maybeSingle()
+}
+
 // --- Image review -----------------------------------------------------------
 // The tour shows one `is_current` image per artwork (enforced by the partial
 // unique index uq_artwork_images_current). These helpers let an admin inspect

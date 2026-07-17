@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import ArtworkImage from './ArtworkImage.jsx'
 import AudioControls from './AudioControls.jsx'
+import LookCloser from './LookCloser.jsx'
 import { ThemeTags, ProgressDots } from './ui.jsx'
 import { explanationStyles } from '../data/quizOptions.js'
 
@@ -120,6 +121,10 @@ export default function ArtworkTour({
                   directly below the explanation. Renders only when approved +
                   published pairing data exists; otherwise the section is hidden. */}
               <RelatedLiteratureMusic pairing={art.pairing} />
+
+              {/* Guided-looking panel. Renders only when approved + published
+                  Look Closer data exists for this artwork; otherwise hidden. */}
+              <LookCloser artwork={art} />
 
               {/* Optional audio read-aloud of the explanation shown above. Reads
                   only this text (in the current style); never autoplays. Keyed

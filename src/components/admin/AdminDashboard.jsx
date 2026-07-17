@@ -9,6 +9,7 @@ import AnalyticsDashboard from './AnalyticsDashboard.jsx'
 import MLDashboard from './MLDashboard.jsx'
 import AudioNarration from './AudioNarration.jsx'
 import ExplanationImport from './ExplanationImport.jsx'
+import LookCloserAdmin from './LookCloserAdmin.jsx'
 
 // Admin shell: top bar (signed-in email + sign out), a section nav, and the
 // active section's content. Artworks, Images, Analytics, and ML are live; Rooms
@@ -21,6 +22,7 @@ const SECTIONS = [
   { key: 'images', label: 'Images', enabled: true },
   { key: 'audit', label: 'Image Audit', enabled: true },
   { key: 'audio', label: 'Audio', enabled: true },
+  { key: 'lookCloser', label: 'Look Closer', enabled: true },
   { key: 'import', label: 'Import', enabled: true },
   { key: 'rooms', label: 'Rooms', enabled: false },
   { key: 'rules', label: 'Rules', enabled: false },
@@ -78,6 +80,7 @@ export default function AdminDashboard({ email }) {
         {section === 'images' && <ImageReview />}
         {section === 'audit' && <ImageAudit />}
         {section === 'audio' && <AudioNarration />}
+        {section === 'lookCloser' && <LookCloserAdmin />}
         {section === 'import' && <ExplanationImport />}
         {section === 'analytics' && <AnalyticsDashboard />}
         {section === 'ml' && <MLDashboard />}
