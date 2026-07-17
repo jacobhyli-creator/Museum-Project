@@ -51,11 +51,12 @@ import {
   completeSession,
 } from './lib/eventLog.js'
 
-// Hidden admin entry: visiting the app with ?admin=1 renders the admin area
-// instead of the public tour. Evaluated once at module load so it can't change
-// hook ordering inside the component. Visitors never see this; there's no link.
+// Hidden admin entry: visiting a URL whose path ends in /admin renders the
+// admin area instead of the public tour. Evaluated once at module load so it
+// can't change hook ordering inside the component. Visitors never see this;
+// there's no link.
 const IS_ADMIN_MODE =
-  typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('admin')
+  typeof window !== 'undefined' && /\/admin\/?$/.test(window.location.pathname)
 
 // Screen identifiers for the simple front-end router.
 const SCREENS = {
