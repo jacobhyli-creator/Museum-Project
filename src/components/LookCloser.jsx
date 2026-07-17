@@ -14,6 +14,10 @@ import { resolveArtworkImage } from '../lib/imageResolver.js'
 // Markers are positioned with `left:x% top:y%` inside a container whose image
 // uses object-fit: contain, so a marker authored at (x%, y%) of the image lands
 // on the same spot regardless of the container's aspect ratio.
+// Zoom level applied when a hotspot is selected. Sits in the 1.8x–2.5x range;
+// 2.1x reads well on phones without cutting the detail awkwardly.
+const HOTSPOT_ZOOM = 2.1
+
 export default function LookCloser({ artwork }) {
   const data = artwork?.lookCloser
   const [open, setOpen] = useState(false)
@@ -27,6 +31,15 @@ export default function LookCloser({ artwork }) {
   const resolved = resolveArtworkImage(artwork)
   const imageUrl = !imgFailed ? resolved.url : null
   const active = data.hotspots.find((h) => h.number === activeHotspot) || null
+
+  // When a hotspot is active, zoom the image toward its (x%, y%). Because the
+  // image and the markers share one transformed layer and the transform-origin
+  // uses the same percentages as the markers, everything stays aligned and the
+  // view centers on the hotspot. Default (no active hotspot) = full artwork.
+  const zoomed = !!active
+  const originX = active ? active.x : 50
+  const originY = active ? active.y : 50
+  const scale = zoomed ? HOTSPOT_ZOOM : 1
 
   if (!open) {
     return (
@@ -71,16 +84,57 @@ export default function LookCloser({ artwork }) {
         </p>
       )}
 
-      {/* Image with numbered markers. object-contain keeps marker % accurate. */}
+      {/* Image with numbered markers. object-contain keeps marker % accurate.
+          The inner layer scales/pans toward the active hotspot; the outer box
+          crops to the frame so the zoom stays within the panel. */}
       <div className="relative overflow-hidden rounded-xl bg-cream shadow-card">
         {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={`${artwork.artist}, ${artwork.title}`}
-            loading="lazy"
-            onError={() => setImgFailed(true)}
-            className="block max-h-[70vh] w-full object-contain"
-          />
+          <div
+            className="relative origin-center transition-transform duration-500 ease-out"
+            style={{
+              transform: `scale(${scale})`,
+              transformOrigin: `${originX}% ${originY}%`,
+            }}
+          >
+            <img
+              src={imageUrl}
+              alt={`${artwork.artist}, ${artwork.title}`}
+              loading="lazy"
+              onError={() => setImgFailed(true)}
+              className="block max-h-[70vh] w-full object-contain"
+            />
+
+            {/* Markers overlay — inside the transformed layer so they track the
+                image exactly. Each glyph counter-scales so it stays a readable,
+                consistent size no matter the zoom level. */}
+            {data.hotspots.map((h) => {
+              const isActive = h.number === activeHotspot
+              return (
+                <button
+                  key={h.number}
+                  type="button"
+                  aria-label={`Detail ${h.number}${h.title ? `: ${h.title}` : ''}`}
+                  aria-pressed={isActive}
+                  onClick={() =>
+                    setActiveHotspot((cur) => (cur === h.number ? null : h.number))
+                  }
+                  style={{ left: `${h.x}%`, top: `${h.y}%` }}
+                  className="absolute flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center"
+                >
+                  <span
+                    style={{ transform: `scale(${1 / scale})` }}
+                    className={`flex h-7 w-7 items-center justify-center rounded-full border-2 text-[13px] font-semibold shadow-lift transition-transform duration-500 ease-out ${
+                      isActive
+                        ? 'border-white bg-bronze text-white ring-2 ring-gold'
+                        : 'border-white bg-charcoal/85 text-white'
+                    }`}
+                  >
+                    {h.number}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
         ) : (
           <div className="flex aspect-[4/3] w-full items-center justify-center px-6 text-center">
             <p className="text-[13px] text-mist">
@@ -90,34 +144,16 @@ export default function LookCloser({ artwork }) {
           </div>
         )}
 
-        {/* Markers overlay — only when the image is showing so they line up. */}
-        {imageUrl &&
-          data.hotspots.map((h) => {
-            const isActive = h.number === activeHotspot
-            return (
-              <button
-                key={h.number}
-                type="button"
-                aria-label={`Detail ${h.number}${h.title ? `: ${h.title}` : ''}`}
-                aria-pressed={isActive}
-                onClick={() =>
-                  setActiveHotspot((cur) => (cur === h.number ? null : h.number))
-                }
-                style={{ left: `${h.x}%`, top: `${h.y}%` }}
-                className="absolute flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center"
-              >
-                <span
-                  className={`flex h-7 w-7 items-center justify-center rounded-full border-2 text-[13px] font-semibold shadow-lift transition-all duration-200 ${
-                    isActive
-                      ? 'scale-110 border-white bg-bronze text-white ring-2 ring-gold'
-                      : 'border-white bg-charcoal/85 text-white'
-                  }`}
-                >
-                  {h.number}
-                </span>
-              </button>
-            )
-          })}
+        {/* Reset control — floats over the frame only while zoomed in. */}
+        {imageUrl && zoomed && (
+          <button
+            type="button"
+            onClick={() => setActiveHotspot(null)}
+            className="absolute right-2 top-2 z-10 rounded-full bg-charcoal/85 px-3 py-1.5 text-[12px] font-medium text-white shadow-lift backdrop-blur-sm transition-all duration-200 active:scale-95"
+          >
+            Back to full image
+          </button>
+        )}
       </div>
 
       {/* Detail card for the tapped hotspot (one open at a time). */}
@@ -154,12 +190,39 @@ export default function LookCloser({ artwork }) {
               {active.visitorQuestion}
             </p>
           )}
+
+          {/* Move between hotspots or return to the full artwork without hunting
+              for the marker on the zoomed-in image. */}
+          <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-line pt-3">
+            {data.hotspots.map((h) => (
+              <button
+                key={h.number}
+                type="button"
+                aria-pressed={h.number === active.number}
+                onClick={() => setActiveHotspot(h.number)}
+                className={`flex h-7 w-7 items-center justify-center rounded-full border text-[12px] font-semibold transition-all duration-200 active:scale-95 ${
+                  h.number === active.number
+                    ? 'border-bronze bg-bronze text-white'
+                    : 'border-line bg-white text-stone hover:border-bronze hover:text-bronze'
+                }`}
+              >
+                {h.number}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => setActiveHotspot(null)}
+              className="ml-auto btn-ghost text-[13px] text-stone hover:text-charcoal"
+            >
+              Reset view
+            </button>
+          </div>
         </div>
       )}
 
       {!active && (
         <p className="mt-3 text-center text-[13px] text-mist">
-          Tap a numbered marker to look closer.
+          Tap a numbered marker to zoom in and look closer.
         </p>
       )}
 
