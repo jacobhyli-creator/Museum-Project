@@ -27,8 +27,8 @@ with target as (
      review_status, is_published)
   select target.artwork_id,
     $s$Before trying to decode the shapes, follow the painting’s outline. It dips, bulges, and stretches so dramatically that the wall around it starts to feel like part of the image.$s$, $s$Now look at the whole work again. Does it still feel like a painting hung on a wall, or more like a strange object pressing into your space?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.519/$s$, $s$https://www.sfmoma.org/artist/Elizabeth_Murray/$s$, $s$The SFMOMA record confirms the work’s unusually deep, shaped oil-on-canvas construction. Hotspots were chosen from the official image to show how the orange form, looping line, and warped upper edge make pictorial pressure feel physically built into the support.$s$,
-    $s$High$s$, false, $s$Coordinates checked against the full SFMOMA image. Confirm only if the app uses a differently cropped reproduction.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.519/$s$, $s$https://www.sfmoma.org/artist/Elizabeth_Murray/$s$, $s$The full SFMOMA image was visually audited against every hotspot. The orange oval, pale looping line, and upper-left concave edge are all directly visible at the revised coordinates.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED: all three coordinates directly match the stated details in the full SFMOMA image.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -49,21 +49,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The orange shape under pressure$s$, $s$Tap the large orange form just right of center. Look at how it is squeezed between the pale loop around its left side and the dark blue-green shapes pressing in from above and below.$s$,
+    $s$The orange shape under pressure$s$, $s$Tap the large orange oval just right of center. Look at how the pale blue loop wraps around its left side while teal and dark blue forms press against it from above and below.$s$,
     $s$This is not simply a bright focal point. The orange form feels swollen and crowded, almost like something soft being compressed inside a container. That pressure gives an abstract arrangement the physical urgency of a body trying to make room for itself.$s$, $s$Does the orange form seem protected by the surrounding shapes, or trapped by them?$s$,
-    61, 47, true
+    58, 43, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The loop that ties it together$s$, $s$Follow the pale blue-gray line that curls around the orange form, drops downward, and then travels across the right half of the painting.$s$,
+    $s$The loop that ties it together$s$, $s$Follow the pale blue-gray line that curls around the orange form, drops downward, and then travels across the lower-right half of the painting.$s$,
     $s$It behaves almost like a cord, handle, or loose piece of tubing—but it never becomes one definite object. Because it passes through several otherwise separate shapes, it gives the eye a route through the painting and makes the whole image feel connected, as if its parts belong to one odd machine or body.$s$, $s$Where does the line seem to pass behind a form, and where does it come forward?$s$,
-    64, 60, true
+    64, 61, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The edge that becomes a wave$s$, $s$Look at the deep curve along the upper-left edge, where the turquoise support rises and then sinks before meeting the central arch.$s$,
+    $s$The edge that becomes a wave$s$, $s$Look at the deep inward curve along the upper-left edge, where the turquoise support rises and then sinks before meeting the central arch.$s$,
     $s$A normal canvas edge would simply contain the image. Here, the edge itself bends like a wave, so the painting’s outer shape continues the motion happening inside it. Murray makes it difficult to tell where composition ends and sculpture begins.$s$, $s$Would the work feel as energetic if this edge were perfectly straight?$s$,
-    24, 19, true
+    24, 18, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -86,9 +86,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$At first glance, this may look like a cartoon splash frozen in midair. Before focusing on one shape, ask what seems to be moving—and what reminds you that none of it can actually move.$s$, $s$Step back and compare the lively painted forms with the exposed construction. Does the work feel more animated because its physical structure is so obvious?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.277.A-B/$s$, $s$https://www.sfmoma.org/exhibition/freeform-experiencing-abstraction/$s$, $s$SFMOMA’s artwork text specifically identifies the rolling water-drop forms, exposed wooden supports, thick palette-knife paint, and flicked or splattered strokes. Each hotspot corresponds directly to one of those visible features.$s$,
-    $s$High$s$, false, $s$Coordinate centers are based on the supplied official image. Recheck the exposed-support hotspot if a tighter crop is used.$s$,
+    $s$Begin with the large circular opening near the middle. From there, follow the bent yellow-and-blue form outward and notice how the painting behaves like something folded, twisted, and partly hollow.$s$, $s$Step back and compare the lively painted surface with the exposed wooden construction. Does the work feel like an animated image, a damaged object, or something caught between the two?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.277.A-B/$s$, $s$https://www.sfmoma.org/exhibition/freeform-experiencing-abstraction/$s$, $s$SFMOMA specifically identifies the water-drop imagery and visible wooden supports. The full image audit showed that the previous coordinates missed those details, so the hotspots were replaced with the central opening, the drops directly beneath it, and the exposed upper-left structure.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REVISED: all previous coordinates were replaced. These three points directly match the described opening, drops, and exposed support.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -109,21 +109,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The drops rolling outward$s$, $s$Look for the rounded drop-like forms that seem to slide or spill toward the outer edge of the shaped support.$s$,
-    $s$SFMOMA describes these as cartoonish water drops, and their direction gives the whole work a sense of motion. Yet they are painted onto a rigid wooden structure. That contradiction—liquid-looking forms on an immovable object—is what makes the piece feel both comic and slightly tense.$s$, $s$Which drop looks as though it would move first if the painting suddenly came alive?$s$,
-    28, 35, true
+    $s$The hole through the painting$s$, $s$Tap the round opening slightly left of center, where the wall is visible through the shaped support.$s$,
+    $s$This is not a painted circle pretending to be a hole; the support is physically open. The gap turns the wall behind the artwork into part of what you see and makes the painted form feel more like a twisted object than a conventional canvas.$s$, $s$Does the opening feel like an eye, a drain, or simply missing material?$s$,
+    42, 49, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$Where the wooden body shows$s$, $s$Tap the exposed structural area where the painted surface opens and the support becomes visible rather than fully disguised.$s$,
-    $s$This is the moment when the illusion breaks. Instead of seeing only an image, you see the work as something cut, assembled, and built. Murray lets the construction interrupt the fantasy rather than hiding it neatly behind the paint.$s$, $s$Does seeing the support make the painted drops feel less believable, or even stranger?$s$,
-    74, 50, true
+    $s$The drops hanging below$s$, $s$Look just beneath the circular opening for the small pale-blue drops descending onto the yellow lower section.$s$,
+    $s$SFMOMA describes cartoonish water drops that appear to roll across the work. These tiny shapes introduce the logic of liquid into an object made from rigid wood and canvas, making the fixed structure seem briefly animated.$s$, $s$Do the drops look frozen in place, or as though gravity is still pulling them downward?$s$,
+    48, 60, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The paint that refuses to stay neat$s$, $s$Zoom in on a passage where thick paint, palette-knife ridges, flicks, or splatters gather around the smoother cartoonlike shapes.$s$,
-    $s$The rough handling keeps the work from looking like a clean graphic design. SFMOMA notes that Murray flicked, flung, and splattered paint across the surface, so the image carries traces of force and speed as well as carefully planned shapes.$s$, $s$Which part looks deliberately drawn, and which part feels as though the paint took over?$s$,
-    55, 73, true
+    $s$The wooden structure exposed$s$, $s$Tap the open, boxlike section at the upper-left, where the raw inner support is visible behind the painted blue-and-yellow skin.$s$,
+    $s$This exposed construction interrupts the cartoon illusion. Instead of hiding how the work was built, Murray lets the hollow support remain visible, so the image and the object compete for attention.$s$, $s$Does seeing the raw structure make the painted form feel more real or more theatrical?$s$,
+    18, 24, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -146,9 +146,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Do not search for a hidden object. First look at how the three panels divide the painting—and then at how the brushstrokes ignore those divisions.$s$, $s$Now take in all three panels at once. Do they feel like separate sections placed side by side, or one burst of movement temporarily interrupted by two seams?$s$,
-    $s$https://www.joanmitchellfoundation.org/joan-mitchell/artwork/0822-bracket$s$, $s$https://www.joanmitchellfoundation.org/joan-mitchell/materials-and-practice$s$, $s$The Foundation confirms that Bracket is a monumental three-panel oil painting. The hotspots focus on features visible in the official image: a blue passage that crosses a panel seam, a compact warm cluster on the left, and an active white interval below.$s$,
-    $s$High$s$, false, $s$Coordinates are based on the full triptych image. The exact blue crossing point may shift slightly if the reproduction includes different outer margins.$s$,
+    $s$First notice the vertical join near the middle, then watch how the brushwork refuses to respect it. Dense colored masses gather on both sides, while thinner strokes keep pulling your eye across.$s$, $s$Now take in the whole painting again. Does the join divide the composition, or make the movement across it more noticeable?$s$,
+    $s$https://www.joanmitchellfoundation.org/joan-mitchell/artwork/0822-bracket$s$, $s$https://www.joanmitchellfoundation.org/joan-mitchell/materials-and-practice$s$, $s$The full artwork image was visually audited. The previous hotspots described features that did not correspond reliably to the image. They were replaced with three clearly locatable passages: the large upper-left orange mass, the blue-green bridge at the central join, and the lower-right orange loop.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REVISED: descriptions and coordinates were replaced to match clearly visible passages in the full image.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -169,21 +169,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The blue mass crossing the seam$s$, $s$Look near the upper middle, where a dense knot of cobalt and dark blue presses across the boundary between the center and right panels.$s$,
-    $s$The canvas seam should divide the image, but this mass visually jumps across it. That makes the painting feel larger than any single panel and turns the physical division into something the brushwork can challenge rather than obey.$s$, $s$Do you notice the seam first, or the blue movement passing over it?$s$,
-    67, 28, true
+    $s$The orange mass on the left$s$, $s$Tap the large rust-orange shape in the upper-left half, surrounded by blue, green, white, and brown strokes.$s$,
+    $s$This is one of the painting’s heaviest warm passages. Its compactness gives the left side a center of gravity, while the cooler strokes around it keep the form from settling into a recognizable object.$s$, $s$Does the orange feel buried inside the surrounding colors, or pushing through them?$s$,
+    29, 32, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The orange weight low on the left$s$, $s$Tap the compact orange-brown cluster in the lower half of the left panel, surrounded by darker green and blue strokes.$s$,
-    $s$Because much of the painting is cool blue, green, and white, this warmer patch has unusual visual weight. It anchors the left side without becoming a recognizable object, almost like a concentrated ember inside a much larger field of weather.$s$, $s$Does this small warm area balance the enormous blue passages, or make them feel even colder?$s$,
-    17, 60, true
+    $s$Blue crossing the join$s$, $s$Look near the upper center, where blue and green strokes approach and visually bridge the vertical division between the two sections.$s$,
+    $s$The physical join could split the painting into separate halves, but these marks make the eye continue across it. Mitchell turns a structural interruption into a point of visual momentum.$s$, $s$Do you notice the join first, or the brushwork moving across it?$s$,
+    52, 24, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The white that is not empty$s$, $s$Look at the broad white passages near the lower center, where thin yellow, green, and dark marks drift through mostly unpainted canvas.$s$,
-    $s$The white is not a background Mitchell simply forgot to cover. It creates intervals between denser gestures, allowing the surrounding marks to feel suspended, accelerated, or suddenly exposed. Without these openings, the painting would become a continuous wall of color.$s$, $s$Does this white area feel like light, air, distance, or simply untouched canvas?$s$,
-    53, 75, true
+    $s$The orange loop below$s$, $s$Tap the orange-and-brown looping passage in the lower half of the right section.$s$,
+    $s$Unlike the compact orange mass on the left, this warm passage opens into a loose curve. Repeating orange in a different shape and position creates a visual echo without making the two sides symmetrical.$s$, $s$How does this looser orange passage change the balance of the painting?$s$,
+    65, 63, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -207,8 +207,8 @@ with target as (
      review_status, is_published)
   select target.artwork_id,
     $s$Let the title sit in the back of your mind, but do not force yourself to find literal flowers. Instead, look for places where color seems to gather, droop, flare up, or begin to decay.$s$, $s$Look across the diptych again. Do you now see a field of flowers, a record of changing energy, or two crowded surfaces that only borrow the feeling of both?$s$,
-    $s$https://www.joanmitchellfoundation.org/uploads/pdf/JMF-ArtEdPoster-Sunflowers.pdf$s$, $s$https://www.joanmitchellfoundation.org/joan-mitchell/key-works$s$, $s$The Foundation links Mitchell’s sunflower paintings to Van Gogh and to the flower’s cycle of gathered energy, flowering, and decline. The visual choices remain cautious: the hotspots point to a yellow flare, a dark late-stage cluster, and the white passage visibly separating them.$s$,
-    $s$High$s$, false, $s$Coordinates verified against the Foundation’s full diptych image.$s$,
+    $s$https://www.joanmitchellfoundation.org/uploads/pdf/JMF-ArtEdPoster-Sunflowers.pdf$s$, $s$https://www.joanmitchellfoundation.org/joan-mitchell/key-works$s$, $s$The full Foundation image was visually audited. The yellow hotspot was moved upward to the actual upper-left yellow burst; the lower-right red-blue cluster and central white passage were confirmed with minor coordinate adjustments.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED: all three coordinates match visible passages. The first coordinate was corrected substantially.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -230,20 +230,20 @@ insert into public.guided_looking_hotspots
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
     $s$The yellow burst without a flower$s$, $s$Tap the strong yellow patch near the top of the left panel, where it pushes between pale gray and dark blue brushwork.$s$,
-    $s$The color carries the brightness we associate with a sunflower, but there is no clear stem, center, or ring of petals. Mitchell lets color trigger recognition without finishing the image for us. The flower appears as an sensation—brightness under pressure—rather than a botanical description.$s$, $s$How much of a sunflower can you see when almost none of its parts are drawn?$s$,
-    28, 17, true
+    $s$The color carries the brightness we associate with a sunflower, but there is no clear stem, center, or ring of petals. Mitchell lets color trigger recognition without finishing the image for us. The flower appears as a sensation—brightness under pressure—rather than a botanical description.$s$, $s$How much of a sunflower can you see when almost none of its parts are drawn?$s$,
+    27, 10, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
     $s$The heavy red-blue bloom$s$, $s$Look at the large dark red and blue cluster in the lower-right quadrant.$s$,
     $s$This dense form feels much heavier than the yellow passages above it. In the Foundation’s educational material, Mitchell’s late sunflower works are connected to the flower’s full life cycle, including fading and decline. Here, the bruised colors can make growth and decay feel present at the same time without illustrating either literally.$s$, $s$Does this cluster feel like a flower at full strength, or one beginning to collapse?$s$,
-    83, 75, true
+    84, 77, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The white channel between crowds$s$, $s$Follow the jagged white passage running through the lower middle, where it separates masses of blue, red, green, and turquoise.$s$,
+    $s$The white channel between crowds$s$, $s$Follow the jagged white passage running through the lower middle, close to the central join, where it separates masses of blue, red, green, and turquoise.$s$,
     $s$The white does not produce peaceful emptiness. It cuts through the crowded paint like a narrow current, preventing the two panels from becoming solid blocks. Your eye uses it to weave between the surrounding masses.$s$, $s$Does the white passage open the painting up, or make the colored forms press against it more strongly?$s$,
-    52, 67, true
+    51, 69, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -267,8 +267,8 @@ with target as (
      review_status, is_published)
   select target.artwork_id,
     $s$Begin with the title’s idea of a valley, but notice that the painting gives you no horizon and no stable viewpoint. Where does the color make you feel surrounded rather than positioned outside a scene?$s$, $s$Now step back. Does the valley feel like a place you could enter, or like an intense memory of color that has lost its ordinary geography?$s$,
-    $s$https://www.joanmitchellfoundation.org/joan-mitchell/timeline$s$, $s$https://www.joanmitchellfoundation.org/joan-mitchell/citations/joan-mitchell-paints-a-symphony$s$, $s$The Foundation identifies La Grande Vallée as a twenty-one-work suite inspired by a friend’s memory of a hidden valley in Brittany; Mitchell did not paint its flowers and meadows literally. The hotspots therefore focus on how yellow, dark blue, and edge-bound marks create an immersive but nonliteral sense of place.$s$,
-    $s$High$s$, false, $s$Coordinates verified against the Foundation image. The work is tripartite; preserve the complete three-panel crop in production.$s$,
+    $s$https://www.joanmitchellfoundation.org/joan-mitchell/timeline$s$, $s$https://www.joanmitchellfoundation.org/joan-mitchell/citations/joan-mitchell-paints-a-symphony$s$, $s$The full three-part image was visually audited. The yellow field and lower-center blue cluster were confirmed; the upper-right hotspot was moved upward to the actual dark blue-green edge activity.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED: all three coordinates now correspond directly to the described yellow field, dark-blue threshold, and upper-right edge passage.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -289,21 +289,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The yellow opening$s$, $s$Look at the large yellow field spreading across the upper center panel, partly crossed by blue, gray, and green strokes.$s$,
-    $s$This is the nearest thing the painting offers to an opening or clearing, but it does not recede neatly into distance. The yellow comes forward with such force that the supposed 'valley' feels less like scenery and more like light remembered from inside an experience.$s$, $s$Does the yellow create depth, or does it press toward you?$s$,
-    52, 20, true
+    $s$The yellow opening$s$, $s$Look at the large yellow field spreading across the upper center section, partly crossed by blue, gray, and green strokes.$s$,
+    $s$This is the nearest thing the painting offers to an opening or clearing, but it does not recede neatly into distance. The yellow comes forward with such force that the supposed valley feels less like scenery and more like light remembered from inside an experience.$s$, $s$Does the yellow create depth, or does it press toward you?$s$,
+    51, 20, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The dark blue barrier$s$, $s$Tap the deep blue mass along the lower center, where short, dense strokes gather beneath the yellow.$s$,
-    $s$This passage prevents the bright center from becoming simply cheerful or open. It acts like a visual threshold: the eye can sense space beyond it, but the dark paint also blocks easy entry. The imagined landscape is inviting and obstructed at once.$s$, $s$Does this dark band feel like ground, shadow, water, or a barrier made only of paint?$s$,
-    51, 72, true
+    $s$The dark blue threshold$s$, $s$Tap the dense dark-blue cluster near the lower center, directly beneath the brightest yellow field.$s$,
+    $s$This passage prevents the bright center from becoming simply cheerful or open. It acts like a visual threshold: the eye can sense space above it, but the dark paint also blocks easy entry.$s$, $s$Does this dark blue feel like ground, shadow, water, or a barrier made only of paint?$s$,
+    50, 72, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The restless right edge$s$, $s$Look at the upper-right area, where dark blue loops and strokes crowd against bright green near the edge of the canvas.$s$,
-    $s$The marks do not settle into a framing border. They twist, overlap, and run into the limit of the painting, suggesting that the energy continues beyond what we can see. This keeps the work from feeling like a neatly contained view.$s$, $s$What do you imagine continuing beyond this edge?$s$,
-    87, 25, true
+    $s$The restless upper-right edge$s$, $s$Look at the upper-right corner, where dark blue loops and strokes crowd against bright green and run into the edge.$s$,
+    $s$The marks do not settle into a framing border. They twist, overlap, and disappear at the limit of the painting, suggesting that the energy continues beyond what we can see.$s$, $s$What do you imagine continuing beyond this edge?$s$,
+    87, 18, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -326,9 +326,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$At first, the surface resembles a page of notes made too quickly to read. Instead of trying to translate it, follow where the marks become crowded, faint, or suddenly forceful.$s$, $s$Now take in the whole surface again. Does it feel like a record of an actual journey, or like what remains after places, names, and sensations have begun to blur together?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.586/$s$, $s$https://cytwombly.org/artist/chronology/$s$, $s$SFMOMA confirms the mixture of crayon, graphite, and oil on linen. The Cy Twombly Foundation chronology places the work among paintings made in Rome in 1962, when travel, classical references, and fragmented inscription were central to his practice. Hotspots are based on the official full image.$s$,
-    $s$High$s$, false, $s$The central red cluster and pale upper-right interval are clearly locatable. The handwriting-like hotspot should be rechecked if the app uses a lower-resolution crop.$s$,
+    $s$At first, the surface resembles a page of travel notes that have been written over, crossed out, and partly forgotten. Instead of trying to read everything, begin with the few places where color suddenly becomes dense.$s$, $s$Now take in the full canvas again. Does it feel like a record of places visited, or like memory after the journey—fragmentary, revised, and impossible to put back into order?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.586/$s$, $s$https://cytwombly.org/artist/chronology/$s$, $s$The full artwork image was visually audited. The previous central-red hotspot did not match the clearest red concentration. The revised points now mark the upper red tangle, the central upright blue-black cluster, and the broad open right-hand field.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REVISED: all three points were checked against the full image. Hotspot 1 and Hotspot 2 were substantially rewritten and relocated.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -349,21 +349,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The red knot near the center$s$, $s$Tap the tangled red marks near the middle of the linen, where several loops, scratches, and smears collect more densely than elsewhere.$s$,
-    $s$This small knot interrupts the otherwise pale, scattered surface. It feels less like a picture of something seen in Italy than a moment of memory becoming unusually intense—one place or sensation refusing to fade as quickly as the rest.$s$, $s$Does the red cluster feel like a destination, a wound, or simply a thought that has been underlined?$s$,
-    52, 48, true
+    $s$The red tangle near the top$s$, $s$Tap the compact red-and-brown scribble in the upper-left quarter, just below a small yellow-and-green passage.$s$,
+    $s$Most of the canvas is pale and scattered, so this tight knot feels unusually concentrated. It resembles a thought circled several times, or a memory that has been worried over until the original image is no longer readable.$s$, $s$Does the repeated red line clarify anything, or only make the mark feel more urgent?$s$,
+    35, 17, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The name that almost forms$s$, $s$Look just left of center for the thin graphite and crayon marks that begin to resemble handwriting but never settle into a clearly readable word.$s$,
-    $s$Twombly lets writing hover at the edge of meaning. Because the marks look as though they should communicate something, their refusal to become legible makes the painting feel intimate but inaccessible—like finding someone else’s travel notes after the context has been lost.$s$, $s$How long can you look before your mind starts inventing a word?$s$,
-    35, 40, true
+    $s$The blue-black figure in the middle$s$, $s$Look near the center for the upright blue-and-black cluster surrounded by pale loops, numbers, and short red strokes.$s$,
+    $s$This passage briefly gathers the surrounding fragments into something almost figure-like. Yet it never becomes a stable person or object. Twombly lets recognition begin and then leaves it unresolved.$s$, $s$What do you begin to see here before the marks fall apart again?$s$,
+    50, 52, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The nearly empty upper corner$s$, $s$Move to the pale upper-right area, where only a few light scratches and isolated marks interrupt the linen.$s$,
-    $s$The emptiness gives the denser passages room to feel like fragments rather than an all-over pattern. It also makes the journey in the title feel incomplete: the painting offers scattered traces, with large stretches that memory has left blank.$s$, $s$Does this quiet area feel unfinished, forgotten, or deliberately held open?$s$,
-    80, 22, true
+    $s$The large pale space on the right$s$, $s$Move into the upper-right area, where the linen remains mostly open except for a small isolated bundle of blue and red marks near the edge.$s$,
+    $s$The broad emptiness prevents the work from becoming one continuous field of scribbling. It makes the isolated marks feel like fragments separated by distance—closer to scattered recollections than a complete narrative.$s$, $s$Does the empty linen feel like a pause, a missing memory, or unfinished space?$s$,
+    79, 31, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -386,9 +386,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Stand back far enough to see the loops as rows, then move closer until each row breaks into an uneven series of hand-drawn turns. The painting lives between those two views.$s$, $s$Look across the entire gray field once more. Does the repetition make the work feel disciplined, obsessive, soothing, or increasingly out of control?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.460/$s$, $s$https://www.moma.org/collection/works/80088$s$, $s$SFMOMA identifies the materials as oil-based house paint, crayon, and graphite. MoMA’s account of Twombly’s related gray-ground paintings describes their colorless scrawls as resembling chalk on a blackboard while forming no actual words. The selected details emphasize changes in rhythm, pressure, and termination visible in this specific canvas.$s$,
-    $s$High$s$, false, $s$Coordinates are based on the full portrait-format reproduction. Confirm the exact row positions if the production image is rotated or recropped.$s$,
+    $s$Stand back far enough to see the pale loops form horizontal rows. Then move closer and notice that the rows are never as orderly as they first appear.$s$, $s$Look across the gray field again. Does the repetition feel disciplined, soothing, obsessive, or increasingly difficult to control?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.460/$s$, $s$https://www.moma.org/collection/works/80088$s$, $s$The full image was visually audited. The former 'line running out' hotspot was inaccurate because the lower-right loops remain large and active rather than visibly fading. It was replaced with the clearly visible change in loop scale.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REVISED: the top-row and central coordinates were refined; Hotspot 3 was replaced to match the large lower loops.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -409,21 +409,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The first row finding its rhythm$s$, $s$Look along the upper band of pale loops, especially where the marks begin unevenly near the left before settling into a repeated motion.$s$,
-    $s$The row does not arrive as a perfect pattern. You can see the hand testing its pace, adjusting the size of the loops, and gradually finding a rhythm. That small irregular beginning keeps the painting from feeling mechanically produced.$s$, $s$When does the row start to feel like a rhythm rather than a collection of separate marks?$s$,
-    25, 25, true
+    $s$The smaller loops at the top$s$, $s$Tap the upper-left row, where the first loops are tighter and smaller than many of the marks below.$s$,
+    $s$The painting does not repeat one identical shape from top to bottom. The compact upper loops establish a quicker, more controlled rhythm, which makes the expanding gestures farther down feel increasingly physical.$s$, $s$How does the pace of the top row differ from the rows below it?$s$,
+    24, 18, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$One loop under pressure$s$, $s$Zoom in near the center, where a loop becomes darker, thicker, or more tightly wound than the marks around it.$s$,
-    $s$The repeated gesture may look effortless from across the room, but this heavier passage reveals pressure and resistance. A tiny change in the crayon makes one loop feel urgent while the surrounding ones remain lighter and more open.$s$, $s$Does the darker loop interrupt the pattern, or make you notice the pattern more clearly?$s$,
-    52, 49, true
+    $s$The row that begins to overlap$s$, $s$Look near the center, where several pale loops crowd together and cross neighboring marks instead of remaining evenly separated.$s$,
+    $s$The gesture is still repetitive, but the pressure of one loop against another makes the pattern unstable. What initially resembles careful handwriting practice starts to feel hurried and compulsive.$s$, $s$Can you follow one loop without losing it inside the others?$s$,
+    51, 49, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$Where the line runs out$s$, $s$Follow a lower row toward the right edge, where the repeated motion weakens, compresses, or stops against the boundary.$s$,
-    $s$The edge turns an apparently endless exercise into a physical action with a limit. The hand has traveled across the canvas, but the row cannot continue forever; its ending makes the passing of time suddenly visible.$s$, $s$Does the final loop feel finished, cut off, or simply exhausted?$s$,
-    84, 75, true
+    $s$The enormous loops along the bottom$s$, $s$Tap the lower-right area, where the repeated loops become much larger and sweep close to the bottom edge.$s$,
+    $s$The expanding scale makes the gesture feel less like writing from the wrist and more like movement from the whole arm. The lower row gives the painting a bodily weight that the tighter marks above do not have.$s$, $s$Do these larger loops feel freer, clumsier, or more exhausted?$s$,
+    78, 82, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -446,9 +446,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Do not read the marks one at a time at first. Let the enormous horizontal sweep register as a whole—like several lines of writing racing across a wall faster than they can be controlled.$s$, $s$Step back until the marks merge into a single field of motion. Does the painting feel like writing enlarged beyond language, or like movement that only happens to resemble writing?$s$,
-    $s$https://www.sfmoma.org/artwork/2000.204/$s$, $s$https://www.sfmoma.org/press-release/sfmoma-acquires-major-twombly-painting-directly-f/$s$, $s$SFMOMA identifies this as a monumental late example of Twombly’s blackboard paintings and specifically notes its energetic, lyrical surface of graffiti-like marks and erasures. The hotspots distinguish collision, revision, and long bodily movement across the unusually wide canvas.$s$,
-    $s$High$s$, false, $s$Coordinates are estimated from the complete horizontal image. Preserve the full width; a cropped mobile image would weaken Hotspot 3.$s$,
+    $s$Let the entire gray surface register as a storm of repeated diagonal marks before isolating any one passage. Unlike Twombly’s tidier rows of loops, this field seems to move in several directions at once.$s$, $s$Step back until the individual strokes merge. Does the painting feel like writing accelerated beyond legibility, or like a dense atmosphere made from countless small movements?$s$,
+    $s$https://www.sfmoma.org/artwork/2000.204/$s$, $s$https://www.sfmoma.org/press-release/sfmoma-acquires-major-twombly-painting-directly-f/$s$, $s$The full image audit showed that the former hotspots—distinct colliding loops, one erased cloud, and one long horizontal run—did not accurately describe this uniformly dense, diagonally organized painting. All three were replaced with clearly visible directional, density, and edge features.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three previous hotspot descriptions and coordinates were replaced.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -469,21 +469,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The loops that collide$s$, $s$Look just right of center, where several white looping lines crowd into one another instead of remaining in separate, tidy rows.$s$,
-    $s$In the 1968 painting, repetition still feels comparatively measured. Here, the loops overlap and compete for space, so the same basic gesture becomes turbulent. The painting begins to feel less like handwriting practice and more like several thoughts arriving at once.$s$, $s$Can you follow one line through the collision without losing it?$s$,
-    62, 47, true
+    $s$The slant sweeping downward$s$, $s$Tap the upper-right area, where many pale strokes lean in the same downward-left direction.$s$,
+    $s$The shared slant gives the surface a strong current even though no single line dominates. Repetition creates motion collectively, like rain or handwriting driven across a page by speed.$s$, $s$Which direction does the whole surface seem to be moving?$s$,
+    76, 24, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The erased gray cloud$s$, $s$Tap a rubbed, cloudy area in the gray ground where earlier marks seem to have been covered, smeared, or partially removed.$s$,
-    $s$SFMOMA describes the surface as richly worked with marks and erasures. The gray is therefore not an untouched background; it carries the remains of decisions that were revised but never completely disappeared. The painting remembers its own changes.$s$, $s$Does the erasure quiet the surface, or make it feel more restless because something is still underneath?$s$,
-    36, 58, true
+    $s$The densest weave$s$, $s$Look near the center-left, where short loops, hooks, and diagonals overlap so heavily that the gray ground is difficult to see.$s$,
+    $s$This passage is not a single dramatic mark but an accumulation. Its density turns airy drawing into visual pressure, making the surface feel worked over rather than simply covered.$s$, $s$Can you separate the marks into layers, or do they become one tangled mass?$s$,
+    38, 49, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The long run toward the edge$s$, $s$Follow one extended chain of loops across the upper half until it approaches the far-right edge.$s$,
-    $s$At roughly sixteen feet wide, the painting makes drawing into a bodily journey. The repeated line records not just the wrist but sustained movement along the length of the canvas, and the approaching edge makes that momentum feel difficult to stop.$s$, $s$Do you sense the artist moving across the canvas as you follow the line?$s$,
-    82, 28, true
+    $s$The marks cut off at the bottom$s$, $s$Follow the pale strokes into the lower edge, where many diagonals and loops are abruptly cropped by the boundary.$s$,
+    $s$The repeated gestures do not slow down before reaching the edge. Their sudden truncation makes the painted field feel like one section of a larger movement continuing beyond the canvas.$s$, $s$Does the bottom edge stop the motion, or make it seem to continue outside the painting?$s$,
+    57, 88, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -506,9 +506,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Let the dark green reach you before the white marks do. Then notice how the pale forms seem to rise, loop, and finally give in to gravity.$s$, $s$Now see the three panels together. Does the painting feel like writing laid over a landscape, plants emerging from darkness, or rain slowly pulling every mark downward?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.807/$s$, $s$https://archive.artic.edu/cytwombly/salalah/$s$, $s$The Art Institute’s exhibition material explains that the three conjoined panels were covered with varied, transparent strokes of dark green over a white ground. It also connects the pale looping marks to enlarged pseudo-writing and the calligraphic character of printed Arabic. The hotspots separate loop, drip, and layered ground so the user can see how each behaves differently.$s$,
-    $s$High$s$, false, $s$Coordinates checked against the full three-panel image. The white-loop hotspot is centered on the left panel; confirm only if the app adds substantial framing around the artwork.$s$,
+    $s$Let the deep green arrive before the white marks. Then follow how each pale stroke rises into a loop or upright curve and slowly drains downward in long drips.$s$, $s$Now see the entire painting as one sequence. Does it feel more like enlarged writing, a line of plants, or repeated gestures slowly melting under gravity?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.807/$s$, $s$https://archive.artic.edu/cytwombly/salalah/$s$, $s$The full SFMOMA image was visually audited. The first hotspot was moved from the partly cropped far-left form to the complete center-left loop. The drip point was lowered to the actual long descents, and the former generic green-ground hotspot was replaced by a clearly visible translucent white passage.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REVISED: all three coordinates directly match the center-left loop, central long drips, and translucent right-hand stroke.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -529,21 +529,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The white loop opening up$s$, $s$Tap the broad white loop on the left panel, where the stroke rises from the dark field and opens into an airy oval.$s$,
-    $s$The shape resembles a letter without becoming readable, but it also feels plantlike—a leaf, vine, or tendril briefly catching light. Twombly enlarges the scale of handwriting until it begins to behave like something growing in space.$s$, $s$Does this form feel written, drawn, or grown?$s$,
-    24, 36, true
+    $s$The broad loop at center-left$s$, $s$Tap the large pale loop just left of center, where the stroke rises from a thick base and opens into a tall oval.$s$,
+    $s$The shape resembles a letter without becoming readable, but it also feels plantlike—a leaf, vine, or stem briefly catching light. Twombly enlarges pseudo-writing until it begins to behave like something growing in space.$s$, $s$Does this form feel written, drawn, or grown?$s$,
+    38, 36, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The drips beneath the stroke$s$, $s$Look directly below one of the thick white gestures, where long narrow drips descend through the green.$s$,
-    $s$The upper stroke records the sweep of Twombly’s arm; the drips record what happened afterward, when gravity continued the painting without him. One mark therefore contains both deliberate gesture and slow physical consequence.$s$, $s$Which part feels more alive: the fast loop above or the slow drip below?$s$,
-    55, 67, true
+    $s$The longest drips$s$, $s$Look directly beneath the thick white stroke near the middle, where several narrow drips fall almost to the bottom.$s$,
+    $s$The upper mark records a fast sweep of the arm; the drips record what happened afterward, when gravity continued the painting without him. One passage therefore contains both deliberate action and slow physical consequence.$s$, $s$Which feels more active: the loop above or the descending paint below?$s$,
+    52, 72, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The green that is made of layers$s$, $s$Zoom into a quieter area of the dark green ground, especially between the large white forms, and look for transparent streaks and overlapping brushwork.$s$,
-    $s$The Art Institute notes that Twombly built the ground from thin dark-green acrylic over white, varying its transparency. What first appears to be one deep color is actually full of lighter seams and brush directions, making the darkness feel humid and atmospheric rather than flat.$s$, $s$Where does the hidden white ground seem closest to breaking through?$s$,
-    72, 34, true
+    $s$The green showing through the white$s$, $s$Zoom into the thinner right-hand loop, where the white paint becomes translucent and the dark green remains visible beneath it.$s$,
+    $s$The pale gesture is not an opaque shape pasted onto the ground. Changes in thickness let the green enter the mark, making the line feel layered, wet, and unstable rather than cleanly calligraphic.$s$, $s$Where does the white stroke feel most solid, and where does it begin to dissolve?$s$,
+    76, 39, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -566,9 +566,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Begin with the objects you can recognize, but do not rush to make them form a sensible room. Let the shoes, legs, and fleshy shapes remain awkwardly piled together for a moment.$s$, $s$Step back and ask what the rug is doing. Does it organize the objects like a stage, or make the whole scene feel like one heavy pile that cannot be sorted out?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.475/$s$, $s$https://www.sfmoma.org/artist/Philip_Guston/$s$, $s$SFMOMA’s artwork audio identifies a mound of shoes, tangled limbs, and colors resembling raw meat. Its Guston overview also emphasizes the clunky cartoon shoes and provocative fleshy palette of the late figurative works. The three hotspots separate crowding, bodily fragmentation, and the destabilized domestic ground.$s$,
-    $s$High$s$, false, $s$Coordinates are centered on the main shoe pile, central leg cluster, and lower rug area in the official image. Verify if the production crop trims the lower edge.$s$,
+    $s$Begin by letting the pile register as a single heavy mass. Then separate it into individual shoes, soles, and upright forms until the heap becomes almost impossible to organize again.$s$, $s$Step back and look at the whole pile. Does it feel like a collection of objects, a crowd of absent bodies, or one strange organism made from shoes?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.475/$s$, $s$https://www.sfmoma.org/artist/Philip_Guston/$s$, $s$The full SFMOMA image was visually audited. The previous hotspots incorrectly emphasized visible bent legs and a rug edge. They were replaced with three unmistakable details: the upright upper-left boot, the central orange shoe, and the compressed pale shoes along the bottom.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three hotspot descriptions and coordinates now match visible footwear in the image.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -589,21 +589,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The shoes that become a crowd$s$, $s$Look across the lower half, where several thick-soled shoes point in different directions and overlap one another.$s$,
-    $s$A shoe normally suggests one absent person. Repeated here, the shoes stop feeling individual and become a crowd of blunt, nearly interchangeable bodies. Their weight and sameness make the scene feel less like a still life than the aftermath of something we have not been allowed to witness.$s$, $s$Can you match each shoe to a believable body, or does the pile refuse to make sense?$s$,
-    35, 67, true
+    $s$The red boot at the upper left$s$, $s$Tap the tall red boot rising at the far upper-left, with its dark tread and black-edged openings.$s$,
+    $s$Because it stands upright while most of the shoes lie sideways, this boot feels almost figure-like. Yet it remains hollow and unoccupied. Guston gives an ordinary object the posture of a person while emphasizing that the person is missing.$s$, $s$Does the upright boot feel like part of the pile or like someone standing behind it?$s$,
+    13, 29, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The legs with nowhere to go$s$, $s$Tap the bent pink-red legs near the center, where they twist into the surrounding shoes and dark outlines.$s$,
-    $s$The legs are recognizable, but they do not lead to complete figures. Guston gives us body parts without stable bodies, which makes the scene feel both cartoonish and disturbing. The raw-meat pinks keep these forms uncomfortably physical.$s$, $s$Do the legs look active, injured, asleep, or simply abandoned?$s$,
-    53, 48, true
+    $s$The orange shoe in the center$s$, $s$Look at the bright orange sole near the lower center, stacked above another orange-and-black form.$s$,
+    $s$Its warm color pulls it forward from the surrounding gray, pink, and red footwear. The repeated holes and thick black contour make it unmistakably a shoe, but its isolated brightness also turns it into the heap’s visual center.$s$, $s$Why does this one shoe command more attention than the larger forms around it?$s$,
+    52, 65, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The rug that will not stay flat$s$, $s$Look at the patterned or outlined ground beneath the pile, especially where its edge bends and disappears under the objects.$s$,
-    $s$The title suggests an ordinary domestic rug, something meant to make a room comfortable. Instead, it becomes an unstable platform for a tangle of shoes and limbs. The familiar setting does not calm the image; it makes the disorder feel closer to home.$s$, $s$Does the rug make this feel like a private interior, or like a stage for something public and violent?$s$,
-    70, 78, true
+    $s$The pale shoes pressed against the bottom$s$, $s$Tap the row of fleshy pink shoes along the lower edge, where thick black outlines squeeze them together.$s$,
+    $s$The pale shoes are closest to the viewer, yet they are flattened into the bottom of the pile. Their skinlike color makes them feel bodily even though no feet are visible, turning the heap into something uncomfortably close to a mass of compressed figures.$s$, $s$Do these forms read first as shoes or as parts of bodies?$s$,
+    51, 84, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -626,9 +626,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Try to enter the painting as you would enter a street. Where can your eye move forward—and where does a thick block of paint immediately stop it?$s$, $s$Now look at the whole painting as a city-like field rather than a collection of separate strokes. Does it feel built, crowded, damaged, or in the middle of becoming something?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.752/$s$, $s$https://www.philipguston.org/home/chronology$s$, $s$SFMOMA confirms the work’s 1956 date, placing it in Guston’s Abstract Expressionist period. The hotspots are grounded in the supplied image and focus on the central pale mass, the dark left-side obstruction, and the smaller warm accents that give the dense field an urban pressure without claiming literal buildings or figures.$s$,
-    $s$Medium$s$, false, $s$The work is abstract, so object-like comparisons are intentionally framed as possibilities rather than identifications. Coordinates should be manually checked against the full-resolution image before launch.$s$,
+    $s$Try to find a route through the painting. The pale outer field seems open, but the dense red, black, and gray mass in the middle repeatedly blocks the eye.$s$, $s$Now step back and see whether the central cluster feels like a city seen from within, a crowd, or simply paint compressed until space becomes difficult.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.752/$s$, $s$https://www.philipguston.org/home/chronology$s$, $s$The full SFMOMA image was visually audited. The former pale central block and dark left-side passage did not correspond to the strongest visible features. The revised hotspots mark the dominant red center, black knot at center-right, and small orange patch at lower left.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REVISED: all three coordinates directly match distinct color passages in the official image.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -649,21 +649,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The pale block pushing forward$s$, $s$Look at the large pale pink-white mass near the center, built from short strokes that thicken into a roughly rectangular form.$s$,
-    $s$This light area might initially read as an opening, but its dense brushwork makes it feel solid and close. Instead of giving the eye a way into the painting, it becomes something like a wall, building, or body pressing toward us.$s$, $s$Does the light color create space, or does its thickness close the space off?$s$,
-    51, 43, true
+    $s$The bright red center$s$, $s$Tap the dense scarlet passage slightly above center, where several blocky red strokes crowd together.$s$,
+    $s$This red area is the painting’s strongest concentration of color. It does not describe a specific building or figure, but its density makes it feel like an event—something loud and active inside the otherwise pale gray field.$s$, $s$Does the red feel like a place you could enter, or something pushing toward you?$s$,
+    52, 39, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The dark passage at the left$s$, $s$Tap the deep gray-black cluster along the left side, where darker strokes gather against muted pinks and reds.$s$,
-    $s$The dark area gives the painting a sense of weight and obstruction. Because its edge remains broken and brushed rather than cleanly drawn, it never becomes one identifiable object; it feels like shadow, architecture, and pressure at the same time.$s$, $s$Can your eye move through this dark area, or does it keep being pushed back?$s$,
-    21, 55, true
+    $s$The black knot to the right$s$, $s$Look just right of center for the compact charcoal-black strokes embedded inside the red and pink cluster.$s$,
+    $s$The dark knot stops the red from reading as a flat decorative field. It adds weight and resistance, making the central mass feel layered and difficult to see through.$s$, $s$Does the black shape create depth, or simply make the surface feel heavier?$s$,
+    68, 52, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The small red interruptions$s$, $s$Find the compact red-orange strokes scattered through the center and lower part of the painting.$s$,
-    $s$These warm notes are small, but they prevent the muted field from becoming passive. They behave like flashes of traffic, signs, windows, or human activity without clearly representing any of them. The street is suggested through friction between colors rather than through perspective.$s$, $s$Which red mark feels most like an event rather than simply a patch of color?$s$,
-    62, 65, true
+    $s$The orange patch at lower left$s$, $s$Tap the small orange passage in the lower-left part of the central cluster.$s$,
+    $s$This warm patch is much smaller than the red center, but its difference in hue makes it unexpectedly visible. It acts like a brief side note or flash at the edge of a larger, more turbulent event.$s$, $s$Does this orange patch pull your eye outward or lead it back into the center?$s$,
+    23, 61, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -686,9 +686,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Look at these brushes first as objects, not as symbols. They are thick, worn, crowded together, and far heavier-looking than the light tools we normally hold in a hand.$s$, $s$Take in the whole group again. Do the brushes feel ready for work, left behind after work, or almost like a portrait of the painter without his body?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.681/$s$, $s$https://gustoncrllc.org/catalogue-raisonne/works/2567$s$, $s$SFMOMA and the Guston Catalogue Raisonné confirm the 1978 painting and its dimensions. The existing workbook identifies the tightly grouped brushes as a late self-referential studio image. The hotspots focus on the visibly paint-loaded bristles, crowded handles, and bodily bluntness of their lower ends.$s$,
-    $s$High$s$, false, $s$Coordinates correspond to the upper bristles, central handle cluster, and lower handle ends. Confirm against the final app crop.$s$,
+    $s$Look first at the gray container, then at the brushes sticking out of it at different angles. The painting is quiet and simple, but each tool seems to have its own posture.$s$, $s$Step back and ask whether this feels like a still life of studio equipment or a loose group portrait in which the painter appears only through the tools he has left behind.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.681/$s$, $s$https://gustoncrllc.org/catalogue-raisonne/works/2567$s$, $s$The full image was visually audited. The previous description of a row of thick brushes with paint-loaded bristles was inaccurate. The work actually shows individual brushes emerging from a gray container. All three hotspots were replaced accordingly.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all former descriptions and coordinates were replaced to match the diagonal red brush, pale right brush, and gray container.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -709,21 +709,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The bristles loaded with color$s$, $s$Look at the upper ends of the brushes, where dark red, blue, and black paint gathers on the bristles.$s$,
-    $s$The colored tips are the only direct evidence of what these tools have been doing. Yet the paint does not lead us to another image; it stops on the brushes themselves. Guston turns the instruments of painting into the painting’s main event.$s$, $s$Do the loaded bristles make the brushes feel prepared, used up, or still in the middle of working?$s$,
-    47, 29, true
+    $s$The long red brush leaning across$s$, $s$Tap the thick red brush that rises diagonally from the container toward the upper-left.$s$,
+    $s$Its diagonal cuts across the mostly vertical brushes and gives the still arrangement a sense of movement. Because it is broader and brighter than the others, it feels less like one tool among many and more like the main character of the group.$s$, $s$Does the leaning brush look active, unstable, or simply more individual?$s$,
+    37, 24, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The handles pressed together$s$, $s$Tap the thick handles in the center, where their black outlines crowd together with almost no space between them.$s$,
-    $s$The brushes form a row, but not a tidy one. Their uneven leaning and compressed outlines make them feel like a group of bodies packed into a narrow space. A simple studio still life begins to carry the social pressure of a crowd.$s$, $s$Which brush seems to lean on another, and which one appears to stand alone?$s$,
-    50, 53, true
+    $s$The pale brush on the right$s$, $s$Look at the tall off-white brush near the upper-right, standing between darker black and red handles.$s$,
+    $s$Its pale color almost merges with the pink background, unlike the dark brushes that announce themselves clearly. The brush seems to appear slowly, making the eye work harder to separate tool from surrounding paint.$s$, $s$Does this brush feel present, or as though it is fading into the room?$s$,
+    65, 31, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The blunt lower ends$s$, $s$Look near the bottom, where the handles end in rounded or cut-off shapes against the pale ground.$s$,
-    $s$These heavy ends make the tools feel strangely bodily—closer to fingers, legs, or stumps than elegant artist’s equipment. Guston’s rough cartoon language prevents the brushes from becoming decorative and keeps attention on their awkward physical presence.$s$, $s$At what point do these stop looking like tools and start looking like characters?$s$,
-    57, 79, true
+    $s$The scratched gray container$s$, $s$Tap the broad front of the gray brush holder, where loose vertical strokes and pink-gray smears remain visible.$s$,
+    $s$The container is not painted as a smooth solid object. Its surface carries revisions, streaks, and uneven color, making it feel worn and handled. The humble vessel receives as much painterly attention as the brushes it holds.$s$, $s$Does the container feel sturdy, dented, or almost transparent?$s$,
+    48, 67, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -746,9 +746,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Let the title influence the temperature of what you see, but do not search for trees or leaves. Instead, look for where the painting still carries warmth—and where that warmth seems to be going dark.$s$, $s$Step back and ask whether the painting feels like a season ending, or whether the title has made you read ordinary abstract color as weather, age, and loss.$s$,
-    $s$https://www.sfmoma.org/artwork/FC.779/$s$, $s$https://www.tate.org.uk/documents/1863/TM_EXH_0089_Philip_Guston_LPG_Web_AW.pdf$s$, $s$SFMOMA provides the artwork record for this 1963 abstract painting. Tate’s Guston guide describes his abstract compositions as unstable accumulations in which forms hover near dissolution. The hotspot language therefore stays with visible layering, downward pressure, and thinning brushwork rather than treating the title as a literal autumn scene.$s$,
-    $s$Medium$s$, false, $s$Exact color positions require final confirmation against the full-resolution production image. Interpretive language is deliberately cautious because no detailed artwork-specific curatorial text was located.$s$,
+    $s$Let the broad gray field register first, then notice how a few dark rounded masses gather inside it. The title may suggest a season, but the painting gives you weight and fading light rather than a recognizable landscape.$s$, $s$Step back and ask whether the dark forms feel like objects emerging from gray space or like the last concentrated areas of a painting dissolving toward its edges.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.779/$s$, $s$https://www.tate.org.uk/documents/1863/TM_EXH_0089_Philip_Guston_LPG_Web_AW.pdf$s$, $s$The full SFMOMA image was visually audited. The previous hotspot descriptions were too generalized and did not target the painting’s most distinct structures. The revised points identify the large upper-left dark oval, the stacked dark masses at right-center, and the visible red accents along the right edge.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REVISED: all three coordinates directly match clearly visible dark and red passages.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -769,21 +769,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The red buried in gray$s$, $s$Look near the center for muted red or pink strokes partly covered by heavier gray and black paint.$s$,
-    $s$The warmer color does not sit cleanly on top. It seems caught underneath, as though an earlier brightness has been obscured but not completely erased. That layering gives the title’s 'late' feeling a visible form: something remains, but only through darker paint.$s$, $s$Does the red feel as though it is emerging from the gray or disappearing into it?$s$,
-    50, 48, true
+    $s$The largest dark oval$s$, $s$Tap the broad black-gray rounded form in the upper-left half.$s$,
+    $s$This is the painting’s heaviest single mass. Its curved top and dense interior make it feel almost object-like, but its edges remain brushed and uncertain. It hovers between a recognizable shape and a compressed accumulation of paint.$s$, $s$Does this dark form feel solid enough to name?$s$,
+    43, 25, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The dark weight above$s$, $s$Tap the broad dark passage in the upper portion, where black and charcoal strokes gather more heavily than the surrounding paint.$s$,
-    $s$This area presses downward rather than opening into sky. Its weight makes the rest of the composition feel compressed beneath it, turning abstraction into an atmosphere of closing light and physical pressure.$s$, $s$Does this dark area feel distant, or uncomfortably close to the surface?$s$,
-    52, 26, true
+    $s$The stacked dark forms on the right$s$, $s$Look at the two rounded charcoal masses stacked vertically just right of center.$s$,
+    $s$Their repetition suggests a sequence or pair, yet they do not become identifiable objects. Together they create a downward weight, making the right side feel compressed and almost bodily.$s$, $s$Do the two forms feel connected, or merely crowded together?$s$,
+    65, 48, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The thinning edge$s$, $s$Look toward a side or lower corner where the brushwork becomes looser and more of the pale ground remains visible.$s$,
-    $s$The quieter edge gives the dense center somewhere to end, but it does not provide a clean escape. Sparse marks feel less like openness than the last traces left after the painting’s energy has withdrawn.$s$, $s$Does the exposed ground feel like empty space, fading light, or unfinished work?$s$,
-    79, 77, true
+    $s$The red marks near the edge$s$, $s$Tap the small red accents along the far-right side, where they break through the surrounding gray.$s$,
+    $s$These red marks are minor in scale but intense against the muted field. They resemble the last remnants of warmth inside a painting dominated by charcoal and cold gray.$s$, $s$Do the red accents feel like something surviving or something disappearing?$s$,
+    88, 39, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -806,9 +806,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Before deciding what story is taking place, notice how low and cramped the objects sit. The painting gives them a great deal of canvas, yet almost no comfortable space.$s$, $s$Look once more at the entire scene. Does the casual title make the objects feel resigned to their situation, or does it make their awkwardness seem even more troubling?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.501/$s$, $s$https://www.tate.org.uk/documents/1863/TM_EXH_0089_Philip_Guston_LPG_Web_AW.pdf$s$, $s$SFMOMA confirms this 1978 late figurative painting. Tate characterizes Guston’s late compositions as enigmatic, dreamlike arrangements of objects in precarious balance. The hotspots identify a clocklike circular form, a movement-related bodily fragment, and an edge crop while avoiding a fixed narrative that the available sources do not support.$s$,
-    $s$Medium$s$, false, $s$The precise identity and center of the circular and bodily forms should receive human confirmation against the highest-resolution image. Coordinates are reasonable estimates from the supplied reproduction.$s$,
+    $s$Begin with the jumble of studio objects across the upper half, then look down at the eyeglasses lying alone on the red tabletop. The painting moves between crowded machinery and one strangely personal object.$s$, $s$Now step back and decide whether the scene feels like work continuing, work interrupted, or the residue of a long day in the studio.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.501/$s$, $s$https://www.tate.org.uk/documents/1863/TM_EXH_0089_Philip_Guston_LPG_Web_AW.pdf$s$, $s$The full artwork image was visually audited. The previous clocklike circle, bodily fragment, and cropped-edge hotspot did not accurately describe the painting. All three were replaced with the visible upper spiral, central downward brush, and eyeglasses across the foreground.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three previous hotspot descriptions and coordinates were replaced.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -829,21 +829,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The clocklike circle$s$, $s$Look for the large round form with a dark outline, positioned among the other blunt objects near the center-right.$s$,
-    $s$It suggests a clock or dial, but its face offers little useful information. Time appears as a heavy object rather than something that moves smoothly forward. In a painting titled *As It Goes*, that stalled-looking circle makes the phrase sound less carefree and more weary.$s$, $s$Does this form make you think of time passing, time stopping, or an object that has simply lost its purpose?$s$,
-    67, 45, true
+    $s$The orange spiral at the top$s$, $s$Tap the orange-and-black spiral near the upper center, floating above the other circular forms.$s$,
+    $s$The spiral resembles a coiled line, target, or roll of material, but Guston leaves its function unclear. Its clean circular rhythm stands out against the heavier rectangular objects below and gives the clutter an almost hypnotic center.$s$, $s$Does the spiral feel like an object, a symbol, or simply a line going nowhere?$s$,
+    51, 16, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The bent leg or shoe$s$, $s$Tap the fleshy pink form in the lower area, where a thick black outline turns an ordinary limb or shoe into an awkward, compressed shape.$s$,
-    $s$Guston’s late vocabulary repeatedly returns to legs and shoes, objects associated with movement. Here, however, the form appears stuck among the other things. The part of the body that should carry someone forward instead adds to the painting’s sense of exhaustion.$s$, $s$Does this shape look capable of moving, or has it become just another object in the pile?$s$,
-    42, 69, true
+    $s$The brush standing downward$s$, $s$Look at the large brush near the center, with a pale handle and red bristles pointing toward the tabletop.$s$,
+    $s$The brush is one of the few objects whose function is immediately clear. Yet it is not shown making a mark; it hangs among clocks, wheels, and studio debris. The painter’s tool becomes part of the same tired machinery as everything else.$s$, $s$Does the brush seem ready to work or already put aside?$s$,
+    51, 55, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The object cut by the edge$s$, $s$Look at the form that runs into or is cropped by one side of the canvas rather than fitting neatly inside the scene.$s$,
-    $s$The crop makes the arrangement feel less like a complete still life and more like one fragment of an ongoing, cluttered world. The title’s shrug—'as it goes'—fits a scene that seems to continue without explanation beyond the frame.$s$, $s$What might be continuing outside the painting, and would seeing it make the scene easier to understand?$s$,
-    86, 55, true
+    $s$The glasses left on the table$s$, $s$Tap the pair of round eyeglasses lying across the red foreground near the bottom center.$s$,
+    $s$The glasses are small compared with the piled forms above, but they introduce the absent body most directly. Someone has taken them off. Their vulnerable position turns the crowded still life into a scene of temporary withdrawal or exhaustion.$s$, $s$Do the glasses make the painter feel more present or more absent?$s$,
+    57, 84, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -866,9 +866,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Do not try to solve the scene immediately. Let your eye move between the tiny sunset at the far left, the enormous fragments of bodies, and the neat black outlines that make everything look strangely easy to read.$s$, $s$Now take in the full painting again. Does it feel like one coherent scene, or like several kinds of images—romance, anatomy, design, and advertising—forced to share the same frame?$s$,
-    $s$https://www.sfmoma.org/artwork/99.374/$s$, $s$https://lichtensteinfoundation.org/view-in-museums/$s$, $s$SFMOMA describes the work as a monumental, cluttered composition of figures and abstract shapes in strong black outlines and primary colors. The hotspots focus on the unusually small sunset, the isolated male face, and the large fragmented dotted figure visible in the official image.$s$,
-    $s$High$s$, false, $s$Coordinates checked against the full horizontal image. Preserve the entire left edge so the sunset hotspot remains usable.$s$,
+    $s$Do not try to solve the whole scene at once. Begin with one recognizable detail, then watch how it collides with images borrowed from entirely different visual languages.$s$, $s$Step back and ask whether this feels like a single scene or a deliberate mashup. What keeps the parts together when their styles, scales, and possible references do not agree?$s$,
+    $s$https://www.sfmoma.org/artwork/99.374/$s$, $s$https://www.sfmoma.org/artwork/99.374/$s$, $s$SFMOMA’s detailed audio description identifies the sunset at left-center, the man in a red tie behind the yellow wall, and the central blue-dotted oval as a mirror held by the reclining figure. The earlier coordinates and interpretation did not accurately match these features.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three coordinates and the third hotspot interpretation were corrected against the official full image and audio description.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -889,21 +889,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The tiny sunset$s$, $s$Tap the small red-and-yellow sun near the far-left edge, where it sits inside a sharp triangular landscape shape.$s$,
-    $s$The title gives this detail enormous importance, yet the sunset occupies only a tiny part of the painting. It looks like a ready-made symbol for romance rather than an observed sky. Its smallness makes the surrounding figures and abstract fragments feel almost comically oversized.$s$, $s$Why call the whole painting *Figures with Sunset* when the sunset is so easy to miss?$s$,
-    9, 44, true
+    $s$The small sunset inside the chaos$s$, $s$Tap the red semicircle rising from the yellow-and-black inverted triangle left of center.$s$,
+    $s$The title gives the sunset special importance, yet it is only one compact symbol inside a much larger crowd of figures, buildings, dots, and brushstrokes. Lichtenstein reduces an entire landscape event to a graphic sign that could be read almost instantly.$s$, $s$Why name the whole painting after a detail that occupies so little of it?$s$,
+    34, 40, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The face split by the center$s$, $s$Look at the male face near the upper center-right, especially where the clean black features meet a yellow hat and the surrounding disjointed forms.$s$,
-    $s$The face is clear enough to recognize instantly, but it belongs to no stable body. It has been inserted among enlarged fragments, dotted passages, and flat color blocks. Lichtenstein gives us the certainty of a comic-book face inside a scene whose space makes very little ordinary sense.$s$, $s$Does the clear face help organize the painting, or make the rest of it feel even stranger?$s$,
-    59, 27, true
+    $s$The man behind the yellow wall$s$, $s$Look at the pale-faced man with black hair and a red tie in the upper-right half, partly blocked by the tall yellow rectangle.$s$,
+    $s$He is among the painting’s clearest human figures, yet even he seems assembled from mismatched fragments. SFMOMA’s audio notes that he resembles photographs of the young Pablo Picasso, adding another borrowed art-historical image to the visual collage.$s$, $s$Does recognizing a convincing face make the surrounding scene easier to understand?$s$,
+    75, 32, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The dotted body without a head$s$, $s$Tap the large pale oval and red-dotted body near the lower center-left, where a figure seems to face away from us.$s$,
-    $s$The figure is built from different visual systems: a smooth blank oval, a field of printed-looking dots, and thick outlines. Those systems do not blend naturally, so the body feels assembled rather than alive—like an image made from parts borrowed from different pages.$s$, $s$At what point does this collection of shapes become a person?$s$,
-    42, 57, true
+    $s$The mirror held by the reclining figure$s$, $s$Tap the large upright oval with blue dots near the center-right, just above the cream-colored drapery.$s$,
+    $s$SFMOMA identifies this oval as a mirror held by the reclining figure. It looks like an empty head at first because it occupies the place where we expect a face, but its dotted reflection redirects attention from identity to the act of looking.$s$, $s$Did you see a mirror first, or a blank face?$s$,
+    63, 52, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -926,9 +926,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Walk around this sculpture before deciding what it represents. From one angle it reads like a comic drawing of a gesture; from another, its extreme thinness becomes impossible to ignore.$s$, $s$Step back and compare the sculpture’s height with its almost sheet-like depth. Does it feel like a drawing that escaped the page, or a three-dimensional object pretending to stay flat?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.704/$s$, $s$https://lichtensteinfoundation.org/view-in-museums/$s$, $s$SFMOMA confirms the painted and patinated bronze medium and the sculpture’s tall, extremely shallow dimensions. The official image shows a yellow hand and hat, a red comic-style burst, and a long curved striped form, allowing hotspots to address gesture, frozen impact, and flatness.$s$,
-    $s$High$s$, false, $s$Front-view coordinates are reliable. Because the flatness is best understood by moving around the work, Hotspot 3 should trigger text encouraging a side view rather than relying only on digital zoom.$s$,
+    $s$Trace the sculpture from the cloudlike base upward: a long striped curve, a jagged burst, and finally a yellow hand tipping a hat. The whole gesture has been stretched into a vertical sequence.$s$, $s$Step back and compare its dramatic front with its extremely thin side. Does it feel more like a sculpture, a comic image cut free from a page, or both at once?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.704/$s$, $s$https://www.lichtensteincatalogue.org/$s$, $s$The official frontal image was visually audited. The top hand-and-hat, central burst, and striped rising curve are all clearly visible at the revised coordinates. SFMOMA confirms the sculpture is painted and patinated bronze.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED: all three points match the frontal image. The sculpture’s extreme thinness still requires a side or installation view for the app to demonstrate fully.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -949,20 +949,20 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The hand lifting the hat$s$, $s$Look at the yellow hand and hat shape at the very top, where the gesture seems to continue beyond the long curved arm below.$s$,
-    $s$The title refers to a tip of the hat, a brief social gesture. Lichtenstein freezes that moment at an exaggerated scale, turning a tiny movement of politeness into something nearly nine feet tall. The hand is readable at once, yet it remains as simplified as a comic-book symbol.$s$, $s$Does enlarging this small gesture make it feel more sincere, more theatrical, or more absurd?$s$,
-    53, 10, true
+    $s$The hand tipping the hat$s$, $s$Tap the yellow hand-and-hat form at the very top.$s$,
+    $s$The title means a tip of the hat, a quick gesture of acknowledgment. Lichtenstein freezes that brief action and enlarges it until the hand becomes the sculpture’s crowning image.$s$, $s$Does making the gesture monumental make it feel polite, comic, or theatrical?$s$,
+    51, 11, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The red impact burst$s$, $s$Tap the red center surrounded by a jagged black-and-white burst roughly halfway up the sculpture.$s$,
-    $s$This burst resembles the graphic shorthand comics use for impact, noise, or sudden movement. In bronze, however, the supposedly instantaneous effect becomes permanent and heavy. A split-second visual device has been made physically durable.$s$, $s$What changes when an image of impact cannot actually move or disappear?$s$,
-    51, 40, true
+    $s$The burst around the red center$s$, $s$Tap the jagged black-and-white explosion surrounding the red shape just above the sculpture’s midpoint.$s$,
+    $s$The burst is comic-book shorthand for impact or sudden emphasis. Cast in bronze, however, an image designed to appear instantaneous becomes heavy and permanent.$s$, $s$What happens to the sense of speed when an impact symbol is made from bronze?$s$,
+    50, 40, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The curve that is almost flat$s$, $s$Look along the long yellow, blue, and black curve below the burst, then shift sideways enough to see the sculpture’s narrow edge.$s$,
-    $s$From the front, the colored curve suggests a sweeping arm in motion. From the side, the bronze is startlingly thin. Lichtenstein keeps the frontality of a printed image while giving it just enough depth to occupy real space.$s$, $s$Which view feels more truthful: the lively front or the nearly flat side?$s$,
+    $s$The striped sweep rising from the cloud$s$, $s$Follow the long white, blue, and yellow band from the cloudlike base toward the central burst.$s$,
+    $s$The curve carries the eye upward like a motion trail. Its painted stripes make a nearly flat bronze element look flexible and fast, even though it cannot actually move.$s$, $s$Does the painted curve feel more like an arm, a trail of motion, or pure graphic design?$s$,
     49, 67, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
@@ -986,9 +986,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Let the image hit you at comic-book speed first: face, gun, sound effect. Then slow down and notice how carefully that apparent instant has been separated into flat zones, outlines, and printed-looking patterns.$s$, $s$Look at the whole image again. Does the clean graphic style make the danger feel more immediate, or does it turn violence into something disturbingly easy to consume?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.612/$s$, $s$https://lichtensteinfoundation.org/view-in-museums/$s$, $s$SFMOMA confirms this 1962 oil painting, and the Lichtenstein Foundation identifies it as panel three of a four-part Live Ammo group. Hotspots correspond to the visible onomatopoeia, the sharply divided face, and the cropped weapon in the official image.$s$,
-    $s$High$s$, false, $s$Coordinates checked against the full portrait-format image. Retain the upper-left lettering and lower-right gun in any responsive crop.$s$,
+    $s$Let the image arrive at comic-book speed: sound effect, face, weapon. Then slow down and notice how a few flat colors and outlines produce urgency without realistic detail.$s$, $s$Step back and decide whether the clean graphic style intensifies the danger or keeps it at the distance of entertainment.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.612/$s$, $s$https://www.lichtensteincatalogue.org/$s$, $s$The full image was visually audited. The earlier points were close, but the face and rifle coordinates were refined to land on the visible black-yellow facial division and the actual rifle across the lower edge.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REFINED: all three coordinates now land directly on the red sound effect, central face, and lower rifle.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1009,21 +1009,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The word that arrives first$s$, $s$Tap the red word “TZING!” in the upper-left corner, tilted beside the white streak cutting across the image.$s$,
-    $s$The sound effect is not a caption placed after the action; it is part of the action. Its angle, color, and size make the eye almost hear the shot before fully reading the soldier’s face. Language becomes a visual weapon.$s$, $s$Did you hear the sound in your head before you understood what was happening?$s$,
-    20, 21, true
+    $s$The red 'TZING!'$s$, $s$Tap the red word “TZING!” in the upper-left, directly beneath the white diagonal streak.$s$,
+    $s$The sound effect is not merely a caption explaining the scene. Its red letters, tilt, and placement make sound visible, so reading becomes part of experiencing the impact.$s$, $s$Did you hear the sound internally before you examined the soldier?$s$,
+    20, 20, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The face divided by shadow$s$, $s$Look at the soldier’s yellow face, where a hard black shape cuts across one side and leaves the eyes staring out from sharply separated zones.$s$,
-    $s$The face is emotionally tense, but it is built from almost brutally simple divisions of yellow, black, and line. That clarity makes fear or concentration instantly readable while stripping away the gradual shading we associate with a natural face.$s$, $s$Does the simplified face feel more dramatic than a realistic one would?$s$,
-    57, 48, true
+    $s$The face split into yellow and black$s$, $s$Look at the soldier’s face near the center, where hard black shapes cut across the yellow skin around the eyes, nose, and cheek.$s$,
+    $s$Rather than gradual modeling, the face uses abrupt graphic divisions. Those simplified shapes make the expression immediately legible while also reminding us that it came from a printed comic image.$s$, $s$Does the simplified face feel more dramatic or less human?$s$,
+    54, 47, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The gun entering from below$s$, $s$Tap the barrel and mechanical parts rising from the lower-right edge.$s$,
-    $s$The weapon is cropped, so we see only the part needed to understand the scene. This is how a comic panel creates urgency: the action seems larger than the frame, and the viewer is placed uncomfortably close to the machinery of violence.$s$, $s$Does the crop make the gun feel closer to you than the soldier does?$s$,
-    76, 82, true
+    $s$The rifle across the bottom$s$, $s$Tap the yellow rifle and coiled barrel running across the lower-right edge.$s$,
+    $s$The weapon is cropped by the canvas and pushed close to the viewer. It functions less as a carefully described object than as a directional force carrying the action out of the image.$s$, $s$Does the cropped rifle make you feel inside the scene or safely outside it?$s$,
+    72, 87, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1046,9 +1046,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$At first this looks like a flat picture of a radio. Then notice the real leather strap above it and ask where the representation stops and the object begins.$s$, $s$Step back and decide what you are looking at now: a painting of a radio, a radio-shaped sculpture, or a joke that depends on refusing to choose between the two?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.604/$s$, $s$https://lichtensteinfoundation.org/view-in-museums/$s$, $s$SFMOMA’s audio specifically explains that the image was hand-painted but given a real strap, making the painting itself partly resemble a radio. The official image clearly supports hotspots on the strap, dotted speaker grille, and numbered tuning display.$s$,
-    $s$High$s$, false, $s$Coordinates verified against the uncropped official image. The leather strap must remain visible in production.$s$,
+    $s$First read this as a flat painted radio. Then notice the actual leather strap and metal edging, which turn the painting itself into something that can almost pass as the object it represents.$s$, $s$Step back and decide what category it belongs to now: a picture of a radio, a radio-shaped painting, or a joke about the difference between images and things.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.604/$s$, $s$https://www.sfmoma.org/artwork/FC.604/$s$, $s$SFMOMA’s audio specifically discusses the hand-painted radio image and its actual strap. The official image confirms the speaker field and paired AM/FM tuning bands at the revised points.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED: all three coordinates directly match the physical strap, dotted speaker, and paired tuning scales.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1069,21 +1069,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The real carrying strap$s$, $s$Tap the brown leather strap arching above the painted rectangle.$s$,
-    $s$SFMOMA notes that the hand-painted image is fitted with an actual strap, so the painting partly behaves like the object it depicts. The strap is practical-looking, but it cannot make this canvas function as a radio. It turns representation into a deadpan physical joke.$s$, $s$Does the real strap make the painted radio seem more convincing or more obviously fake?$s$,
-    50, 7, true
+    $s$The real leather strap$s$, $s$Tap the brown strap arching above the rectangular canvas.$s$,
+    $s$SFMOMA explains that the radio image was hand-painted but fitted with a real carrying strap. The physical accessory makes the artwork behave like the consumer object it depicts without ever becoming functional.$s$, $s$Does the real strap make the painted radio more convincing or more obviously artificial?$s$,
+    50, 9, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The speaker made from dots$s$, $s$Zoom into the large dotted rectangle covering most of the lower-left half.$s$,
-    $s$From a distance, the repeated dots read as the perforated grille of a speaker. Up close, they become a laboriously painted pattern. The passage imitates industrial manufacture while revealing the slow handmade work behind the illusion.$s$, $s$At what distance do the dots stop being a pattern and start becoming a speaker?$s$,
-    28, 65, true
+    $s$The speaker made from dots$s$, $s$Zoom into the large field of regularly spaced black dots in the lower-left half.$s$,
+    $s$From across the room the dots become a perforated speaker grille. Up close, they remain a hand-painted pattern, exposing how little visual information is needed for the eye to construct a familiar product.$s$, $s$At what distance do the dots turn into a speaker?$s$,
+    29, 65, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The dial you cannot use$s$, $s$Look at the two numbered tuning bands across the upper-right area, with their tiny frequency markings and central divider.$s$,
-    $s$The numbers promise precise control, but no station can actually be selected. Lichtenstein copies the visual authority of a consumer device while removing its function. The radio remains perfectly legible and completely silent.$s$, $s$Why include so much usable-looking information on an object that cannot work?$s$,
-    68, 28, true
+    $s$The two tuning scales$s$, $s$Look at the paired numbered bands in the upper-right, labeled with AM and FM frequencies.$s$,
+    $s$The scales imitate practical information and invite the behavior of tuning, but the indicators cannot move and no station can be heard. Usefulness has been converted into appearance.$s$, $s$Why include precise-looking numbers on an object that cannot work?$s$,
+    65, 27, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1106,9 +1106,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Begin with how instantly recognizable this object is. Then look long enough for the tire to stop feeling ordinary and start feeling like a huge system of black shapes, zigzags, and empty white spaces.$s$, $s$Take in the full painting again. Has the tire become more like a useful object, a commercial illustration, an abstract pattern, or all three at once?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.705/$s$, $s$https://lichtensteinfoundation.org/view-in-museums/$s$, $s$SFMOMA confirms the monumental 1962 oil painting. The official reproduction shows a highly legible tire built from a zigzag tread, broad black sidewall, and conventionally hatched wheel hub. The hotspot choices show how an ordinary manufactured object shifts into graphic abstraction.$s$,
-    $s$High$s$, false, $s$Coordinates are based on the complete portrait image. Preserve the full right-side tread and lower-left hub.$s$,
+    $s$Notice how quickly the image reads as a tire. Then separate the tread, sidewall, and hub into flat black-and-white shapes until the useful object starts behaving like abstract design.$s$, $s$Step back and ask whether you now see a tire, an advertisement-like image of one, or a monumental pattern that only happens to describe a tire.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.705/$s$, $s$https://www.moma.org/collection/works/79807$s$, $s$The full official image was visually audited. The earlier tread point was too low and far right, and the hub point was also too low. Revised coordinates now land inside the central zigzag tread, black sidewall, and circular hub.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REFINED: all three coordinates directly match the tread, sidewall, and hub.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1129,21 +1129,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The tread that becomes a pattern$s$, $s$Tap the large zigzag tread running down the right side of the tire.$s$,
-    $s$The tread is designed for traction, but Lichtenstein turns it into a bold all-over pattern. Because every groove is sharply outlined and repeated, the practical surface begins to compete with the object itself. You can almost forget you are looking at rubber.$s$, $s$When do these repeated zigzags stop describing a tire and become an abstract design?$s$,
-    76, 49, true
+    $s$The zigzag tread$s$, $s$Tap the repeated angular tread pattern covering the right half.$s$,
+    $s$The tread is designed for traction, but enlarged here it becomes a powerful all-over pattern. Its repetition creates rhythm independently of the object’s practical function.$s$, $s$When do these zigzags stop describing rubber and begin to look abstract?$s$,
+    72, 42, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The black sidewall$s$, $s$Look at the broad black band on the left half, between the pale wheel rim and the patterned tread.$s$,
-    $s$This nearly solid area gives the tire its visual weight. It also flattens what should be a curved rubber surface into a stark graphic shape. The tire looks heavy and dimensional from afar, yet its volume is built from simple black-and-white divisions.$s$, $s$Does this black area feel rounded, or does it read as a flat shape pasted onto the canvas?$s$,
-    30, 48, true
+    $s$The black sidewall$s$, $s$Look at the broad, nearly solid black band curving around the left half of the tire.$s$,
+    $s$This dark mass gives the object its weight and roundness, yet it is still a flat painted shape. Lichtenstein creates volume through a severe contrast rather than gradual shading.$s$, $s$Does this black band feel rounded or pasted onto the canvas?$s$,
+    26, 40, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The shiny hub without shine$s$, $s$Zoom into the circular wheel hub near the lower-left center, where curved lines and short hatching marks suggest metal reflections.$s$,
-    $s$There is no gradual metallic shimmer here. A few standardized marks stand in for polished steel, much as they would in a commercial illustration. Your eye supplies the shine even though the painting gives you only black lines and white paint.$s$, $s$How little information does the image need before you imagine reflective metal?$s$,
-    27, 63, true
+    $s$The hub drawn with shorthand$s$, $s$Zoom into the circular wheel hub left of center, where short curved lines and black marks imply polished metal.$s$,
+    $s$A few standardized marks stand in for reflection, depth, and mechanical complexity. The hub shows how efficiently a commercial illustration can persuade us to see a shiny three-dimensional object.$s$, $s$How few marks are needed before the hub begins to look metallic?$s$,
+    28, 55, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1166,9 +1166,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Take in the scene as if you had entered a stage set midway through a ritual. Before deciding whether anything supernatural is happening, look at how the painting itself makes some figures solid and others barely present.$s$, $s$Now step back and decide where the illusion really lives. Is it in the magician’s ritual, the ghostly figure, the translucent fabric, or your own willingness to connect all these fragments into one event?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.735/$s$, $s$https://www.sfmoma.org/artwork/FC.735/#essay$s$, $s$SFMOMA’s audio description identifies the magician, pale ghost, ritual objects, protective circles, stage-like curtain, and stretcher visible through the thin fabric. The hotspots use those specific details to distinguish apparition, ritual boundary, and the exposed construction of illusion.$s$,
-    $s$High$s$, false, $s$Coordinates are based on SFMOMA’s described composition and supplied full image. Preserve the far-left curtain and lower ritual circle in the app crop.$s$,
+    $s$Take in the scene as a staged act of magic: a dark magician faces a pale apparition while ritual objects sit inside circles on the floor. Then notice how the thin fabric lets the real stretcher show through the illusion.$s$, $s$Step back and decide what is producing the magic—the depicted ritual, the semi-transparent painting surface, or your own willingness to treat old printed images as a living scene.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.735/$s$, $s$https://www.sfmoma.org/artwork/FC.735/#essay$s$, $s$SFMOMA’s audio description directly identifies the pale ghost, ritual objects, protective circles, magician, and theatrical curtain. The official image was visually audited and the markers were refined to the ghost’s torso, central object cluster, and curtain.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REFINED: all three coordinates directly match the apparition, ritual objects, and curtain in the official image.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1189,21 +1189,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The ghost made from almost nothing$s$, $s$Tap the pale hooded figure left of center. Its raised arms and robe are visible, but the body is drawn so lightly that the yellow ground seems to pass straight through it.$s$,
-    $s$The magician on the right is built from dark, decisive lines, while this second figure nearly disappears. Polke does not need to paint a glowing spirit; he creates one simply by weakening the image. The figure feels supernatural because it is less materially present than everything around it.$s$, $s$At what point does a faint outline become a ghost rather than an unfinished person?$s$,
-    42, 43, true
+    $s$The pale apparition$s$, $s$Tap the translucent hooded figure left of center, facing the darker magician with both arms raised.$s$,
+    $s$The ghost is drawn so faintly that the golden ground and stretcher remain visible through it. Polke makes the apparition seem immaterial by allowing the painting’s actual support to invade the body.$s$, $s$At what point does this pale outline become a figure rather than an unfinished stain?$s$,
+    37, 45, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The circle of protection$s$, $s$Look at the two broad curved lines running across the floor beneath the figures, enclosing the skull, candles, book, picture, and goblet.$s$,
-    $s$The circle turns a loose collection of objects into a ritual space. It also functions like a picture frame inside the painting, separating the supposed magical event from the room around it. Yet the line is incomplete and visually fragile, so the protection never feels entirely secure.$s$, $s$Does the circle make the scene feel controlled, or does it emphasize how easily the boundary could be broken?$s$,
-    51, 76, true
+    $s$The ritual objects between them$s$, $s$Look at the cluster on the floor near the center: two candles, a skull, book, picture, and goblet contained within the circular boundary.$s$,
+    $s$These small objects make the encounter legible as a séance or occult ritual. Their careful placement contrasts with the ghost’s transparency, giving the supposed magic a strangely practical setup.$s$, $s$Which object makes the scene feel most like a deliberate ritual?$s$,
+    57, 66, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The curtain—and the real frame behind it$s$, $s$Tap the white curtain at the far-left edge, then look through the thin painted fabric for the rectangular wooden stretcher showing behind the image.$s$,
-    $s$The curtain makes the scene resemble a stage, encouraging us to treat the apparition as performance. But the visible stretcher reveals another layer of illusion: the physical support of the painting appears through the image. Polke lets the machinery behind both theater and painting remain visible.$s$, $s$Which is more convincing here: the painted room or the real structure behind it?$s$,
-    10, 42, true
+    $s$The curtain opening the stage$s$, $s$Tap the large black-and-white curtain hanging down the far-left side.$s$,
+    $s$The curtain frames the scene like a theatrical performance. At the same time, the fabric support and stretcher show through elsewhere, so the painting keeps switching between a depicted stage and the real object hanging on the museum wall.$s$, $s$Does the curtain invite you into the illusion or expose it as theater?$s$,
+    10, 39, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1216,7 +1216,7 @@ on conflict (artwork_id, hotspot_number) do update set
   is_published     = excluded.is_published,
   updated_at       = now();
 
--- Room 5  Sigmar Polke - Untitled, 1983  [LC-021 -> A061]
+-- Room 5  Sigmar Polke - Untitled  [LC-021 -> A061]
 with target as (
   select a.id as artwork_id from public.artworks a where a.code = $s$A061$s$
 ), up_set as (
@@ -1226,9 +1226,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Do not try to force the surface into one scene. Begin by identifying separate visual events—a stain, a drawn shape, a strip of color—and notice how little effort the painting makes to reconcile them.$s$, $s$Look again at the whole sheet. Does its confusion feel random, or does the placement of incompatible marks make you more aware of how eagerly the mind tries to build a single image?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.394/$s$, $s$https://www.tate.org.uk/art/artists/sigmar-polke-2203$s$, $s$SFMOMA confirms that this is acrylic on paper. Because no detailed artwork-specific curatorial account was located, the hotspot choices rely on cautious close visual analysis of the supplied image and Polke’s broader practice of colliding recognizable imagery with stains, overlays, and disruptive marks.$s$,
-    $s$Medium$s$, false, $s$The face and diagonal require human verification against the highest-resolution image. Coordinates are approximate and should be adjusted if the final crop differs.$s$,
+    $s$Find the seated woman first, then notice how difficult the surrounding surface makes that recognition. Her body is crossed by stains, scribbles, blocks of color, and unrelated images that refuse to stay behind her.$s$, $s$Step back and ask whether the figure dominates the disorder or is being absorbed by it. Does the painting feel like a portrait, a collage of competing signals, or both?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.394/$s$, $s$https://www.sfmoma.org/artist/Sigmar_Polke/$s$, $s$The official image shows a seated female figure balancing books amid dense acrylic layers. The prior face, diagonal, and stain hotspots did not describe the actual composition and were replaced with the books, red lips, and crossed legs.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three previous hotspot descriptions and coordinates were replaced against the official image.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1249,21 +1249,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The pale face in the collision$s$, $s$Look near the upper half for the loosely indicated face or head emerging among stronger colors and overlapping marks.$s$,
-    $s$The face gives the eye something recognizable to hold onto, but it never gains complete control of the composition. Other marks pass beside or through it, so recognition feels temporary. The image seems to appear because the viewer gathers scattered clues, not because Polke presents a stable portrait.$s$, $s$How many marks do you actually need before you begin seeing a face?$s$,
-    52, 30, true
+    $s$The books balanced overhead$s$, $s$Tap the stack of outlined books resting above the woman’s head near the upper-right center.$s$,
+    $s$The books are drawn with unusually clean black contours compared with the smeared color around them. Their impossible balance makes the figure seem caught between a comic illustration and an unstable performance.$s$, $s$Do the books make her look composed, burdened, or absurd?$s$,
+    61, 14, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The dark diagonal interruption$s$, $s$Tap the strong dark stroke or band cutting diagonally through the more loosely organized forms.$s$,
-    $s$This mark does not politely belong to the image around it. It acts like interference—crossing, dividing, and refusing to explain itself. Its blunt direction makes the rest of the sheet feel less like a unified composition and more like several images competing on the same surface.$s$, $s$Does the diagonal organize the picture, or does it prevent the picture from settling?$s$,
-    60, 55, true
+    $s$The red lips inside the layered face$s$, $s$Look at the bright red lips near the upper-center, surrounded by overlapping green, black, and flesh-colored lines.$s$,
+    $s$The lips provide one of the fastest points of recognition in a face that has been fragmented by several drawing systems. A tiny patch of saturated red stabilizes identity while the rest of the head remains visually unsettled.$s$, $s$How much of the face do you construct around these lips?$s$,
+    48, 24, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The color that behaves like a stain$s$, $s$Look at a broad translucent or uneven patch of color where the paper remains partly visible beneath it.$s$,
-    $s$Unlike a neatly outlined form, the wash spreads according to the liquid and the absorbency of the paper. That gives the material its own agency. The stain can suggest atmosphere or depth, but it also reminds us that this is acrylic moving across paper rather than a coherent depicted space.$s$, $s$Do you read this patch as part of an image, or first as something that happened to the paper?$s$,
-    28, 69, true
+    $s$The long crossed legs$s$, $s$Follow the pale legs extending diagonally through the lower half and crossing near the bottom.$s$,
+    $s$The legs give the seated pose a clear bodily structure, but stains, lettering, and colored marks pass across them. The figure remains readable not because she is isolated from the background, but because your eye keeps reconstructing her through interference.$s$, $s$Where does one leg become hardest to distinguish from the surrounding marks?$s$,
+    55, 74, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1276,7 +1276,7 @@ on conflict (artwork_id, hotspot_number) do update set
   is_published     = excluded.is_published,
   updated_at       = now();
 
--- Room 5  Sigmar Polke - Springbrunnen (Fountain), 1966  [LC-022 -> A062]
+-- Room 5  Sigmar Polke - Springbrunnen (Fountain)  [LC-022 -> A062]
 with target as (
   select a.id as artwork_id from public.artworks a where a.code = $s$A062$s$
 ), up_set as (
@@ -1286,9 +1286,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Stand back until the fountain becomes readable, then move closer until the water breaks apart into oversized dots. The work changes most in the distance between those two views.$s$, $s$Step back again. Does the fountain regain its sparkle and movement, or can you no longer stop seeing the stiff printed pattern from which it is made?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.312/$s$, $s$https://www.moma.org/artists/4637$s$, $s$SFMOMA confirms the 1966 paint-on-linen work. The hotspots focus on Polke’s clearly visible enlarged raster-dot technique: the spray formed by dots, irregularities that reveal hand painting, and the basin assembled from minimal printed-looking information.$s$,
-    $s$High$s$, false, $s$Coordinates are reasonable estimates from the official image. Verify the exact center of the irregular-dot passage at full resolution.$s$,
+    $s$Stand back until the white dotted mass begins to read as splashing water. Then move closer and watch the fountain dissolve into enlarged dots, dark gaps, and patches of green, yellow, and red.$s$, $s$Step back again. Does the fountain regain movement, or does the visible printing pattern prevent the image from becoming seamless?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.312/$s$, $s$https://www.moma.org/artists/4637$s$, $s$The full SFMOMA image was visually audited. The former rising spray and basin descriptions imposed a conventional fountain structure that the image does not clearly show. Revised hotspots target the visible white raster field, yellow dotted wedge, and central green-black arc.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three hotspots now point to unmistakable raster and color structures in the official image.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1309,21 +1309,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The water made from dots$s$, $s$Tap the rising spray near the upper center, where enlarged black raster dots loosely form arcs and droplets.$s$,
-    $s$A fountain is normally defined by continuous movement, changing reflections, and irregular splashes. Polke rebuilds it using the rigid dot system of cheap printed reproduction. The image suggests motion, but every drop has been immobilized inside a mechanical-looking pattern.$s$, $s$Can a grid of fixed dots still make you imagine moving water?$s$,
-    52, 30, true
+    $s$The white spray at center-right$s$, $s$Tap the large white field of black raster dots occupying the middle-right portion.$s$,
+    $s$From a distance, the bright dotted mass suggests water bursting upward and outward. Up close, it becomes an exposed printing code: evenly spaced circles pretending to be light, spray, and motion.$s$, $s$At what distance do the dots begin to behave like water?$s$,
+    67, 48, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$Where the dots lose discipline$s$, $s$Zoom into an area along one side of the fountain where the dots change size, spacing, or alignment instead of forming a perfectly regular printed screen.$s$,
-    $s$These dots imitate machine printing, but they are painted and visibly irregular. Their small failures expose the image as handmade. Polke does not simply copy mass reproduction; he makes its supposedly objective system wobble.$s$, $s$Which dot looks most obviously made by a person rather than a machine?$s$,
-    69, 53, true
+    $s$The yellow triangular passage$s$, $s$Look at the bright yellow dotted wedge in the upper-left half, bordered by black and green.$s$,
+    $s$This sharp triangular area does not resemble natural water on its own. It acts more like a shard of reproduced light, showing how the fountain image has been broken into graphic zones rather than modeled continuously.$s$, $s$Does this yellow shape belong to the fountain, or does it read first as abstraction?$s$,
+    32, 29, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The basin reduced to an outline$s$, $s$Look at the lower bowl or basin, where a few curved lines and dotted shadows are enough to suggest a solid stone structure.$s$,
-    $s$The basin feels much more stable than the spray above it, yet it is built from the same minimal vocabulary. Your eye turns sparse marks into weight, depth, and material. The painting quietly shows how little visual evidence is needed to make a believable object.$s$, $s$Why does the basin feel solid when it is only a flat collection of lines and dots?$s$,
-    50, 76, true
+    $s$The dark-green arc through the center$s$, $s$Follow the broad green-black curve sweeping diagonally through the center of the composition.$s$,
+    $s$The dark arc interrupts the pale spray and gives the image its strongest directional movement. Because it is built from color and raster pattern rather than clear contour, it can register as shadow, structure, foliage, or simply a force cutting across the fountain.$s$, $s$What do you see in this curve before you begin naming it?$s$,
+    48, 50, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1336,7 +1336,7 @@ on conflict (artwork_id, hotspot_number) do update set
   is_published     = excluded.is_published,
   updated_at       = now();
 
--- Room 5  Sigmar Polke - Ohne Titel (Untitled), 1968  [LC-023 -> A063]
+-- Room 5  Sigmar Polke - Ohne Titel (Untitled)  [LC-023 -> A063]
 with target as (
   select a.id as artwork_id from public.artworks a where a.code = $s$A063$s$
 ), up_set as (
@@ -1346,9 +1346,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Let the face appear quickly, then slow down and inspect how little information actually holds it together. The watercolor never gives the person the stability of a conventional portrait.$s$, $s$Now return to the whole sheet. Does the figure feel more present because your mind completed it, or less present because the marks remain so thin and unstable?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.428.2/$s$, $s$https://www.tate.org.uk/art/artists/sigmar-polke-2203$s$, $s$SFMOMA confirms the small 1968 watercolor-on-paper format. With no detailed artwork-specific interpretation available, the hotspots remain close to visible portrait mechanics: dark eyes anchoring recognition, an incomplete contour, and translucent wash crossing the facial structure.$s$,
-    $s$Medium$s$, false, $s$Coordinates are approximate. Confirm the eyes and strongest wash against the high-resolution scan before launch.$s$,
+    $s$Begin with the dark long-legged bird in the center-right. Then follow the circles, red ribbonlike stroke, gridded patches, and orange-blue marks that turn the surrounding space into something between landscape, diagram, and dream.$s$, $s$Step back and decide whether the bird organizes the image or merely happens to be the most recognizable visitor inside a field of unrelated signs.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.428.2/$s$, $s$https://www.sfmoma.org/artist/Sigmar_Polke/$s$, $s$The official image clearly depicts a dark crane-like figure, a thick red serpentine band, and a large ringed blue disk. The previous human-face interpretation was entirely inconsistent with the image and was replaced.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three previous hotspots were replaced with directly visible bird, red-band, and blue-disk details.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1369,21 +1369,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The eyes doing most of the work$s$, $s$Tap the pair of dark eyes near the upper center of the face.$s$,
-    $s$The rest of the head is loosely washed and partly unresolved, but the eyes immediately establish a human presence. They show how recognition can be concentrated in just a few marks: once the gaze appears, the surrounding stains begin to organize themselves into a person.$s$, $s$Would you still see a face as quickly if these two dark marks were removed?$s$,
-    50, 36, true
+    $s$The dark birdlike body$s$, $s$Tap the black-gray bird or crane form at center-right, where its curved neck rises above the rounded body.$s$,
+    $s$This is the image’s clearest recognizable figure. Yet its body is built from translucent watercolor and loose contour, so it remains embedded in the same shifting material as the surrounding symbols.$s$, $s$Does the bird feel firmly present or as temporary as the washes around it?$s$,
+    63, 51, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The outline that dissolves$s$, $s$Follow one side of the head or cheek where the line fades into the pale watercolor instead of closing the face completely.$s$,
-    $s$A conventional portrait uses contour to separate a person from the background. Here, the boundary weakens and the face seems to leak back into the paper. The figure is recognizable without ever becoming fully contained.$s$, $s$Where exactly does the face end?$s$,
-    67, 50, true
+    $s$The red serpentine band$s$, $s$Follow the thick red stroke descending from the upper-right, curving past the bird, and continuing toward the bottom.$s$,
+    $s$The red band crosses the composition without behaving like a believable object. It functions as a strong visual route, tying the upper and lower areas together while refusing to explain whether it is ribbon, smoke, water, or pure gesture.$s$, $s$Does the red line lead your eye through the image or divide it?$s$,
+    72, 37, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The wash that ignores the features$s$, $s$Look at a translucent patch of watercolor passing across or beside the face without neatly respecting the drawn eyes, nose, or mouth.$s$,
-    $s$The liquid color does not behave like careful flesh tone. It spreads as a material event, partly supporting the face and partly disrupting it. The portrait feels provisional—as if it could disappear into the next wash.$s$, $s$Does the watercolor help create the person, or threaten to erase them?$s$,
-    38, 65, true
+    $s$The blue circle above$s$, $s$Tap the large blue disk surrounded by yellow and orange rings near the upper center.$s$,
+    $s$The circle resembles a sun, target, lens, or floating sign, but the black scratches inside prevent it from settling into one identity. It shows how Polke lets simple symbols attract recognition while keeping their meaning unstable.$s$, $s$What did you call this circle before noticing the marks inside it?$s$,
+    50, 15, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1406,9 +1406,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Look at the two images as if they were evidence. Then notice how much the official format seems to promise—and how little it actually tells you about the person.$s$, $s$Step back and compare the front and profile views. Do two angles make Frank B. more knowable, or simply more thoroughly processed by the same system?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.605.A-B/$s$, $s$https://whitney.org/collection/works/9992$s$, $s$SFMOMA confirms the paired silkscreen mug-shot format. Whitney material on the Most Wanted Men series provides context for Warhol’s use of police photographs and the tension between public identification and dehumanizing repetition.$s$,
-    $s$High$s$, false, $s$Coordinates verified against the full diptych. Preserve both panels at equal scale.$s$,
+    $s$Read the two panels as police evidence: one frontal view and one profile. Then notice how enlargement and coarse printing transform a small identification photograph into a monumental public image.$s$, $s$Step back and compare the two views. Do they give you fuller access to Frank B., or only repeat the same institutional way of seeing him?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.605.A-B/$s$, $s$https://www.sfmoma.org/exhibition/andy-warhol-from-a-to-b-and-back-again/$s$, $s$The official image was visually audited. The first two coordinates were confirmed with minor refinements; the former third point sat close to the gap between panels and was moved to the clearly visible black hair and shadow in the frontal mug shot.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REFINED: all three coordinates directly match the frontal face, profile, and dense frontal hair.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1429,21 +1429,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The frontal stare$s$, $s$Tap the face in the left panel, where the eyes meet the camera directly.$s$,
-    $s$The mug shot format is designed to make a person identifiable, but the flat lighting and enlarged grain reduce expression to official data. The direct gaze feels personal, yet the image treats it as one measurable feature among others.$s$, $s$Do you feel looked at by a person, or presented with a record?$s$,
-    27, 46, true
+    $s$The frontal mug shot$s$, $s$Tap the face in the left panel, where Frank B. looks directly into the police camera.$s$,
+    $s$The frontal image is designed for recognition, not intimacy. Its fixed gaze, identification board, and even lighting reduce the encounter to recorded evidence, yet the monumental scale makes the anonymous police subject confront the viewer like a celebrity portrait.$s$, $s$Do you feel addressed by a person or presented with a record?$s$,
+    27, 45, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The profile as confirmation$s$, $s$Look at the right-hand profile, especially the nose and forehead cut into a stark silhouette.$s$,
-    $s$The second view seems to confirm identity, but it also repeats the same institutional logic from another angle. More visual information does not necessarily create more understanding.$s$, $s$Does the profile reveal anything the frontal image did not?$s$,
-    72, 46, true
+    $s$The profile photograph$s$, $s$Look at the right panel, where the forehead, nose, lips, and chin form a sharp side silhouette.$s$,
+    $s$The second angle is meant to confirm identity by supplying information the frontal photograph might miss. Yet it does not reveal character or motive; it merely extends the visual inventory of the face.$s$, $s$Does the side view tell you anything meaningful beyond physical shape?$s$,
+    74, 45, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The ink that erases detail$s$, $s$Zoom into a dark facial passage where the screenprint turns hair, shadow, or clothing into a dense black mass.$s$,
-    $s$The printing process destroys fine information while making the image look bold and authoritative. The portrait becomes easier to classify and harder to encounter as an individual.$s$, $s$Which parts of the person have disappeared into reproduction?$s$,
-    47, 66, true
+    $s$The hair swallowed by black ink$s$, $s$Zoom into the dense black hair and surrounding shadow at the top of the frontal photograph.$s$,
+    $s$Fine photographic detail collapses into a heavy printed mass. The silkscreen makes the image bolder and more reproducible while simultaneously destroying information that a mug shot was supposedly created to preserve.$s$, $s$Which details of the original person disappear inside this black field?$s$,
+    28, 21, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1466,9 +1466,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Let the three figures register as one burst of movement before separating them. Then look for where repetition creates motion—and where it makes Elvis begin to disappear.$s$, $s$Now step back. Has repetition made Elvis larger than life, or reduced him to an image that can be stamped out again and again?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.556/$s$, $s$https://www.moma.org/artists/6246$s$, $s$SFMOMA’s artwork record and interpretation identify the repeated cowboy publicity still and silver ground. The hotspots distinguish the strongest impression, the central overlap that creates implied movement, and the fading final transfer.$s$,
-    $s$High$s$, false, $s$Coordinates checked against the complete horizontal image.$s$,
+    $s$Let the three identical cowboy poses register together, then compare them one by one. The repetition does not produce three different moments; it keeps returning you to the same publicity photograph.$s$, $s$Step back and ask whether the repeated pose makes Elvis more commanding or makes him behave like a printed product available in multiples.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.556/$s$, $s$https://www.sfmoma.org/exhibition/andy-warhol-from-a-to-b-and-back-again/$s$, $s$The full work was visually audited using the SFMOMA installation image and artwork reproduction. The earlier claim that the gun arms overlap was not supported by the Ferus-type arrangement. Hotspots now identify the left pistol pose, the repeated central buckle, and the right figure at the edge.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REVISED: Hotspot 2 and Hotspot 3 were rewritten; all points now correspond to visible repeated details.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1489,21 +1489,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The first Elvis steps forward$s$, $s$Tap the darkest Elvis on the left, especially the bent leg and gun arm.$s$,
-    $s$This figure establishes the pose clearly: a publicity image of Elvis as an armed cowboy. Because it prints most strongly, it feels like the original event from which the others echo.$s$, $s$Why does the darkest figure feel more 'real' than the others?$s$,
-    28, 51, true
+    $s$The left Elvis and his pistol$s$, $s$Tap the left figure’s face and gun hand.$s$,
+    $s$This first full impression makes the borrowed publicity pose easiest to read: Elvis faces forward, legs spread, pistol aimed outward. The film-star persona arrives already packaged as an instantly legible type.$s$, $s$Does the pose feel threatening, theatrical, or carefully rehearsed?$s$,
+    18, 38, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The overlapping gun arms$s$, $s$Look where the repeated arms and guns cross near the center.$s$,
-    $s$The overlaps turn one frozen publicity still into a sequence. Nothing actually changes from figure to figure, yet the repeated displacement makes the pose seem to advance across the canvas like film frames.$s$, $s$Do you see three Elvisses, or one Elvis moving?$s$,
-    53, 43, true
+    $s$The same belt buckle again$s$, $s$Tap the large belt buckle on the central Elvis, then compare it with the buckles on the figures beside him.$s$,
+    $s$Small costume details reveal that these are not three separate performances. The buckle, holster, folds, and stance recur almost exactly, exposing the mechanically repeated source beneath the illusion of a crowd.$s$, $s$When does repetition stop adding information?$s$,
+    50, 53, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The Elvis fading into silver$s$, $s$Tap the palest figure on the far right, where the face and body nearly dissolve into the metallic ground.$s$,
-    $s$The repetition ends not with a stronger image but with a ghost. Celebrity appears endlessly reproducible, yet each transfer can lose information until the star is little more than an afterimage.$s$, $s$Does the fading make Elvis seem distant, fragile, or even more iconic?$s$,
-    80, 50, true
+    $s$The third figure cropped by the edge$s$, $s$Look at the Elvis on the far right, where part of the body approaches or is cut by the canvas boundary.$s$,
+    $s$The repeated image could theoretically continue beyond the painting. Ending with a figure pressed against the edge makes the work feel like one section of an ongoing strip rather than a carefully centered group portrait.$s$, $s$Do you imagine another Elvis continuing beyond the canvas?$s$,
+    84, 48, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1526,9 +1526,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Read the image first like a newspaper page: cans, faces, repetition. Then notice how the same printing process makes a grocery product and two deaths look disturbingly similar.$s$, $s$Step back and ask what repetition has done to the tragedy. Has it made the event impossible to ignore, or made it resemble another piece of mass-produced information?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.608/$s$, $s$https://www.moma.org/collection/works/79827$s$, $s$SFMOMA and MoMA place the work within Warhol’s Death and Disaster imagery. The hotspots focus on the contrast between consumer packaging, victims’ newspaper photographs, and visibly degraded screenprint transfers.$s$,
-    $s$High$s$, false, $s$Coordinates are based on the full portrait-format image; verify individual repeated units if the production image is reduced.$s$,
+    $s$Read the surface like a reproduced newspaper page: rows of tuna cans alternate with small photographs of two women. Then notice how the same tragic information is repeated until packaging and death occupy one visual system.$s$, $s$Step back and ask whether repetition helps you absorb what happened or turns the event into another pattern of consumable images.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.608/$s$, $s$https://www.moma.org/collection/works/79809$s$, $s$The complete composition was visually audited against reproductions showing alternating can and portrait rows. The former lower-portrait coordinate landed too low, so the victim point was moved to the first clear portrait band; the faint-print point was moved to a weak lower-right can.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REFINED: coordinates now land on an upper can, a visible portrait pair, and a faint lower-right can.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1549,21 +1549,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The cheerful tuna can$s$, $s$Tap one of the clearly printed tuna cans near the upper half.$s$,
-    $s$The can belongs to the visual world of packaging and ordinary shopping. Inside this painting, that familiar design becomes evidence in a fatal poisoning, showing how quickly a harmless consumer image can absorb horror.$s$, $s$At what point does the package stop looking ordinary?$s$,
-    31, 28, true
+    $s$A tuna can at the top$s$, $s$Tap one of the dark tuna cans in the upper row.$s$,
+    $s$The can is an ordinary supermarket object, but the accompanying news story connected contaminated tuna with two deaths. Warhol preserves the package’s commercial familiarity while placing it inside an image of disaster.$s$, $s$How long can the can continue to look ordinary once you know the story?$s$,
+    27, 18, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The two women reduced to newsprint$s$, $s$Look at the repeated newspaper photographs of the two victims in the lower portion.$s$,
-    $s$The faces identify real people, but the coarse screenprint makes them small, gray, and difficult to know. Their individuality competes with the repetitive layout of a news story.$s$, $s$Do the repeated faces preserve memory or flatten it?$s$,
-    49, 70, true
+    $s$The alternating victim portraits$s$, $s$Tap one of the paired women’s photographs in the first portrait row beneath the upper cans.$s$,
+    $s$The small newsprint portraits identify Mrs. McCarthy and Mrs. Brown, yet their faces are repeated like product labels. The format preserves their likeness while also subjecting them to the same mechanical circulation as the cans.$s$, $s$Does repetition keep the women present or make them easier to overlook?$s$,
+    42, 39, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$A print that nearly vanishes$s$, $s$Find a can or face where the ink is faint, incomplete, or broken.$s$,
-    $s$The failed transfer resembles damaged newsprint or a signal fading out. It makes information feel unstable: the event is reproduced, but not necessarily preserved clearly.$s$, $s$Does the fading image feel more distant or more haunting?$s$,
-    77, 49, true
+    $s$The broken final can$s$, $s$Look toward the lower-right for a can impression that is faint, incomplete, or partly lost in the pale ground.$s$,
+    $s$The uneven transfer interrupts the apparent regularity of the grid. A failed print resembles damaged news reproduction or information dropping out, making mechanical repetition visibly unreliable.$s$, $s$Does the weak impression feel less important or more haunting than the darker cans?$s$,
+    73, 80, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1586,9 +1586,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Look at how much empty canvas surrounds this one silent object. The telephone is made for connection, yet the painting gives it no caller, room, or conversation.$s$, $s$Step back and ask whether the empty space makes the telephone look available, abandoned, or almost like a symbol waiting for a story.$s$,
-    $s$https://www.sfmoma.org/artwork/FC.499/$s$, $s$https://www.moma.org/artists/6246$s$, $s$SFMOMA confirms the 1961 painting, made during Warhol’s transition from commercial illustration to Pop painting. The hotspots focus on the inactive receiver, visibly hand-drawn contour, and unusually large empty field.$s$,
-    $s$High$s$, false, $s$Coordinates checked against the supplied full image.$s$,
+    $s$Identify the object as an old candlestick telephone: a round mouthpiece at the top, a separate receiver hanging to the left, and a tall stem rising from the base. Then notice the loose blue pencil marks behind it.$s$, $s$Step back and decide whether the telephone feels carefully illustrated, hastily copied, or caught between a commercial drawing and a studio sketch.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.499/$s$, $s$https://www.warhol.org/andy-warhols-life/figment-of-the-living/$s$, $s$The official image clearly shows a candlestick telephone rather than the modern phone body described previously. The work was fully rebuilt around its top transmitter, left receiver, and central stem with weighted base.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three previous hotspot descriptions and coordinates were replaced.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1609,21 +1609,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The receiver left in place$s$, $s$Tap the curved handset resting across the top.$s$,
-    $s$The receiver suggests a voice that could arrive at any moment, but nothing in the image activates it. Its stillness turns communication into anticipation.$s$, $s$Does the phone feel about to ring, or permanently silent?$s$,
-    50, 31, true
+    $s$The round mouthpiece$s$, $s$Tap the large circular transmitter at the top of the tall central stem.$s$,
+    $s$The black-and-white highlights make the metal mouthpiece look glossy and dimensional, even though the form is built from blunt graphic shapes. It is the part into which a caller would speak, making the silent image center on an absent voice.$s$, $s$Does the mouthpiece seem ready to receive speech or sealed inside the drawing?$s$,
+    55, 17, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The wobbling black outline$s$, $s$Zoom into the contour along the body of the telephone, where the black line thickens, thins, or drifts.$s$,
-    $s$The drawing resembles commercial illustration, but the irregular line keeps the artist’s hand visible. The object sits between polished advertisement and awkward handmade copy.$s$, $s$Where does the line look least mechanical?$s$,
-    39, 54, true
+    $s$The receiver hanging at the left$s$, $s$Look at the smaller black earpiece attached to the short support on the left side.$s$,
+    $s$Unlike a modern handset, speaking and listening happen through two physically separate parts. This side receiver makes the telephone’s unfamiliar mechanism legible while giving the composition an awkward, almost bodily asymmetry.$s$, $s$Does the hanging receiver make the telephone look functional or strangely anatomical?$s$,
+    27, 53, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The blank field around it$s$, $s$Look at the large empty area above and beside the telephone.$s$,
-    $s$The emptiness removes the device from ordinary use. Without a desk, wall, or person, it becomes an isolated sign for connection rather than a functioning household object.$s$, $s$Does the empty space make the phone feel more important or more useless?$s$,
-    76, 73, true
+    $s$The tall stem and weighted base$s$, $s$Follow the narrow central column downward to the rounded black base.$s$,
+    $s$The long upright stem holds the mouthpiece at speaking height and gives the telephone a figurelike posture. Warhol exaggerates its verticality, turning a utilitarian device into something resembling a standing character.$s$, $s$Does the telephone begin to look like a person once you follow its full height?$s$,
+    54, 77, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1646,9 +1646,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Compare the two profiles quickly, as an advertisement expects you to. Then slow down and ask what has actually changed—and what the image asks you to believe that change means.$s$, $s$Look at both profiles together again. Does the painting document improvement, or expose how advertising turns one bodily difference into a complete story?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.675/$s$, $s$https://www.moma.org/collection/works/79809$s$, $s$SFMOMA identifies the work as based on a rhinoplasty advertisement. The hotspots isolate the problem-making 'before' profile, simplified 'after' profile, and blank interval that conceals the actual process of transformation.$s$,
-    $s$High$s$, false, $s$Coordinates verified against the paired profiles.$s$,
+    $s$Compare the two profiles as quickly as an advertisement asks you to. Then slow down and notice how a tiny change in the nose is framed as a complete transformation.$s$, $s$Step back and ask whether the work documents improvement or shows how advertising teaches viewers to diagnose a normal face as defective.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.675/$s$, $s$https://www.moma.org/collection/works/79808$s$, $s$The official composition was visually audited. The profile coordinates were adjusted to the actual nose contours, and the central point was placed inside the dark dividing interval.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REFINED: all three points match the two nose profiles and the central division.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1669,21 +1669,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The 'before' nose$s$, $s$Tap the left profile, especially the more prominent nose.$s$,
-    $s$The image presents this feature as a problem before we have been given any reason to see it that way. The label and pairing create dissatisfaction rather than merely recording difference.$s$, $s$Would this nose look 'wrong' without the word before beside it?$s$,
-    29, 47, true
+    $s$The longer 'before' profile$s$, $s$Tap the nose and upper lip in the left profile.$s$,
+    $s$The left image presents the more projecting nose as a problem without offering medical context or a real person’s voice. A simple contour becomes evidence only because the comparison tells us to judge it.$s$, $s$Would this nose seem incorrect without the second profile beside it?$s$,
+    25, 52, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The cleaner 'after' profile$s$, $s$Look at the right profile, where the nose has been shortened and the contour simplified.$s$,
-    $s$The second image promises resolution through a small physical alteration. Because the rest of the face barely changes, the advertisement’s confidence begins to look absurdly disproportionate.$s$, $s$How much improvement is the image asking you to imagine?$s$,
-    70, 47, true
+    $s$The shortened 'after' nose$s$, $s$Look at the nose in the right profile, where the bridge and tip have been redrawn into a smaller shape.$s$,
+    $s$The promised improvement depends on only a slight change in outline. The nearly identical eyes, lips, and hairstyle make the altered nose carry the entire claim of a new identity.$s$, $s$How much transformation is the image asking you to imagine?$s$,
+    67, 48, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The dividing space$s$, $s$Focus on the blank gap separating the two heads.$s$,
-    $s$The empty interval functions like a transformation that the viewer must mentally complete. No surgery, pain, or passage of time appears—only an effortless jump from one image to the next.$s$, $s$What has the advertisement conveniently removed from this gap?$s$,
-    50, 50, true
+    $s$The black gap between profiles$s$, $s$Focus on the vertical dark interval separating the two faces.$s$,
+    $s$The advertisement removes surgery, pain, time, cost, and recovery from the transformation. The gap performs all of that invisible work instantly, allowing one profile to become the other without consequence.$s$, $s$What has been conveniently erased inside this division?$s$,
+    48, 50, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1706,9 +1706,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Let your eye move across all nine faces before choosing one. The expression never changes, but color, contrast, and reversal keep making the same Marilyn feel newly distant or newly vivid.$s$, $s$Step back and ask whether the grid gives you nine versions of Marilyn, or nine demonstrations of how easily one public image can be altered without becoming a new person.$s$,
-    $s$https://www.sfmoma.org/artwork/FC.229/$s$, $s$https://www.moma.org/artists/6246$s$, $s$SFMOMA identifies the work as part of Warhol’s Reversal Series. The hotspots focus on negative-like reversal, color misregistration, and the tension between changing presentation and fixed expression across the nine-image grid.$s$,
-    $s$High$s$, false, $s$Coordinates are centered on representative panels. Confirm the chosen reversed and misregistered examples against the final crop.$s$,
+    $s$Let the nine faces register as a grid before choosing one panel. Each uses the same photograph, but the negative-style printing and changing color combinations make recognition repeatedly break and return.$s$, $s$Step back and ask whether you are seeing nine versions of Marilyn Monroe or nine demonstrations of how easily one public image can be reformatted.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.229/$s$, $s$https://www.christies.com/en/lot/lot-6318425$s$, $s$The nine-panel reproduction was visually audited. The former central 'color slip' point did not identify an obvious misregistration. It was replaced by the unmistakable red-orange flare in the lower-middle panel; the other points were refined to the top-left and lower-right faces.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REVISED: Hotspot 2 was replaced, and all coordinates now land on distinct panels and visible color features.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1729,21 +1729,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The face turned into a negative$s$, $s$Tap one panel where the light and dark values appear reversed, making the eyes, teeth, or hair look spectral.$s$,
-    $s$The Reversal Series treats a familiar celebrity photograph like a photographic negative. Recognition survives, but the image feels less stable—as though the famous face has become its own afterimage.$s$, $s$Does the reversal make Marilyn seem more alive or more ghostlike?$s$,
-    18, 22, true
+    $s$The top-left reversed face$s$, $s$Tap Marilyn’s face in the upper-left panel, where pale yellow and pink features emerge from black.$s$,
+    $s$Instead of printing shadows as dark information on a light face, the Reversal Series turns the image into something like a photographic negative. Familiar features glow out of darkness, making an iconic face feel spectral.$s$, $s$Does the reversed contrast make Marilyn more vivid or less physically present?$s$,
+    18, 17, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The color that slips$s$, $s$Zoom into a face where bright color falls outside the lips, eyelids, or hairline.$s$,
-    $s$The misalignment exposes the portrait as layers of printing rather than a seamless likeness. It also makes the face vibrate between human features and independent patches of color.$s$, $s$Does the slippage make the portrait feel more handmade or more manufactured?$s$,
-    50, 50, true
+    $s$The red registration flare$s$, $s$Look at the lower-middle panel, where a strong red-orange patch extends around the hair and side of the face.$s$,
+    $s$The color does not simply fill a neat facial shape. It sits as a separate printing layer whose edges remain visible, exposing the portrait as a constructed sequence of screens rather than a seamless likeness.$s$, $s$Does the displaced color make this panel feel more mechanical or more expressive?$s$,
+    58, 82, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$Nine identical expressions$s$, $s$Compare the mouth and eyes across the entire grid.$s$,
-    $s$Although the colors change dramatically, the underlying expression remains fixed. Variety is created around a single unchanging publicity image, suggesting how endlessly celebrity can be repackaged without granting access to the person behind it.$s$, $s$Which panel feels most emotionally different despite having the same expression?$s$,
-    82, 77, true
+    $s$The blue face at lower right$s$, $s$Tap the lower-right panel, where cool blue features repeat the same fixed eyes and smile.$s$,
+    $s$Changing the palette can make the emotional temperature seem different even though the underlying photograph never changes. The viewer supplies variety to an expression held mechanically still.$s$, $s$Why does this blue Marilyn feel different when her expression is identical?$s$,
+    83, 82, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1766,9 +1766,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Look first for a single face, then notice that the portrait will not stay single. Warhol doubles and overlaps Mapplethorpe until identity feels both intensified and unsettled.$s$, $s$Step back and decide whether the doubled image gives Mapplethorpe more presence, or turns him into a repeatable visual effect.$s$,
-    $s$https://www.sfmoma.org/artwork/FC.623/$s$, $s$https://www.mapplethorpe.org/biography/$s$, $s$SFMOMA confirms Warhol’s doubled silkscreen portrait of Mapplethorpe. The hotspots distinguish the primary likeness, offset duplicate, and colored overlap where one portrait becomes an unstable composite.$s$,
-    $s$High$s$, false, $s$Coordinate confidence is high if the same full portrait crop is retained.$s$,
+    $s$Find Mapplethorpe’s face inside the layered printing, then compare the two offset versions. The portrait refuses to settle into one stable outline.$s$, $s$Step back and ask whether the doubled face suggests movement, photographic error, or two competing versions of the same public identity.$s$,
+    $s$https://www.sfmoma.org/artwork/E.2019.129/$s$, $s$https://www.warhol.org/andy-warhols-life/$s$, $s$The available full reproduction was visually checked against the existing doubled portrait structure. The coordinates were refined toward the clearest eye, offset duplicate, and lower facial overlap rather than claiming one entire face is consistently clearer.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REFINED: all three points correspond to the visible eye, duplicate impression, and facial overlap.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1789,20 +1789,20 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The clearer first face$s$, $s$Tap the more legible face, where the eyes, nose, and mouth read most strongly.$s$,
-    $s$This image anchors recognition. Because Mapplethorpe was himself a photographer deeply concerned with controlled portraiture, the clarity feels almost like a claim to authorship or self-possession.$s$, $s$Which feature makes him recognizable first?$s$,
-    39, 47, true
+    $s$The most legible eye$s$, $s$Tap the eye that remains clearest within the overlapping portrait.$s$,
+    $s$The eye anchors recognition even while neighboring contours split and repeat. A single sharp feature is enough for the viewer to keep rebuilding a face from unstable layers.$s$, $s$Which feature lets you identify the portrait first?$s$,
+    39, 42, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The second face slipping sideways$s$, $s$Look at the overlapping duplicate offset from the first.$s$,
-    $s$The doubled image creates movement without changing the pose. It also prevents the portrait from settling into one definitive likeness; Mapplethorpe appears as both person and repeated photograph.$s$, $s$Does the second face feel like an echo, a mask, or a competing identity?$s$,
-    62, 46, true
+    $s$The offset second profile$s$, $s$Look at the duplicate face shifted sideways from the clearer impression.$s$,
+    $s$The second printing does not provide a new pose. It repeats the same photographic information out of register, converting a static portrait into an optical echo.$s$, $s$Does the duplicate feel like motion, memory, or printing error?$s$,
+    62, 45, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The color between the faces$s$, $s$Zoom into a colored passage where the two printed images overlap.$s$,
-    $s$In the overlap, color no longer simply describes skin or background. It becomes a separate layer produced by repetition, turning the space between two likenesses into the most visually active part of the portrait.$s$, $s$Is the overlap hiding the face or creating a new one?$s$,
+    $s$The overlap at the mouth and jaw$s$, $s$Zoom into the lower face where the two impressions and their colors cross.$s$,
+    $s$Here color stops describing one coherent skin surface. The overlap becomes an independent shape produced by registration, making the portrait’s construction more visible than its supposed photographic certainty.$s$, $s$Do you see one mouth, two mouths, or a new abstract form?$s$,
     52, 61, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
@@ -1826,9 +1826,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Find Beuys’s face beneath the camouflage before reading the pattern as decoration. Notice which features survive clearly and which are broken apart.$s$, $s$Now look at the whole portrait. Has camouflage hidden Beuys, made him more visible, or turned his already recognizable persona into another public pattern?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.620/$s$, $s$https://www.moma.org/artists/6246$s$, $s$SFMOMA confirms the 1986 camouflage portrait. The hotspots focus on recognizable features surviving beneath pattern, the camouflage’s paradoxical visibility, and the mismatch between photographic anatomy and decorative overlay.$s$,
-    $s$High$s$, false, $s$Coordinates checked against the full horizontal image.$s$,
+    $s$Find Joseph Beuys’s face and hat beneath the green, brown, beige, and white camouflage. Then reverse the process and let the pattern temporarily break the person apart.$s$, $s$Step back and decide whether camouflage conceals Beuys or turns his already recognizable public image into an even stronger emblem.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.620/$s$, $s$https://www.moma.org/artists/6246$s$, $s$The official image was visually audited. The former vague head-contour hotspot was replaced by the clearly visible hat brim; the eye and mouth points were refined to their actual positions.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REVISED: all points match the eye, mouth, and horizontal hat brim.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1849,21 +1849,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The eyes that survive$s$, $s$Tap Beuys’s eyes beneath the colored camouflage shapes.$s$,
-    $s$Even as the pattern crosses the face, the eyes remain a strong anchor of identity. The portrait demonstrates how little information is needed for recognition to persist.$s$, $s$Why do the eyes resist camouflage better than the rest of the face?$s$,
-    48, 38, true
+    $s$The eye beneath green paint$s$, $s$Tap the left eye, where photographic detail remains visible inside and beside green camouflage shapes.$s$,
+    $s$The eye survives because its dark contour is one of the portrait’s strongest identifying signals. Camouflage interrupts the face, but recognition keeps repairing the pattern around it.$s$, $s$How much pattern can cross an eye before it stops functioning as a gaze?$s$,
+    39, 40, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$Camouflage crossing the mouth$s$, $s$Look where a bright camouflage patch interrupts the mouth, cheek, or beard.$s$,
-    $s$Camouflage is designed to break up an outline, but Warhol’s bright colors attract attention instead of concealing. The pattern both disrupts the face and advertises it.$s$, $s$Does this pattern hide Beuys or turn him into a stronger emblem?$s$,
-    55, 58, true
+    $s$The mouth divided by the pattern$s$, $s$Look at the mouth and pale lower face, where green and brown shapes interrupt the lips and chin.$s$,
+    $s$The pattern ignores the anatomy beneath it. Instead of following facial volume, it breaks the mouth into unrelated islands of tone, making one expressive feature compete with decorative design.$s$, $s$Does the camouflage silence the mouth or draw more attention to it?$s$,
+    49, 58, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The face and pattern disagree$s$, $s$Zoom into an edge where the photographic contour of the head runs beneath a differently shaped camouflage patch.$s$,
-    $s$The two systems do not align: one describes a person, while the other ignores anatomy. Their disagreement keeps the portrait from becoming naturalistic and makes identity feel constructed from competing layers.$s$, $s$Which layer seems to control the image?$s$,
-    73, 43, true
+    $s$The hat brim cutting across the forehead$s$, $s$Tap the long dark brim extending across the upper face.$s$,
+    $s$Beuys’s felt hat was already a central part of his public persona. Its strong horizontal brim remains legible through the camouflage, allowing one constructed identity marker to resist another.$s$, $s$Which is more visually powerful here: the hat or the camouflage?$s$,
+    51, 25, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1886,9 +1886,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Let the face emerge from the dark before focusing on individual features. There is no body, room, or background story—only a head suspended like an apparition.$s$, $s$Step back and ask whether this feels like self-revelation, self-protection, or the transformation of Warhol’s own face into one more celebrity icon.$s$,
-    $s$https://www.sfmoma.org/artwork/FC.616/$s$, $s$https://www.tate.org.uk/art/artworks/warhol-self-portrait-t07146$s$, $s$SFMOMA confirms this late 1986 self-portrait. Tate’s discussion of Warhol’s late fright-wig portraits supports attention to the isolated head, dramatic wig, and apparition-like emergence from darkness.$s$,
-    $s$High$s$, false, $s$Coordinates verified against the complete portrait.$s$,
+    $s$Let Warhol’s lavender face emerge from the black field, then notice how the white wig spreads much farther than the head itself. The portrait gives almost equal weight to the man and the persona he constructed.$s$, $s$Step back and ask whether the floating head feels vulnerable, theatrical, ghostly, or deliberately all three.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.616/$s$, $s$https://www.sfmoma.org/artwork/FC.616/#audio$s$, $s$SFMOMA’s image and audio description were used to verify the long upper-left hair spike, direct eyes, and chin almost touching the bottom edge. The former coordinates placed the eyes and chin substantially too high.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REVISED: all three coordinates were corrected to the actual hair spike, eyes, and low chin.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1909,21 +1909,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The hair as an electric halo$s$, $s$Tap the spiked wig radiating around the top of the head.$s$,
-    $s$The pale strands expand beyond the skull like a burst of light. They make the wig more visually commanding than the face itself and turn a familiar part of Warhol’s public appearance into an almost supernatural halo.$s$, $s$Does the hair make him look more alive or more ghostly?$s$,
-    50, 20, true
+    $s$The long spike toward the upper left$s$, $s$Tap the dramatic strand of wig shooting diagonally toward the upper-left corner.$s$,
+    $s$SFMOMA’s audio description singles out this long spike. It expands the portrait beyond the face and turns the wig into an active graphic event rather than ordinary hair.$s$, $s$Does the diagonal spike make the head feel energetic or unstable?$s$,
+    30, 15, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The eyes in darkness$s$, $s$Look at the eyes, which emerge only partly from the black surrounding field.$s$,
-    $s$The darkness removes ordinary facial context and makes the gaze difficult to read. Warhol appears present, but not emotionally available.$s$, $s$Do the eyes seem to meet you or remain hidden?$s$,
-    49, 43, true
+    $s$The wide eyes$s$, $s$Look at the two eyes staring directly outward beneath the pale fringe.$s$,
+    $s$The frontal flash makes the gaze unusually exposed while the black field removes all social context. The eyes can feel direct and vulnerable, yet the silkscreen keeps the viewer at the distance of a reproduced image.$s$, $s$Do the eyes meet you or remain protected by the masklike face?$s$,
+    49, 57, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The face cut off at the chin$s$, $s$Tap the lower edge of the face where it fades or stops without a visible neck or body.$s$,
-    $s$The missing body makes the head feel detached, like a mask floating in space. A self-portrait usually locates a person; this one makes physical presence strangely uncertain.$s$, $s$Does the floating head feel intimate or theatrical?$s$,
-    50, 69, true
+    $s$The chin at the bottom edge$s$, $s$Tap the pointed chin, which nearly rests on the lower boundary of the square canvas.$s$,
+    $s$The head is placed unusually low and shown without neck or body. Pressing the chin against the edge intensifies the sense of a disembodied mask floating in darkness.$s$, $s$Does the lower edge support the head or make it look trapped?$s$,
+    50, 91, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -1946,9 +1946,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Try to find Warhol’s face before following the camouflage pattern. Then reverse the process: let the colored shapes take over until the portrait almost disappears.$s$, $s$Step back and decide whether Warhol has concealed himself or created an even more recognizable public image by staging his own disappearance.$s$,
-    $s$https://www.sfmoma.org/artwork/FC.507/$s$, $s$https://www.moma.org/artists/6246$s$, $s$SFMOMA confirms the combination of Warhol’s late self-image with camouflage overlay. The hotspots isolate a surviving eye, pattern crossing the iconic wig, and a facial edge dissolving into design.$s$,
-    $s$High$s$, false, $s$Coordinates checked against the full portrait-format image.$s$,
+    $s$Find Warhol’s eyes and mouth beneath the gray, beige, and black camouflage before following the pattern as independent design. Recognition keeps returning even when the face is repeatedly broken apart.$s$, $s$Step back and ask whether the camouflage hides Warhol or gives his already familiar face a new branded surface.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.507/$s$, $s$https://www.moma.org/artists/6246$s$, $s$The official SFMOMA reproduction was visually audited. The previous eye coordinate was too high, and the cheek point did not target the strongest dissolution. Revised points mark the visible eye, forehead-wig transition, and patterned mouth and chin.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REVISED: all three coordinates were corrected against the official image.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -1969,21 +1969,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The eye behind the pattern$s$, $s$Tap the eye that remains most visible beneath the camouflage.$s$,
-    $s$The eye preserves the portrait even when much of the face is broken apart. Recognition survives through a small anchor rather than a complete likeness.$s$, $s$How much of the face can disappear before you stop seeing Warhol?$s$,
-    45, 39, true
+    $s$The eye framed by dark camouflage$s$, $s$Tap the eye on the left side of the image, surrounded by gray and black pattern shapes.$s$,
+    $s$The eye remains readable because its pupil and lid form a compact dark signal. The surrounding camouflage interrupts the forehead and cheek, but the viewer continues assembling them around the gaze.$s$, $s$How little of the eye is needed for the face to remain recognizable?$s$,
+    39, 58, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The camouflage over the wig$s$, $s$Look where bright camouflage shapes cross the spiky hair.$s$,
-    $s$The wig is already a constructed public signature. Covering it with another pattern layers disguise over disguise, yet both remain highly recognizable.$s$, $s$Is the camouflage hiding the wig or emphasizing it?$s$,
-    58, 22, true
+    $s$The pattern crossing the forehead and wig$s$, $s$Look above the eyes, where beige and gray camouflage passes from the face into the spiky hair.$s$,
+    $s$The same pattern ignores the boundary between skin and wig. It treats Warhol’s biological face and manufactured public signature as one continuous surface.$s$, $s$Does camouflage flatten the difference between the person and his persona?$s$,
+    54, 33, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The face dissolving into design$s$, $s$Zoom into a cheek or jaw where skin, shadow, and camouflage become difficult to separate.$s$,
-    $s$At this point, portrait and pattern occupy the same surface without a clear hierarchy. Warhol’s identity becomes less a face than a visual system of repeated signs.$s$, $s$Do you still read this area as part of a person?$s$,
-    66, 61, true
+    $s$The mouth broken into patches$s$, $s$Tap the mouth and chin, where pale gray, beige, and black shapes divide the lower face.$s$,
+    $s$The lips remain visible, but the camouflage prevents the lower face from forming one stable volume. Portrait and pattern occupy the same area without either fully defeating the other.$s$, $s$Does the mouth emerge from the design or disappear into it?$s$,
+    51, 80, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2006,9 +2006,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Try to find a path into the forest. Each time you think one opens, notice what the paint does to block, blur, or redirect it.$s$, $s$Step back and ask whether this still feels like a forest you could enter, or a wall of paint that only borrows the idea of trees.$s$,
-    $s$https://www.sfmoma.org/artwork/FC.461/$s$, $s$https://www.gerhard-richter.com/en/art/paintings/abstracts/woods-73$s$, $s$SFMOMA confirms the 1990 oil painting. Richter’s catalogue groups it with his forest works, where recognizable verticals are repeatedly disrupted by smearing and scraping. The hotspots focus on a blocked opening, a dragged trunk, and a pale scrape.$s$,
-    $s$High$s$, false, $s$Coordinates checked against the full image. Preserve the complete width so the central gap and right-side smear remain distinct.$s$,
+    $s$Let the dark violet-black field register before searching for trees. Then follow the scraped vertical traces and yellow interruptions that make the surface suggest a forest without resolving into one.$s$, $s$Step back and ask whether the title has made you see trunks and depth, or whether the painting remains a dense wall of dragged color.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.461/$s$, $s$https://www.gerhard-richter.com/en/art/paintings/abstracts/woods-73$s$, $s$The official reproduction and available full-image thumbnail were visually checked. The earlier central clearing, right trunk, and lower-left pale scrape did not correspond reliably to the dominant composition. Revised points mark the visible yellow left opening, central pale vertical traces, and broad horizontal drag.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three previous hotspots were replaced with unmistakable color and directional structures.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2029,21 +2029,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The opening that closes$s$, $s$Tap the lighter vertical gap near the center, where the darker trunks seem to part.$s$,
-    $s$For a moment, the gap suggests a path or clearing. But smeared paint and crossing strokes keep it from becoming a stable route. Richter gives the eye the promise of depth, then interrupts it before the space can fully open.$s$, $s$Can your eye actually travel through this gap?$s$,
-    50, 45, true
+    $s$The yellow opening at the left$s$, $s$Tap the bright yellow passage near the lower-left edge, where it breaks through the surrounding dark paint.$s$,
+    $s$This is one of the few areas where light seems to enter the otherwise compressed surface. It can suggest a clearing or a distant gap, but its scraped edges keep it visibly part of the paint rather than stable landscape space.$s$, $s$Does this yellow patch open a route into the painting or sit on its surface?$s$,
+    14, 66, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The trunk turned into a smear$s$, $s$Look at a dark vertical form on the right where its edge has been dragged sideways.$s$,
-    $s$The tree-like form begins as something solid, but the smear converts it back into paint. The work keeps shifting between recognizable forest and visibly manipulated surface.$s$, $s$Does the smear make the tree feel closer, or make it disappear?$s$,
-    73, 52, true
+    $s$The vertical pale traces$s$, $s$Look at the thin pale marks descending through the upper-middle dark field.$s$,
+    $s$The repeated verticals provide the strongest suggestion of trunks. Yet they are broken, scraped, and partially erased, so the painting offers the structure of a forest without giving any tree a complete contour.$s$, $s$How many vertical marks do you need before the surface begins to feel wooded?$s$,
+    51, 35, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The pale scrape across darkness$s$, $s$Find a light scraped passage crossing one of the darker zones.$s$,
-    $s$The scrape behaves like sudden light, but it also reveals a tool moving across wet paint. What could be mist, glare, or distance is simultaneously evidence of the painting’s construction.$s$, $s$Do you read this first as light in a forest or as paint being pulled?$s$,
-    29, 67, true
+    $s$The horizontal drag across the middle$s$, $s$Follow the broad dark-violet band cutting across the painting slightly below center.$s$,
+    $s$The horizontal pull interrupts the vertical rhythm and blocks easy depth. It records the movement of a tool across the wet surface, turning any imagined forest back into layered paint.$s$, $s$Does this band read as shadow in a forest or as a squeegee crossing the canvas?$s$,
+    51, 61, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2066,9 +2066,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Before looking for a hidden subject, follow the largest scraped bands. Notice which colors sit on top and which survive only in narrow gaps underneath.$s$, $s$Now look at the entire surface as a history of decisions. Which areas feel newly made, and which seem buried beneath later actions?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.459/$s$, $s$https://www.gerhard-richter.com/en/art/paintings/abstracts$s$, $s$SFMOMA identifies the work as a 1990 abstract painting. Richter’s official materials describe his mature abstractions as layered and repeatedly altered with a squeegee. The hotspots isolate buried color, a broad drag, and a visible stopping point.$s$,
-    $s$High$s$, false, $s$Coordinates are approximate because the source image is from SFMOMA Custom Prints. Confirm against the exact museum reproduction before launch.$s$,
+    $s$Follow the painting as a sequence of layers rather than searching for a hidden subject. Compare the broad dragged passages with the thinner colors exposed beneath them.$s$, $s$Step back and ask which parts feel newly laid down and which feel like remnants of an earlier painting that has been scraped, covered, and reopened.$s$,
+    $s$https://customprints.sfmoma.org/detail/459842/richter-abstraktes-bild-abstract-picture-1990$s$, $s$https://www.sfmoma.org/artwork/FC.440/$s$, $s$The exact Custom Prints reproduction was used as the image reference. The existing three targets describe genuine layer, drag, and stopping-edge structures; their wording was tightened and coordinates retained with minor refinement.$s$,
+    $s$Medium$s$, false, $s$VISUALLY AUDITED WITH REPRODUCTION LIMITATION: coordinates match visible regions in the Custom Prints image, but final pixel-level verification should use the exact 1500-pixel app asset.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2089,20 +2089,20 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The color trapped underneath$s$, $s$Tap a bright patch visible through a break in a broader scraped layer.$s$,
-    $s$This small survival gives the surface depth without conventional perspective. It feels discovered rather than simply placed, as though an earlier painting is still pushing through the later one.$s$, $s$Does the hidden color feel farther away or more intense because it is partly covered?$s$,
-    28, 61, true
+    $s$The bright layer exposed at lower left$s$, $s$Tap the vivid multicolored passage in the lower-left quadrant where brighter paint remains visible beneath broader dragged layers.$s$,
+    $s$The exposed color makes the surface feel archaeological. It suggests that the image we see is only the latest state of a painting that has repeatedly been covered and reopened.$s$, $s$Does the partly hidden color feel more intense because less of it survives?$s$,
+    27, 67, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The broad squeegee pull$s$, $s$Follow the widest dragged band across the center.$s$,
-    $s$The passage records one long movement of a broad tool. It pulls several wet colors together while leaving streaks and gaps, so the image is shaped by both deliberate pressure and effects the artist could not fully predict.$s$, $s$Where can you see the drag slowing down or catching?$s$,
-    54, 48, true
+    $s$The broad central drag$s$, $s$Follow the widest scraped band crossing the central area.$s$,
+    $s$This passage records the pressure and direction of the large tool moving through wet paint. Several colors are pulled together without fully blending, so one action both combines and damages earlier layers.$s$, $s$Where can you see the tool catching or changing pressure?$s$,
+    53, 49, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The abrupt edge of a scrape$s$, $s$Look where one dragged passage stops sharply against a differently colored area.$s$,
-    $s$The hard stop makes the action legible. It reminds us that the work was not simply poured into existence; the artist chose when to press, pull, lift, and leave earlier layers exposed.$s$, $s$Does this edge feel accidental or carefully timed?$s$,
+    $s$The sharp stopping edge at upper right$s$, $s$Look near the upper-right area where a scraped passage ends against a contrasting block or band of color.$s$,
+    $s$The abrupt boundary makes the painting’s sequence of actions visible. Richter chose when to press, pull, and lift; the edge preserves the instant when one movement stopped.$s$, $s$Does this ending feel accidental or decisively placed?$s$,
     78, 29, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
@@ -2126,9 +2126,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Treat the work as a window for a moment. Then notice how stubbornly it refuses to show you anything beyond itself.$s$, $s$Step back and decide whether the repeated panes create openness or turn the wall into a more elaborate barrier.$s$,
-    $s$https://www.sfmoma.org/artwork/FC.738/$s$, $s$https://www.gerhard-richter.com/en/art/paintings/photo-paintings/buildings-5$s$, $s$SFMOMA confirms the 2002 painting. The hotspots focus on the work’s repeated panes, heavy divisions, and ambiguous reflective surface, all of which frustrate the traditional idea of a window as transparent access.$s$,
-    $s$High$s$, false, $s$Coordinates checked against the full frontal image.$s$,
+    $s$Do not search for a literal frame or panes. Follow the blurred white, rust-red, orange, and dark streaks as though you were seeing reflected light through wet or dirty glass.$s$, $s$Step back and ask what makes this painting feel windowlike when it contains no clear view. Is it the vertical movement, the shimmer, or the sense that another image has been obscured?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.738/$s$, $s$https://www.gerhard-richter.com/en/art/paintings/abstracts$s$, $s$Search and official descriptions confirm that Fenster is an abstract painting of shimmering white, red, orange, and dark streaks—not a literal painted window grid. The previous pane, frame, and reflection hotspots were therefore invalid and were fully replaced.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three former pane-based hotspots were removed and replaced with visible vertical color passages.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2149,21 +2149,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The pane that gives no view$s$, $s$Tap one of the central pale rectangles.$s$,
-    $s$A window normally offers access to another space. Here, the pane gives only a muted surface, so the object keeps the architecture of looking while removing the view itself.$s$, $s$What do you expect to see through this pane?$s$,
-    50, 44, true
+    $s$The pale vertical flare$s$, $s$Tap one of the brightest white vertical streaks near the center.$s$,
+    $s$The flare resembles light catching glass, but its edges are dragged and unstable. It suggests transparency while simultaneously blocking any view beyond the paint.$s$, $s$Does the white streak feel like light passing through or paint sitting on top?$s$,
+    51, 44, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The dark frame dividing everything$s$, $s$Follow one of the strong vertical bars separating the panes.$s$,
-    $s$The frame does more than organize the work. Its repeated divisions keep interrupting any sense of continuous space, making the window feel closer to a grid than an opening.$s$, $s$Does the frame hold the view together or prevent it from forming?$s$,
-    34, 51, true
+    $s$The rust-orange column$s$, $s$Look at the strong red-orange vertical passage on the right half.$s$,
+    $s$Its warm color gives the painting a reflected, weathered glow rather than the neutral geometry of an actual window. The streak behaves like an image seen indirectly—through glare, motion, or a disturbed surface.$s$, $s$What kind of scene do you begin imagining behind this color?$s$,
+    73, 45, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The reflected blur$s$, $s$Look at a pane where a hazy tonal shift suggests reflection without revealing a clear object.$s$,
-    $s$The blurred variation activates the surface just enough to imply glass, but it withholds certainty. You become aware of looking at a barrier rather than through one.$s$, $s$Are you seeing something beyond the glass, or only the glass itself?$s$,
-    72, 62, true
+    $s$The dark blurred band at the left$s$, $s$Tap the darker gray-black vertical area along the left side, where its boundary dissolves into neighboring color.$s$,
+    $s$The dark band anchors the brighter streaks but never becomes a solid frame. Its blurred edge makes the whole painting feel as though a recognizable structure has been smeared before it could come into focus.$s$, $s$Does this dark passage organize the painting or make it more uncertain?$s$,
+    20, 49, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2186,9 +2186,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Do not try to take in all 256 squares at once. Choose one color, then watch how its neighbors change what you think you are seeing.$s$, $s$Now step back until the individual squares become a single field. Does the painting feel strictly ordered, visually noisy, or unexpectedly balanced?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.643/$s$, $s$https://www.glenstone.org/artworks/256-farben$s$, $s$SFMOMA explains Richter’s mathematical mixing system and random number selection for placing the colors. Glenstone confirms the 1974 work and scale. Hotspots focus on adjacency, chance pairings, and repeated hues changing through context.$s$,
-    $s$High$s$, false, $s$Coordinates indicate representative grid zones rather than one unique square. Final UI should allow the marker to sit clearly inside a single cell.$s$,
+    $s$Choose one square, then compare it with its immediate neighbors. The grid stays perfectly regular while every local color relationship changes.$s$, $s$Step back until the 256 cells merge into one vibrating field. Does the strict order calm the colors or make their differences more intense?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.643/$s$, $s$https://www.davidzwirner.com/artworks/gerhard-richter-256-farben-256-colors--9fdd5$s$, $s$The full color-chart structure was visually checked. Because the hotspots intentionally ask the visitor to compare cells rather than identify unique depicted objects, representative coordinates inside clearly separated grid cells are appropriate.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED: all coordinates land inside valid grid cells. The UI marker must remain smaller than one cell.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2209,20 +2209,20 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$One color changed by its neighbors$s$, $s$Choose a single square near the upper-left area and compare it with the four squares around it.$s$,
-    $s$SFMOMA explains that Richter generated the colors systematically and then placed them through chance. The chosen square has no symbolic role, yet adjacency can make it appear warmer, cooler, brighter, or duller than it would alone.$s$, $s$Would this color look the same in another part of the grid?$s$,
+    $s$A yellow square beside blue$s$, $s$Tap a yellow cell in the upper-left quadrant that borders a noticeably cooler blue or green cell.$s$,
+    $s$The colors were placed through a chance-based system rather than expressive composition. Yet adjacency immediately creates a visual relationship: the yellow can look warmer or brighter simply because of the cool square beside it.$s$, $s$Would this yellow look identical somewhere else in the grid?$s$,
     23, 24, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$A pairing that should clash$s$, $s$Find two neighboring squares near the center whose hues seem strongly incompatible.$s$,
-    $s$The equal grid gives every pairing the same formal status, but some combinations feel louder than others. Chance produces local tensions that look intentional even though no expressive hierarchy was planned.$s$, $s$Does this pairing feel accidental once you have looked at it for a while?$s$,
+    $s$A high-contrast central pairing$s$, $s$Tap the border between two strongly contrasting neighboring cells near the center.$s$,
+    $s$The grid gives every adjacency equal structural status, but the eye does not experience them equally. Some chance pairings become loud focal events even though Richter did not assign them symbolic importance.$s$, $s$Does this pairing begin to feel intentionally composed once you focus on it?$s$,
     52, 52, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The repeated color$s$, $s$Look for two squares that appear to share the same or a very similar hue in different parts of the grid.$s$,
-    $s$Because there are 256 positions but fewer distinct mixed colors, some hues repeat. Each repetition changes through context, showing that color is never experienced in isolation.$s$, $s$Which version of the repeated hue seems stronger?$s$,
+    $s$Two similar colors in different contexts$s$, $s$Choose a square near the lower-right, then search for a similar hue elsewhere in the grid.$s$,
+    $s$The painting contains 256 cells generated from 180 colors, so hues recur. A repeated color can look different when surrounded by new neighbors, demonstrating that color is relational rather than fixed.$s$, $s$Which version of the similar hue appears stronger?$s$,
     80, 76, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
@@ -2246,9 +2246,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Let the painting convince you that it is a traditional seascape. Then look for the blur and smoothness that make the scene feel more like a remembered photograph than direct observation.$s$, $s$Step back again. Does the sea feel vast and sublime, or suspiciously perfect—like an image constructed from familiar landscape expectations?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.623/$s$, $s$https://www.gerhard-richter.com/en/art/paintings/photo-paintings/landscapes-14$s$, $s$SFMOMA confirms the 1998 oil painting. Richter’s official catalogue places it within his photo-based landscapes. The hotspots focus on the blurred horizon, minimally articulated water, and photographic softness of the sky.$s$,
-    $s$High$s$, false, $s$Coordinates verified against the complete landscape crop.$s$,
+    $s$Let the painting convince you that it is a traditional sea and sky. Then notice how the photographic softness makes the whole landscape feel copied, remembered, or artificially perfected.$s$, $s$Step back and ask whether the seascape feels sublime or suspiciously seamless—an image of nature constructed from familiar visual expectations.$s$,
+    $s$https://www.sfmoma.org/artwork/98.527/$s$, $s$https://www.gerhard-richter.com/en/art/paintings/photo-paintings/landscapes-14$s$, $s$The artwork was visually checked against a full installation image and official reproduction. The horizon sits lower than the former coordinate, and the cloud hotspot was moved toward the actual bright opening right of center.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REFINED: all three coordinates now match the low horizon, lower sea, and bright cloud opening.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2269,21 +2269,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The horizon that almost disappears$s$, $s$Look where the dark sea meets the lighter sky.$s$,
-    $s$The horizon is clear enough to organize the landscape, but soft enough to resist precision. That blur creates distance while also recalling an out-of-focus photograph.$s$, $s$Does the softened horizon make the space deeper or less trustworthy?$s$,
-    50, 53, true
+    $s$The low horizon$s$, $s$Tap the narrow boundary where the dark sea meets the pale sky, slightly below the center.$s$,
+    $s$The horizon organizes the entire scene but remains softly blurred. It creates immense distance while also recalling a photograph whose focus has been deliberately weakened.$s$, $s$Does the blur make the horizon feel farther away or less trustworthy?$s$,
+    50, 57, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The dark water without waves$s$, $s$Tap the broad low band of sea where very little individual wave detail is visible.$s$,
-    $s$The lack of specific marks makes the water feel immense and still, but it also denies the texture we expect from a real sea. The image offers atmosphere more readily than information.$s$, $s$What mood are you placing into this nearly featureless water?$s$,
-    39, 72, true
+    $s$The nearly featureless sea$s$, $s$Look at the broad gray water across the lower third.$s$,
+    $s$Individual waves are largely absent. The sea becomes a smooth tonal band, giving the image atmosphere and scale while withholding the particular movement of real water.$s$, $s$What feeling are you adding to this almost empty water?$s$,
+    40, 75, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The cloud that looks photographic$s$, $s$Look at a pale cloud passage in the upper sky where edges dissolve gradually.$s$,
-    $s$Richter paints the look of photographic softness by hand. The cloud feels natural from a distance, yet close inspection reveals an image of photography rather than untouched nature.$s$, $s$At what distance does the cloud stop feeling photographic?$s$,
-    70, 27, true
+    $s$The brightest opening in the clouds$s$, $s$Tap the pale break in the cloud cover just right of center.$s$,
+    $s$This brighter passage creates a restrained source of light without showing the sun. Its soft edges produce the convincing look of weather while also revealing Richter’s interest in the photographic image of landscape rather than direct observation.$s$, $s$Does the light feel natural, staged, or remembered?$s$,
+    67, 35, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2306,9 +2306,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Try to recognize the man before focusing on the blur. Then notice which parts of the face remain useful for identification and which have been wiped into uncertainty.$s$, $s$Look again at the whole portrait. Does the blur make Müller feel distant, protected, anonymous, or strangely more memorable?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.293/$s$, $s$https://www.gerhard-richter.com/en/art/paintings/photo-paintings/portraits$s$, $s$SFMOMA confirms this 1965 photo-painting. Richter’s official catalogue contextualizes the work among early portraits based on photographic sources. Hotspots distinguish blurred eyes, lateral smearing, and a comparatively clearer clothing edge.$s$,
-    $s$High$s$, false, $s$Coordinates checked against the supplied portrait.$s$,
+    $s$Recognize Müller’s face first, then inspect the horizontal blur that passes across every feature. The portrait remains legible even while the paint denies sharp identification.$s$, $s$Step back and ask whether the blur makes Müller feel distant, in motion, protected, or more like a reproduced image than a present person.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.293/$s$, $s$https://www.gerhard-richter.com/en/art/paintings/photo-paintings/portraits$s$, $s$The full portrait image was visually checked. The former clothing coordinate sat too far left; revised points now land on the eyes, mouth, and central dark collar and tie.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REFINED: all three coordinates directly match the visible portrait features.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2329,21 +2329,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The eyes behind the blur$s$, $s$Tap the eye area, where the features remain visible but softened.$s$,
-    $s$The eyes usually anchor a portrait, yet here they cannot offer a stable expression. Recognition survives, but emotional certainty does not.$s$, $s$Can you tell what Müller is feeling?$s$,
-    48, 38, true
+    $s$The eyes pulled sideways$s$, $s$Tap the eyes in the upper-middle of the face, where their contours stretch horizontally.$s$,
+    $s$The eyes remain identifiable but cannot hold a precise expression. The lateral blur preserves recognition while removing the emotional certainty that portraits often promise.$s$, $s$Can you decide where Müller is looking?$s$,
+    47, 37, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The mouth smeared sideways$s$, $s$Look at the mouth and lower face where the paint appears dragged horizontally.$s$,
-    $s$The smear resembles camera movement or a damaged photograph, but it is painted deliberately. It interrupts the promise that a portrait can preserve a person clearly.$s$, $s$Does the blur feel like movement, erasure, or distance?$s$,
-    52, 58, true
+    $s$The mouth reduced to a pale bar$s$, $s$Look at the mouth near the center-lower face, where the lips are softened into a horizontal light-dark band.$s$,
+    $s$The mouth cannot fully communicate an expression because its contour has been dragged into the same visual static as the rest of the photograph. The portrait records a face while frustrating psychological interpretation.$s$, $s$Does the mouth appear neutral, tense, or impossible to read?$s$,
+    48, 55, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The sharper clothing edge$s$, $s$Compare the softened face with a clearer edge in the collar or jacket below.$s$,
-    $s$The more definite clothing detail makes the facial uncertainty stronger. The painting gives greater stability to an external surface than to the person’s identity.$s$, $s$Why might the jacket be easier to see than the face?$s$,
-    41, 77, true
+    $s$The dark collar below the blurred face$s$, $s$Tap the dark triangular collar and tie area beneath the chin.$s$,
+    $s$This clothing remains more structurally definite than the facial features above it. The contrast gives greater stability to an external uniform than to the person’s identity.$s$, $s$Why does the clothing feel more solid than the face?$s$,
+    47, 78, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2366,9 +2366,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$First identify the gymnast’s pose. Then ask whether the blur helps you understand the movement or makes the body harder to locate.$s$, $s$Step back and decide whether the painting freezes an athletic instant or shows how impossible it is to stop movement cleanly.$s$,
-    $s$https://www.sfmoma.org/artwork/FC.309/$s$, $s$https://www.gerhard-richter.com/en/art/paintings/photo-paintings/sports$s$, $s$SFMOMA confirms the 1967 oil painting. Richter’s official catalogue places it among photo-based sports subjects. The hotspots focus on directional blur, dissolving bodily contour, and the contrast between moving figure and stable apparatus.$s$,
-    $s$High$s$, false, $s$Coordinates are based on the supplied full image; confirm the exact apparatus location at high resolution.$s$,
+    $s$Trace the gymnast from her raised hand down through the dark shirt and the long diagonal leg. The pose is clear, but every contour is softened as though the body were still moving through the photograph.$s$, $s$Step back and ask whether the painting freezes one athletic instant or shows the failure of a still image to contain motion.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.309/$s$, $s$https://www.gerhard-richter.com/en/art/paintings/photo-paintings/sports$s$, $s$The official image clearly shows one gymnast with a raised right arm, dark torso, and long diagonal leg. The former apparatus hotspot was inaccurate—no distinct supporting apparatus is visible—and was replaced by the leg.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: the former support hotspot was removed; all coordinates now match the raised hand, torso, and diagonal leg.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2389,21 +2389,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The limb stretched into motion$s$, $s$Tap the extended arm or leg where the contour smears along the direction of movement.$s$,
-    $s$The body is recognizable, but the stretched blur prevents the pose from becoming a crisp diagram. The paint gives a still image the residue of speed.$s$, $s$Does the blur make the limb feel faster or less physical?$s$,
-    62, 39, true
+    $s$The raised hand touching the top$s$, $s$Tap the pale hand and forearm extended toward the upper-right edge.$s$,
+    $s$The arm creates the pose’s strongest upward motion and almost exits the image. Its blurred contour makes the extremity feel stretched by speed rather than cleanly outlined.$s$, $s$Does the raised hand feel held in place or still traveling upward?$s$,
+    67, 12, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The body losing its outline$s$, $s$Look at the torso where gray tones merge with the surrounding field.$s$,
-    $s$The gymnast’s body no longer has a secure boundary. The figure seems to move not only across space but into the image itself.$s$, $s$Where exactly does the torso end?$s$,
-    48, 54, true
+    $s$The dark torso bending$s$, $s$Look at the black-gray shirt and bent waist left of center.$s$,
+    $s$The torso anchors the body’s change of direction: the upper body rises while the legs sweep diagonally downward. The dark mass remains recognizable even as its edges dissolve into the gray interior.$s$, $s$Where does the torso stop and the surrounding blur begin?$s$,
+    42, 44, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The fixed support beneath motion$s$, $s$Find the apparatus or stable structural line beside the blurred body.$s$,
-    $s$The rigid support contrasts with the unstable figure. It gives the eye one fixed point against which movement can be sensed.$s$, $s$Would the body still appear to move without this stable reference?$s$,
-    33, 70, true
+    $s$The long leg crossing the lower half$s$, $s$Follow the pale leg extending diagonally from the hip toward the lower-right.$s$,
+    $s$The leg supplies the image’s broadest directional sweep. Its length and blur turn a single frozen body into a line of motion crossing the picture.$s$, $s$Does the leg feel anatomically solid or more like a streak?$s$,
+    63, 73, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2426,9 +2426,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Take in the reclining pose before looking closely at the face. The scene seems intimate, but the blur keeps that intimacy from turning into clear access.$s$, $s$Now step back. Does Brigid feel comfortably present in the room, or already transformed into a distant photographic memory?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.498/$s$, $s$https://www.gerhard-richter.com/en/art/paintings/photo-paintings/portraits$s$, $s$SFMOMA confirms the 1971 portrait of Brigid Polk. Richter’s official catalogue places it within his photo-painting practice. The hotspots focus on the softened face, comparatively legible resting hand, and interior dissolving into the same blur.$s$,
-    $s$High$s$, false, $s$Coordinates checked against the full image.$s$,
+    $s$Begin with Brigid Polk’s pale face at the lower-left, then notice how her dark hair dominates the middle of the square. The portrait is close-cropped, but the blur keeps physical closeness from becoming complete access.$s$, $s$Step back and ask whether Brigid feels near to you, or whether the soft photographic haze has already turned the encounter into memory.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.498/$s$, $s$https://www.gerhard-richter.com/en/art/paintings/photo-paintings/portraits$s$, $s$The official image was visually checked. The previous entry incorrectly described a reclining woman, resting hand, and couch. Brigid’s face is at lower left, her dark hair dominates the center, and a blurred second presence appears at upper right.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three previous hotspot descriptions and coordinates were replaced.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2449,21 +2449,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The face softened beyond expression$s$, $s$Tap the face, where eyes, nose, and mouth remain visible but blurred together.$s$,
-    $s$The pose suggests closeness, yet the face withholds the emotional information a portrait normally promises. Physical proximity and psychological access move in opposite directions.$s$, $s$Can you read her mood with any confidence?$s$,
-    60, 37, true
+    $s$The pale face at lower left$s$, $s$Tap Brigid’s face in the lower-left quadrant, where one blue-gray eye and the nose remain clearest.$s$,
+    $s$The face is strongly lit but partly displaced toward the edge and crowded by hair. Richter preserves enough information for recognition while denying a balanced, conventional portrait pose.$s$, $s$Does the cropped position make the face feel more intimate or more accidental?$s$,
+    28, 61, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The hand resting in place$s$, $s$Look at the clearer hand or arm resting across the reclining body.$s$,
-    $s$The gesture appears casual and bodily, anchoring the image in an ordinary moment. Its relative clarity makes the face’s softness feel less like poor technique and more like a deliberate refusal of certainty.$s$, $s$Does the hand tell you more about the moment than the face does?$s$,
-    43, 61, true
+    $s$The dark sweep of hair$s$, $s$Look at the large black-brown mass curving through the center and right side of the portrait.$s$,
+    $s$The hair occupies more visual space than the face and becomes an abstract dark form. Its blurred sweep both frames Brigid and nearly overwhelms her identity.$s$, $s$Do you see hair first, or a dark shape?$s$,
+    55, 46, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The furniture dissolving around her$s$, $s$Look at the couch or surrounding interior where edges fade into gray.$s$,
-    $s$The setting should locate the body securely, but it too becomes unstable. Figure and room share the same photographic haze, making the whole scene feel remembered rather than inhabited.$s$, $s$Does the room support her body or absorb it?$s$,
-    73, 72, true
+    $s$The second blurred presence at the right$s$, $s$Tap the pale, indistinct face-like form in the upper-right background.$s$,
+    $s$A second presence appears only vaguely behind Brigid. Because it never resolves, it makes the image feel like a crowded photographic moment rather than a formally isolated portrait.$s$, $s$Does this background figure deepen the social scene or make it more uncertain?$s$,
+    82, 34, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2486,9 +2486,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Begin with the fluorescent tubes as ordinary store-bought objects. Then let your attention spread outward to the colored light touching the wall and meeting in the corner.$s$, $s$Move your eyes away from the tubes and across the whole installation. Is the artwork still located on the wall, or has it expanded into the corner and the space where you are standing?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.416/$s$, $s$https://www.nga.gov/collection/artist-info.5365.html$s$, $s$SFMOMA confirms that the 1971 work uses red, yellow, and blue fluorescent lights and measures eight feet high. National Gallery material on Flavin supports attention to commercially available fixtures and to light altering architectural space. Hotspots separate the red cast, the mixed light in the corner, and the undisguised hardware.$s$,
-    $s$High$s$, false, $s$Coordinates indicate fixture and glow zones in the installation photograph, not permanent points on a portable image object. Reconfirm them against the exact installation photograph used in the app; the colored-light overlap changes with installation conditions.$s$,
+    $s$Begin with the four fluorescent edges: yellow across the top and bottom, red down both sides. Then notice the blue light filling the corner inside them and the purple glow spreading far beyond the fixtures.$s$, $s$Step back and ask where the artwork ends. Is it the physical rectangle of tubes, the blue corner they enclose, the colored wall around them, or the light reaching the floor where you stand?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.416/$s$, $s$https://www.sfmoma.org/artist/dan_flavin/$s$, $s$The official installation photograph was visually audited. The previous hotspots incorrectly described one outward-facing red tube, a yellow-blue overlap, and a generic metal end. Revised points identify the top yellow tube, right red vertical, and blue-lit central corner visible in the image.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three coordinates directly match the yellow horizontal, red vertical, and blue interior in the exact workbook image.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2509,21 +2509,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The red tube facing outward$s$, $s$Look at the red fluorescent tube mounted along one side, then compare its bright glass with the softer red cast spreading onto the nearby wall.$s$,
-    $s$The tube itself is narrow and industrial, but the red it produces occupies a much larger area. Flavin makes one ordinary fixture behave like both an object and a source of colored atmosphere. The work cannot be understood by looking only at the hardware.$s$, $s$Where does the red light become too faint for you to call it part of the artwork?$s$,
-    25, 48, true
+    $s$The yellow tube across the top$s$, $s$Tap the bright horizontal yellow tube spanning the upper edge of the structure.$s$,
+    $s$The yellow fixture reads like a firm architectural lintel, yet its light immediately softens into orange, pink, and purple on the wall. A standard industrial tube creates both a precise line and a much less measurable field.$s$, $s$Where does the yellow object end and its colored light begin?$s$,
+    50, 22, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$Yellow meeting blue$s$, $s$Tap the corner area where the yellow and blue light overlap rather than either individual tube.$s$,
-    $s$The mixed zone is not contained inside any one fixture. It is created by two separate lights striking the same architecture, so the wall and corner actively produce part of what you see. The exact color can also shift as your eyes adjust and your position changes.$s$, $s$Can you find a point where the light looks neither clearly yellow nor clearly blue?$s$,
-    59, 48, true
+    $s$The red vertical at the right$s$, $s$Look at the saturated red fluorescent tube running down the right side.$s$,
+    $s$The red side establishes the work’s tall rectangular outline, but its magenta glow spreads outward into the surrounding purple wall. The fixture behaves as a physical edge while the light refuses to remain contained by it.$s$, $s$Does the red line frame the blue interior or leak away from the frame?$s$,
+    71, 52, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The ordinary metal end$s$, $s$Zoom in on one end of a fluorescent fixture, where the metal housing, socket, or tube cap remains plainly visible.$s$,
-    $s$Flavin does not disguise the commercial equipment or make it look precious. The visible fittings keep the installation tied to offices, shops, and other everyday interiors, even while the colored glow transforms the room around them.$s$, $s$Does seeing the standard fixture weaken the effect, or make the transformation more surprising?$s$,
-    49, 76, true
+    $s$The blue corner inside$s$, $s$Tap the luminous blue field filling the recessed central corner between the red sides.$s$,
+    $s$No blue tube is visible from the front in the same way as the yellow and red fixtures. The blue appears as reflected light occupying the architecture itself, making the corner—not merely the hardware—a central material of the installation.$s$, $s$Does the blue feel like a colored surface or an illuminated volume?$s$,
+    50, 50, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2546,9 +2546,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Read the arrangement first as a tiny tower: wide at the base and narrowing as it rises. Then notice that every part is still a standard fluorescent tube fixed directly to the wall.$s$, $s$Step back and compare the ambitious word “monument” with the cool, temporary-looking light. Does the work honor Tatlin’s revolutionary tower, quietly parody it, or keep both possibilities open?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.824/$s$, $s$https://diaart.org/collection/collection/flavin-dan-monument-for-v-tatlin-1969-1980-018$s$, $s$SFMOMA confirms the eight-foot installation in cool white fluorescent light. Dia identifies Flavin’s 1969 Tatlin works as white fluorescent tubes arranged in towerlike wall configurations. The hotspots focus on the stepped silhouette, structural gaps, and wall halo rather than treating the reference to Tatlin as a literal miniature.$s$,
-    $s$High$s$, false, $s$Coordinates are based on the frontal installation photograph. The halo varies with wall color, ambient lighting, exposure, and installation, so the final hotspot should be checked in the exact app image.$s$,
+    $s$Follow the white fluorescent tubes from the short outer pairs upward to the tallest central pair. Their changing heights turn ordinary upright fixtures into the silhouette of an impossible tower.$s$, $s$Step back and compare the grand word “monument” with the cool white commercial tubes. Does the work honor Tatlin’s unrealized revolutionary architecture, reduce it to a diagram, or quietly do both?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.824/$s$, $s$https://diaart.org/collection/collection/flavin-dan-monument-for-v-tatlin-1969-1980-018$s$, $s$The official frontal photograph was visually audited. The previous description of horizontal stacked units was incorrect: the work consists of upright fluorescent tubes arranged in progressively changing heights. All three hotspots were replaced with the central peak, stepped side fixtures, and illuminated base.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three coordinates directly match the upright central tubes, stepped left side, and wall-floor glow in the official image.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2569,21 +2569,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The stepped tower outline$s$, $s$Follow the outer edges of the white tubes from the wider lower section toward the narrower top.$s$,
-    $s$The stepped silhouette is enough to suggest architecture, even though no solid building exists. Flavin compresses the idea of Tatlin’s famously unbuilt tower into a flat wall arrangement made from standard lengths of light.$s$, $s$At what point does this group of rectangles begin to look like a tower?$s$,
-    50, 46, true
+    $s$The tallest central pair$s$, $s$Tap the two longest white tubes rising at the center to form the tower’s peak.$s$,
+    $s$The central pair establishes vertical ambition without creating any solid mass. A monument normally depends on durable stone or metal, but here height is produced by light, glass, and electrical hardware.$s$, $s$Does the brightest central rise feel monumental despite its fragile materials?$s$,
+    50, 22, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The dark gaps between tubes$s$, $s$Look at the narrow spaces separating the horizontal fluorescent units.$s$,
-    $s$The gaps are as important as the glowing bars. They divide the light into stacked levels and make the whole structure resemble a diagram or simplified architectural elevation rather than one continuous luminous shape.$s$, $s$Would the work still feel architectural if the gaps disappeared?$s$,
-    50, 57, true
+    $s$The stepped side tubes$s$, $s$Look at the progressively shorter upright fixtures descending along the left side from the center toward the floor.$s$,
+    $s$The changing heights create the towerlike outline. No sloping wall actually connects them; the viewer mentally joins separate vertical units into one architectural shape.$s$, $s$At what point do individual tubes become a single tower in your mind?$s$,
+    37, 52, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The white halo on the wall$s$, $s$Shift your attention just outside the fixtures, where cool white light bleeds onto the wall around the stepped form.$s$,
-    $s$The glow softens the supposedly precise tower. Its edges extend beyond the metal housings and become impossible to measure exactly, so a rigid-looking monument is surrounded by something diffuse and temporary.$s$, $s$Does the halo make the tower feel more solid or less material?$s$,
-    72, 41, true
+    $s$The white halo and bright base$s$, $s$Tap the glow spreading onto the wall and floor around the lowest central tubes.$s$,
+    $s$The fluorescent light extends past every metal housing, softening the exact stepped outline. The supposed monument therefore has no stable boundary: its base occupies the wall, the floor, and the surrounding atmosphere.$s$, $s$Does the glow make the structure feel more substantial or less material?$s$,
+    50, 86, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2606,9 +2606,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Begin far enough away for Agnes Martin’s face to feel whole. Then move closer until the portrait breaks into hundreds of separate colored cells.$s$, $s$Step back once more. Does Agnes now seem like a stable person in front of you, or an image your eye keeps rebuilding from fragments?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.626/$s$, $s$https://www.pacegallery.com/artists/chuck-close/$s$, $s$SFMOMA confirms the monumental 1998 oil painting. Pace describes Close’s method of translating photographs into gridded visual data. The hotspots focus on the eye emerging from cells, unexpected colors building skin, and the portrait edge forming without a continuous outline.$s$,
-    $s$High$s$, false, $s$Coordinates are based on the full portrait image. Confirm the exact left-eye and cheek positions against the app crop.$s$,
+    $s$Begin far enough away for Agnes Martin’s face to feel whole. Then move closer until her eyes, cheeks, and mouth break into hundreds of separate colored cells.$s$, $s$Step back once more. Does Agnes now feel like one continuous presence, or an image your eye keeps reconstructing from many independent marks?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.626/$s$, $s$https://www.pacegallery.com/artists/chuck-close/$s$, $s$The exact SFMOMA image was visually audited. The existing eye point was close; the cheek and outer-edge points were moved upward and rightward to land on the visible right cheek and the face-background transition.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REFINED: all three coordinates directly match the left eye, right cheek, and right facial boundary.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2629,21 +2629,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The eye made from small paintings$s$, $s$Tap Agnes’s left eye and look at the grid cells that build the eyelid, iris, and surrounding shadow.$s$,
-    $s$Up close, no single cell contains an eye. Each one holds loops, ovals, and patches of color that behave like tiny abstract paintings. The eye appears only when your vision combines them across distance.$s$, $s$At what distance does the eye become recognizable?$s$,
-    39, 39, true
+    $s$The left eye assembled from cells$s$, $s$Tap the eye on the left side of the image, where dark ovals and pale loops combine into the eyelid, iris, and surrounding shadow.$s$,
+    $s$No single cell contains a complete eye. Recognition appears only when the viewer combines neighboring marks across the grid, so a psychologically powerful feature emerges from locally abstract units.$s$, $s$At what distance does the eye become a gaze rather than a collection of shapes?$s$,
+    39, 38, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The cheek changing color$s$, $s$Look at the broad cheek area where neighboring cells move through pink, blue, green, violet, and ocher.$s$,
-    $s$Close does not mix one continuous flesh tone. He lets separate colors create the sensation of skin through contrast and accumulation. A cool blue cell can contribute to a warm, living face when seen from farther away.$s$, $s$Which color looks least like skin up close but still works from a distance?$s$,
-    61, 57, true
+    $s$The warm right cheek$s$, $s$Look at the broad cheek on the right side of the face, where peach, pink, turquoise, green, and dark red cells sit beside one another.$s$,
+    $s$Close does not create skin by smoothly blending one flesh color. Warmth and volume emerge from contrasts between cells that, seen alone, may look nothing like skin.$s$, $s$Which individual color seems least believable as skin but still contributes to the face?$s$,
+    63, 53, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The face dissolving at the edge$s$, $s$Follow the outer edge of the hair and cheek where the portrait meets the darker background.$s$,
-    $s$There is no single clean contour around Agnes. Her outline emerges gradually as cells shift in value and color, so the boundary between person and background is something the eye constructs rather than a line the artist simply draws.$s$, $s$Where exactly does Agnes end and the background begin?$s$,
-    76, 52, true
+    $s$The face meeting the dark background$s$, $s$Follow the right edge of Agnes’s cheek and hair where the colored facial cells gradually give way to deep green-black cells.$s$,
+    $s$There is no continuous outline enclosing the head. The boundary forms through changing color and value, requiring the viewer to decide where the person ends and the background begins.$s$, $s$Can you identify one exact cell where Agnes becomes background?$s$,
+    78, 49, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2666,9 +2666,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Look at this not as a smaller finished portrait, but as a working map. The photograph, grid, tape, and handwritten decisions show how Agnes was converted into a problem that could be solved cell by cell.$s$, $s$Now compare the maquette mentally with the large painting. Does seeing the planning make the finished portrait feel more mechanical, or reveal how many individual choices it required?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.625/$s$, $s$https://www.pacegallery.com/exhibitions/chuck-close-on-paper/$s$, $s$SFMOMA identifies the maquette as Polaroid, ink, graphite, and masking tape on foamcore. Pace explains Close’s use of a grid to map photographic details before recreating them. The hotspots isolate the grid’s indifference to facial hierarchy, the assembled photograph, and visible studio notation.$s$,
-    $s$High$s$, false, $s$Coordinates are approximate because small working marks may be difficult to read in the production image. Use the highest-resolution scan available.$s$,
+    $s$Treat this as a working object rather than a smaller finished portrait. Agnes’s photograph is crossed by a measured grid, bordered with numbered tape, surrounded by handwritten notes, and stained with paint from the translation process.$s$, $s$Step back and compare this maquette with the finished painting. Does seeing its practical measurements and studio residue make the final portrait feel more mechanical or more intensely handmade?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.625/$s$, $s$https://www.pacegallery.com/exhibitions/chuck-close-on-paper/$s$, $s$The exact SFMOMA image shows no taped seam crossing the face. The former seam and vague handwritten-margin hotspots were replaced by the clearly visible numbered tape above the gridded portrait and the paint dabs below it.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: Hotspots 2 and 3 were replaced; all coordinates match the eye, numbered grid border, and paint tests.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2689,21 +2689,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The grid crossing the eye$s$, $s$Tap the eye area where the drawn grid cuts directly through the photograph.$s$,
-    $s$The grid deliberately ignores the importance of the eye. It divides a psychologically charged feature into the same equal units used for forehead, hair, and background. Close turns likeness into a sequence of local tasks rather than painting the face as one expressive whole.$s$, $s$Does the eye remain emotionally powerful after it has been divided into boxes?$s$,
-    40, 39, true
+    $s$The grid crossing the eye$s$, $s$Tap Agnes’s left eye, where several graphite squares divide the eyelid, pupil, and surrounding wrinkles.$s$,
+    $s$The grid gives the eye no special protection. One of the portrait’s most expressive areas is broken into the same equal units used for forehead, clothing, and background, converting likeness into a series of manageable tasks.$s$, $s$Does the eye remain emotionally immediate after being divided into boxes?$s$,
+    38, 42, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The taped-together photograph$s$, $s$Look at a seam or strip of masking tape joining sections of the large Polaroid image.$s$,
-    $s$The source image is visibly assembled rather than presented as a seamless photograph. The tape reveals that even the supposedly direct photographic starting point is a constructed object with joins, edges, and practical adjustments.$s$, $s$Does the visible assembly make the photograph feel less objective?$s$,
-    51, 56, true
+    $s$The numbered tape above the face$s$, $s$Look at the horizontal masking-tape strip directly above Agnes’s hair, where small numbers mark the grid columns.$s$,
+    $s$This numbered border turns the photograph into a coordinate system. It allowed Close to locate each section precisely when enlarging the image, revealing the administrative structure beneath the seemingly intuitive finished portrait.$s$, $s$Does the numbering make the face feel more like a person or a map?$s$,
+    50, 29, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The handwritten working marks$s$, $s$Zoom into a margin or grid area containing graphite, ink, numbers, or small studio annotations.$s$,
-    $s$These marks belong to the process rather than the portrait’s public appearance. They record measurement, orientation, and planning—the quiet administrative work behind a painting that later seems visually overwhelming.$s$, $s$Which mark seems intended for the artist rather than the viewer?$s$,
-    74, 77, true
+    $s$The paint dabs below the portrait$s$, $s$Tap the cluster of multicolored paint smears and test marks directly beneath Agnes’s sweater.$s$,
+    $s$These marks are not part of the sitter’s likeness. They preserve color trials and studio handling outside the portrait, showing that the maquette functioned as an active tool rather than a pristine photograph.$s$, $s$Which paint mark seems most likely to have become a cell in the finished painting?$s$,
+    51, 75, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2726,9 +2726,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Recognize Roy Lichtenstein’s face first, then move closer until his glasses, skin, and hair become networks of separate abstract marks.$s$, $s$Step back and ask what makes Roy recognizable. Is it a few key features such as the glasses and mouth, or the combined rhythm of every cell?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.697/$s$, $s$https://www.pacegallery.com/artists/chuck-close/$s$, $s$SFMOMA confirms the 1994 monumental oil portrait. Pace describes Close’s gridded translation of photographic subjects into visual data. The hotspots focus on the glasses as a recognizable anchor, a locally abstract skin cell, and the mouth emerging across multiple units.$s$,
-    $s$High$s$, false, $s$Coordinates should be checked against the complete frontal reproduction, especially if the image includes frame or wall margins.$s$,
+    $s$Recognize Roy Lichtenstein’s face first, then move closer until the forehead, eyes, mouth, and jacket dissolve into cells filled with rings, bars, and small color loops.$s$, $s$Step back and ask what makes Roy recognizable when no single cell attempts to imitate him realistically.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.697/$s$, $s$https://www.pacegallery.com/artists/chuck-close/$s$, $s$The exact SFMOMA reproduction confirms that Roy is not wearing glasses. The former eyeglass hotspot was removed, and the mouth coordinate was moved substantially upward to the actual lips.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: the invented glasses hotspot was replaced; all coordinates match the left eye, upper forehead cells, and mouth.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2749,21 +2749,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The glasses holding the face together$s$, $s$Tap the dark frame around one eye.$s$,
-    $s$The glasses provide some of the portrait’s clearest, most continuous structure. Against the looser colored cells of the skin, the dark frames anchor the face and help recognition survive even when nearby marks become abstract.$s$, $s$Would the portrait be as immediately recognizable without the glasses?$s$,
-    40, 39, true
+    $s$The left eye built from rings$s$, $s$Tap the eye on the left side of the image, where turquoise, red, yellow, and dark oval marks gather into the lid and pupil.$s$,
+    $s$The eye appears continuous from a distance, but up close it is assembled from separate abstract motifs. Close lets color and value produce recognition without relying on traditional smooth modeling.$s$, $s$At what distance do the colored rings become an eye?$s$,
+    42, 35, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$A cell that looks nothing like skin$s$, $s$Zoom into a single cheek or forehead cell containing rings, lozenges, or several sharply different colors.$s$,
-    $s$Seen alone, the cell does not imitate skin at all. Its role becomes clear only within the larger system, where color and value matter more than literal resemblance. Close lets abstraction produce likeness rather than interrupt it.$s$, $s$Can you hold onto the face while looking only at this cell?$s$,
-    61, 55, true
+    $s$The long vertical cells on the forehead$s$, $s$Look above and between the eyes, where several cells stretch into tall pale pink, orange, and blue bars.$s$,
+    $s$These elongated marks do not resemble skin or wrinkles on their own. Within the larger portrait, however, their direction helps describe the forehead’s light and vertical structure.$s$, $s$Can you keep seeing Roy while concentrating on one of these tall cells?$s$,
+    54, 18, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The mouth assembled from fragments$s$, $s$Look at the lips and the shadow around them, then separate the area into its individual grid units.$s$,
-    $s$The expression appears continuous from a distance, but each cell is independently painted. The mouth demonstrates how an emotionally readable feature can emerge from marks that do not themselves express anything.$s$, $s$At what point do the separate marks become an expression?$s$,
-    50, 69, true
+    $s$The mouth forming across several squares$s$, $s$Tap the lips near the center-lower face, where peach, red, blue, and dark cells cross the horizontal grid.$s$,
+    $s$The mouth’s expression does not belong to any one unit. It emerges across several independently painted squares, showing how emotional legibility can arise from marks that are not expressive in isolation.$s$, $s$At what point do the separate cells become an expression?$s$,
+    50, 53, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2786,9 +2786,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Treat this as the portrait before it became a painting. Look for the places where a familiar face has been turned into measurements, taped sections, and manageable units.$s$, $s$Now imagine translating every square into the much larger painting. Does the maquette make the process feel repetitive, inventive, or both at once?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.844/$s$, $s$https://www.pacegallery.com/exhibitions/chuck-close-on-paper/$s$, $s$SFMOMA confirms the materials: color Polaroid, ink, graphite, and masking tape on foamcore. Pace describes Close’s grid-based mapping process. The hotspots focus on the grid breaking a signature feature, the assembled photographic seam, and the practical working margin.$s$,
-    $s$High$s$, false, $s$The small seam and margin details require a high-resolution image. Coordinates are reasonable but should be manually verified.$s$,
+    $s$Look at Roy’s photograph as a measured plan. The grid runs across his face and clothing, while letters, numbers, masking tape, and handwritten notes remain visible around the image.$s$, $s$Step back and imagine translating every square into the monumental painting. Does the maquette make that process seem systematic, repetitive, or full of countless local judgments?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.844/$s$, $s$https://www.pacegallery.com/exhibitions/chuck-close-on-paper/$s$, $s$The exact SFMOMA image confirms that Roy wears no glasses and that no taped seam crosses the face. The former glasses and seam hotspots were replaced by the gridded eye, coordinate labels, and visible corner tape.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three previous targets were corrected to match visible process details.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2809,21 +2809,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The grid through the glasses$s$, $s$Tap where the graphite grid cuts across Roy’s eyeglass frame and eye.$s$,
-    $s$The glasses are one of Roy’s most recognizable features, but the grid refuses to preserve them as a single shape. It breaks the frame into small segments that must later be reconstructed one cell at a time.$s$, $s$Does the grid weaken the glasses as a symbol, or make their structure easier to understand?$s$,
-    40, 39, true
+    $s$The grid through Roy’s left eye$s$, $s$Tap the eye on the left side of the image, where the pupil and lid are split by the graphite grid.$s$,
+    $s$The grid treats the eye as a set of coordinates rather than one privileged expressive feature. Close could enlarge each square independently while trusting the complete gaze to reappear only when all the units were recombined.$s$, $s$Does dividing the eye weaken its presence?$s$,
+    45, 35, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The seam across the face$s$, $s$Look for a taped join where separate Polaroid sections meet across the head or background.$s$,
-    $s$The seam reveals that the source photograph itself was built from multiple instant photographs. The face appears unified only because the viewer mentally repairs the join.$s$, $s$How quickly does your eye ignore the seam?$s$,
-    52, 52, true
+    $s$The lettered and numbered border$s$, $s$Look along the top edge of the photograph, where letters label the columns while numbers run down the sides.$s$,
+    $s$The labels turn Roy’s portrait into an addressable system. Any facial detail can be located by row and column, making the human likeness function like a map or technical plan.$s$, $s$Does the coordinate system make the portrait easier to understand or more impersonal?$s$,
+    50, 14, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The margin used as a workspace$s$, $s$Look beyond the face at the foamcore edge, tape, or graphite marks that remain visible around the photograph.$s$,
-    $s$The unused-looking margin preserves the object’s studio function. Unlike the finished painting, this work still shows where the image was handled, aligned, and prepared for translation.$s$, $s$Which part feels most like a tool rather than a portrait?$s$,
-    79, 76, true
+    $s$The masking tape at the upper corner$s$, $s$Tap the tan tape securing the upper-left corner and outer border to the backing.$s$,
+    $s$The tape is plainly practical rather than pictorial. Its wrinkles and overlaps preserve how the photograph was mounted and handled, keeping the maquette visibly tied to studio labor.$s$, $s$Does this rough attachment change how you value the object?$s$,
+    8, 7, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2846,9 +2846,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Start far enough away to see John Chamberlain’s face clearly. Then move closer and remember that this is not paint: the portrait was built through 126 separate screenprinted colors.$s$, $s$Step back after inspecting the print closely. Does the mechanical process make John feel less personal, or does the accumulation of so many impressions create a different kind of intimacy?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.615/$s$, $s$https://www.pacegallery.com/artists/chuck-close/$s$, $s$SFMOMA confirms that John is a 126-color screenprint. Pace describes Close’s broader use of gridded photographic information across painting and printmaking. The hotspots focus on layered registration in the eye, overlapping transparent colors within a cell, and the rigid grid producing apparent facial volume.$s$,
-    $s$High$s$, false, $s$Coordinates checked against the full portrait. Fine registration details require the largest image available in the app.$s$,
+    $s$Begin far enough away to see John Chamberlain’s face clearly. Then move closer and remember that the portrait was built through 126 separate screenprinted colors rather than painted in one continuous layer.$s$, $s$Step back after inspecting the cells. Does the mechanical printing process make John feel less present, or does the accumulation of so many precise impressions create another kind of intimacy?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.615/$s$, $s$https://www.pacegallery.com/artists/chuck-close/$s$, $s$The exact SFMOMA image was visually audited. The previous generic cheek point was moved to the unmistakably bright right temple, and the grid-boundary point was refined to the jaw-clothing-background transition.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REFINED: all coordinates match the left eye, bright right facial passage, and lower-right jaw transition.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2869,21 +2869,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The eye built through many passes$s$, $s$Tap one eye and inspect the overlapping colors that form its lid, shadow, and highlight.$s$,
-    $s$Each color in the print required a separate screen and impression. The eye therefore appears not through one continuous gesture but through many precisely registered layers. Recognition is the result of accumulated process.$s$, $s$Can you tell which printed color seems to sit on top?$s$,
-    40, 39, true
+    $s$The left eye built through many colors$s$, $s$Tap the eye on the left side of the image, where small red, blue, turquoise, cream, and black marks combine.$s$,
+    $s$Each printed color required a separate screen and impression. The eye therefore appears through accumulated registration rather than one gesture, turning recognition into the result of many carefully aligned operations.$s$, $s$Can you identify which color appears to sit on top?$s$,
+    36, 37, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The color slipping inside one cell$s$, $s$Zoom into a cheek or forehead cell where several translucent colors overlap without aligning into one simple shape.$s$,
-    $s$The individual layers remain partly visible instead of blending like wet paint. Their overlap produces new colors while preserving evidence of sequence, making one cell feel like a record of multiple printing decisions.$s$, $s$Does the cell feel planned in advance or discovered through layering?$s$,
-    61, 53, true
+    $s$The pale right temple and cheek$s$, $s$Look at the brightly lit area on the right side of John’s forehead and cheek, where elongated cells contain several translucent colors.$s$,
+    $s$The lightest part of the face is not empty or simply white. Layered pinks, yellows, blues, and greens combine to produce illumination while remaining visibly separate up close.$s$, $s$Which colors are doing the work of light here?$s$,
+    66, 39, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The hard grid beneath the soft face$s$, $s$Look for the straight boundaries separating neighboring units around the cheek or jaw.$s$,
-    $s$The grid is rigid and mathematical, yet the face it produces feels rounded and organic from a distance. The portrait depends on a contradiction: soft flesh emerging from a structure that never bends.$s$, $s$When do you stop seeing the grid and start seeing volume?$s$,
-    70, 66, true
+    $s$The jaw dissolving into jacket and background$s$, $s$Follow the lower-right edge of the face where skin-colored cells shift into red clothing and dark patterned background.$s$,
+    $s$The rigid grid continues unchanged across skin, garment, and space. Only color relationships tell the viewer where the jaw ends, demonstrating how volume emerges from a structure that never bends.$s$, $s$At which cell does the face become clothing or background?$s$,
+    67, 69, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2906,9 +2906,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Before trying to understand the shape, notice how the two steel plates alter the corner. One seems to stand, the other to cut across it, so the architecture no longer feels neutral.$s$, $s$Walk your eyes around the whole arrangement again. Does the sculpture occupy the corner, brace it, divide it, or make the corner itself feel newly unstable?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.276.A-B/$s$, $s$https://www.gagosian.com/artists/richard-serra/$s$, $s$SFMOMA confirms the two-part weathering-steel construction. Gagosian’s overview of Serra supports attention to weight, bodily movement, and the way steel changes architectural space. The hotspots isolate the contact seam, the projecting diagonal, and the weathered surface.$s$,
-    $s$High$s$, false, $s$Coordinates are tied to the supplied installation view. Reconfirm if the app uses a different angle, since the seam and projecting plate shift substantially with viewpoint.$s$,
+    $s$Begin with the broad horizontal steel plate hovering overhead, then trace its weight down into the single upright plate beneath it. The sculpture looks almost like a table or roof, but its balance feels far less ordinary.$s$, $s$Step back and ask whether the horizontal plate seems firmly supported or improbably suspended. How much of the sculpture’s force comes from imagining its weight?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.276.A-B/$s$, $s$https://www.gagosian.com/artists/richard-serra/$s$, $s$The official SFMOMA image was visually audited. The former description of two plates leaning toward one another was incorrect. Melnikov II consists of one vertical plate supporting a wide horizontal plate in a T-like cantilevered structure.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three previous hotspots were replaced with the upper contact, rightward cantilever, and floor-bearing vertical plate.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2929,21 +2929,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The seam where plates nearly meet$s$, $s$Tap the narrow meeting point between the two steel plates near the corner.$s$,
-    $s$The joint does not look like a neat architectural connection. It feels tense and provisional, because each plate keeps its own angle and weight. The sculpture’s logic becomes clearest here: stability is produced by relation, not by one self-contained object.$s$, $s$Does this contact point feel secure, or does it make you imagine the plates shifting?$s$,
-    51, 48, true
+    $s$The narrow contact at the top$s$, $s$Tap the point where the upright plate meets the underside of the horizontal plate.$s$,
+    $s$The enormous upper slab appears to depend on a surprisingly limited contact. Serra makes structural support visible rather than hiding it inside joints, so the meeting point becomes the sculpture’s most tense and consequential detail.$s$, $s$Does this contact look sufficient to hold the plate above it?$s$,
+    43, 28, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The plate leaning into space$s$, $s$Follow the angled plate that projects away from the wall.$s$,
-    $s$Its diagonal changes the room more strongly than a flat wall-mounted object would. As the plate advances into your path, viewing becomes bodily: you must judge distance, clearance, and weight rather than simply look from one fixed position.$s$, $s$At what point does the plate stop feeling like an image and start feeling like an obstacle?$s$,
-    67, 58, true
+    $s$The horizontal plate projecting right$s$, $s$Follow the broad overhead slab from the central support toward the far-right edge.$s$,
+    $s$The plate extends much farther into open space than the upright support beneath it. This cantilever transforms weight into visual tension, making the viewer continuously measure the possibility of balance and collapse.$s$, $s$Does the projection feel heavy, floating, or both?$s$,
+    70, 24, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The weathered steel skin$s$, $s$Zoom into a broad area of rust-colored surface where streaks, discoloration, or mill marks remain visible.$s$,
-    $s$The steel is not polished into a neutral finish. Its surface carries industrial production, oxidation, and time. Those marks make the sculpture feel less like ideal geometry and more like a massive material object with a history.$s$, $s$Does the weathering make the plate feel older, heavier, or more vulnerable?$s$,
-    29, 39, true
+    $s$The upright plate meeting the floor$s$, $s$Look at the lower edge of the vertical plate where it bears directly on the dark floor.$s$,
+    $s$The sculpture transfers its entire visible load through this single standing plane. The floor is therefore not a neutral display surface; it completes the chain of gravity from the overhead slab to the room.$s$, $s$Can you imagine the pressure concentrated along this bottom edge?$s$,
+    42, 82, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -2966,9 +2966,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Look at the four lead plates as a structure before thinking about the title. None is bolted or welded, so the apparent box depends entirely on leaning, pressure, and mutual support.$s$, $s$Step back and consider the contradiction: the sculpture is extremely heavy, yet its arrangement feels temporary. Does that make it seem more stable or more precarious?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.439.A-D/$s$, $s$https://www.moma.org/collection/works/81291$s$, $s$SFMOMA confirms the four lead-plate construction. MoMA discusses House of Cards as an early Serra prop work held together by gravity and mutual pressure rather than permanent fasteners. The hotspots focus on contact, enclosed void, and weight transferred to the floor.$s$,
-    $s$High$s$, false, $s$Coordinates are based on the supplied oblique installation view. The interior and contact points must be rechecked if another view is used.$s$,
+    $s$Read the four lead-antimony plates as a box for a moment. Then notice that no plate is fixed to another: each leans inward and remains standing only because all four press together.$s$, $s$Step back and consider the contradiction. The sculpture is physically heavy, but its survival depends on a balance that appears temporary and fragile.$s$,
+    $s$https://www.sfmoma.org/artwork/94.453.A-D/$s$, $s$https://www.moma.org/collection/works/81291$s$, $s$The exact frontal-oblique SFMOMA image was visually audited. The former upper-contact point was moved to the visible open top-right junction; the interior and lower left floor contact were refined to the actual photograph.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REFINED: all coordinates directly match the open upper junction, visible interior, and left plate-floor contact.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -2989,21 +2989,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The corner held by pressure$s$, $s$Tap one upper contact where two lead plates lean into one another.$s$,
-    $s$This point carries more than visual importance. Friction and gravity hold the plates together, so a small area of contact is responsible for the stability of an enormous weight. The sculpture makes invisible forces legible.$s$, $s$Can you tell which plate is supporting which?$s$,
-    50, 34, true
+    $s$The open upper corner$s$, $s$Tap the top-right area where two plates approach one another but leave the interior visibly open.$s$,
+    $s$The plates do not form a sealed architectural joint. Their angled upper edges reveal that the structure is held by mutual pressure rather than fastening, keeping the possibility of instability visually present.$s$, $s$Does this corner look locked together or merely arrested in motion?$s$,
+    69, 23, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The dark interior$s$, $s$Look into the shadowed open space enclosed by the four leaning plates.$s$,
-    $s$The void is not simply leftover space. Its shape is produced by the pressure of the surrounding lead, making emptiness feel compressed and physically charged. The title suggests a house, but this is an interior no one could comfortably inhabit.$s$, $s$Does the opening invite you in or warn you away?$s$,
-    51, 60, true
+    $s$The dark interior above the front plate$s$, $s$Look into the shadowed space visible just behind the front panel’s top edge.$s$,
+    $s$The void is shaped by the four leaning plates and is therefore an active part of the sculpture. It makes the object feel inhabitable in scale while withholding any clear entrance.$s$, $s$Does the interior invite curiosity or create warning?$s$,
+    50, 18, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The bottom edge bearing down$s$, $s$Follow one thick lower edge where a plate meets the floor.$s$,
-    $s$The floor is not a pedestal beneath the sculpture; it is part of the structural system. The broad edge makes the plate’s weight almost palpable and directs attention to the downward force that keeps the arrangement in place.$s$, $s$Can you feel the pressure on the floor just by looking?$s$,
-    30, 81, true
+    $s$The left plate touching the floor$s$, $s$Tap the narrow lower edge of the left side plate where it reaches the wooden floor.$s$,
+    $s$The angled plate channels its weight into a small line of contact. Seeing the edge rather than a broad base makes the enormous sheet look simultaneously grounded and precarious.$s$, $s$Can you feel the force moving downward through this thin edge?$s$,
+    24, 77, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -3026,9 +3026,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Read the repeated lead forms along the wall as doors for a moment. Then notice everything they refuse to do: they do not stand upright, open, frame a passage, or lead anywhere.$s$, $s$Look across the row again. Does the title make these forms feel more architectural, or emphasize how completely they have abandoned the function of doors?$s$,
-    $s$https://www.sfmoma.org/artwork/94.454.A-D/$s$, $s$https://www.gagosian.com/artists/richard-serra/$s$, $s$SFMOMA confirms the repeated lead units from 1966–67. Serra’s broader materials practice supports attention to lead’s weight, softness, folding, and relation to architecture. The hotspots isolate one folded unit, the measured gaps, and the forms’ low contact with wall and floor.$s$,
-    $s$High$s$, false, $s$Coordinates are based on the full installation image. Preserve the complete row so repetition and spacing remain visible.$s$,
+    $s$Look across the four low, dark sections resting against the wall. Their repeated rectangular shape suggests a sequence of doors, but they lie sideways at floor level and cannot open.$s$, $s$Step back and ask what the title contributes. Do these forms become blocked entrances, fallen architectural parts, or simply heavy repeated slabs?$s$,
+    $s$https://www.sfmoma.org/artwork/94.454.A-D/$s$, $s$https://www.sfmoma.org/artwork/94.454.A-D/#audio$s$, $s$The official image and collection record were visually audited. The earlier entry incorrectly described lead forms that bend or slump. Doors is a low wall-length work in rubber, resin, and fiberglass, divided into four irregular rectangular sections.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three former folded-lead hotspots were replaced with visible seams, material surfaces, and narrowing right-hand sections.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -3049,21 +3049,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The first folded unit$s$, $s$Tap the leftmost lead form where one plane bends or folds away from another.$s$,
-    $s$The fold suggests the basic action of a hinged door, but the heavy lead lies low and inert. Serra reduces a familiar architectural object to weight, angle, and material without preserving its usefulness.$s$, $s$Does the fold still make you imagine movement?$s$,
-    18, 61, true
+    $s$The first vertical division$s$, $s$Tap the seam separating the first and second dark sections near the left side.$s$,
+    $s$The seam allows the long object to be read as a sequence rather than one continuous slab. Repetition begins here, but the rough handmade edge keeps the units from feeling industrially identical.$s$, $s$Does this line make you imagine separate doors or one folded surface?$s$,
+    20, 58, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The repeated gaps$s$, $s$Look at the narrow wall spaces separating one lead unit from the next.$s$,
-    $s$The intervals create a measured rhythm across the installation. Because the objects repeat with slight changes, the eye begins comparing them like variations rather than reading one continuous barrier.$s$, $s$Which gap feels widest, and does that change the rhythm?$s$,
-    51, 54, true
+    $s$The broad rust-brown middle panel$s$, $s$Look at the largest warm brown section slightly left of center.$s$,
+    $s$The material is rubber, resin, and fiberglass rather than lead or steel. Its uneven skin, stains, and muted color make the panel resemble weathered industrial matter while retaining a slightly soft, cast quality.$s$, $s$Does the surface look rigid, leathery, or compressed?$s$,
+    45, 59, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The lead slumped against the wall$s$, $s$Zoom into a place where a form rests directly against the wall or floor.$s$,
-    $s$Lead appears solid, but it is also soft enough to bend and sag. The contact makes the forms feel heavy and bodily, as if they have collapsed rather than been carefully installed.$s$, $s$Do these forms seem placed, folded, or exhausted?$s$,
-    77, 70, true
+    $s$The narrower dark sections at the right$s$, $s$Follow the progressively narrower gray-black divisions near the far-right end.$s$,
+    $s$The changing widths interrupt the expectation of four equal doors. The rhythm compresses toward the edge, making the installation feel measured but not standardized.$s$, $s$Does the narrowing sequence make the work feel as though it is closing?$s$,
+    79, 59, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -3086,9 +3086,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Identify the plate and pole first, then work out what each is doing. The sculpture looks simple because every structural relationship is exposed rather than hidden.$s$, $s$Step back and ask where the work’s tension lives. Is it in the heavy plate, the angled pole, the contact point, or your knowledge that the arrangement depends on all three?$s$,
-    $s$https://www.sfmoma.org/artwork/94.451.A-B/$s$, $s$https://www.moma.org/artists/5349$s$, $s$SFMOMA confirms the two-part lead construction. MoMA’s overview of Serra’s prop works supports the interpretation of exposed balance, gravity, and architectural dependency. The hotspots focus on the pressure point, the diagonal prop, and the wall as structural participant.$s$,
-    $s$High$s$, false, $s$Coordinates apply to the supplied installation view. A different camera angle would significantly alter all three hotspot positions.$s$,
+    $s$Identify the large square lead plate against the wall and the dark pole leaning from the floor into its center-right area. Nothing is bolted together; the sculpture exists through pressure.$s$, $s$Step back and ask where the work really resides—in the two lead elements, in the force passing between them, or in the wall and floor completing the structure.$s$,
+    $s$https://www.sfmoma.org/artwork/94.451.A-B/$s$, $s$https://www.sfmoma.org/artwork/94.451.A-B/#audio$s$, $s$The exact official image was visually audited. The contact and pole points were refined, and the former broad wall-contact marker was replaced with the clearly visible lower-left plate-floor-wall junction.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REFINED: all coordinates directly match the upper pole contact, diagonal support, and plate’s lower architectural junction.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -3109,21 +3109,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The pole pressing the plate$s$, $s$Tap the point where the angled pole makes contact with the lead plate.$s$,
-    $s$There is no bracket or bolt securing the connection. Pressure itself is the fastener. The entire arrangement depends on this small point continuing to bear force.$s$, $s$What would happen if the pole shifted even slightly?$s$,
-    55, 37, true
+    $s$The pole pressing the plate$s$, $s$Tap the upper end of the diagonal pole where it meets the plate.$s$,
+    $s$This small contact point holds the broad sheet against the wall. There is no visible bracket or fixed joint, so the sculpture makes friction and compressed weight perform the work of construction.$s$, $s$What would happen if this contact shifted a few centimeters?$s$,
+    56, 38, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The diagonal carrying force$s$, $s$Follow the pole from the floor upward to the plate.$s$,
-    $s$The diagonal makes force visible. Instead of disappearing inside a wall like a hidden support beam, the prop announces exactly how the plate is being held in place.$s$, $s$Can you sense which direction the pressure is traveling?$s$,
-    46, 60, true
+    $s$The diagonal pole$s$, $s$Follow the dark pole downward from the plate to its rounded end on the floor.$s$,
+    $s$The diagonal is a visible line of force. Instead of concealing structural pressure inside architecture, Serra places it openly in the room so viewers can mentally trace the load.$s$, $s$Which direction does the force seem to travel?$s$,
+    55, 63, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The plate against the wall$s$, $s$Look at the broad lead sheet where it meets the vertical architecture.$s$,
-    $s$The wall is not merely a background. It receives the pressure transmitted through the plate and becomes a necessary component of the sculpture. Without this exact architectural relationship, the work would not exist in the same way.$s$, $s$Is the sculpture attached to the room, or is the room part of the sculpture?$s$,
-    73, 48, true
+    $s$The plate’s lower-left edge$s$, $s$Look at the bottom-left corner of the large plate where it meets the wall and floor.$s$,
+    $s$The plate is not hanging like a picture. Its scale and direct contact with the architecture make it behave as a physical load occupying the room, while the pole prevents it from simply falling forward.$s$, $s$Does the plate feel attached to the wall or temporarily trapped against it?$s$,
+    25, 82, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -3146,9 +3146,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Read the sentence first. Then stop reading it and look at how the black paintstick presses across the paper as a physical mass.$s$, $s$Step back and ask what gives the work its force: the political claim, the scale of the words, the density of the black surface, or the way all three refuse to separate?$s$,
-    $s$https://www.sfmoma.org/artwork/94.449/$s$, $s$https://www.moma.org/artists/5349$s$, $s$SFMOMA confirms the 1989 paintstick-on-paper drawing and its politically explicit title. MoMA’s overview of Serra’s drawings supports attention to dense black material as weight rather than mere tone. The hotspots distinguish institution-naming language, near-obscured legibility, and the rough physical edge of the paintstick.$s$,
-    $s$High$s$, false, $s$Coordinates are based on the supplied full drawing. Confirm the exact placement of the word 'COURTS' if the app image includes a wider mat or frame.$s$,
+    $s$Read the title before looking for words in the drawing—there are none. Instead, compare the two enormous black paintstick masses and the sharp white opening that separates them.$s$, $s$Step back and ask how the title changes these abstract forms. Do the unequal black panels begin to feel like opposing institutions, unequal weights, or a judgment already decided?$s$,
+    $s$https://www.sfmoma.org/artwork/94.449/$s$, $s$https://www.sfmoma.org/artwork/94.449/#audio$s$, $s$The official image was visually audited. The previous entry falsely described visible words and typography. The drawing contains two large black paintstick panels separated by an irregular white wedge; the political sentence exists only as the title.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all text-based hotspots were removed and replaced with the left mass, taller right mass, and central white wedge.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -3169,21 +3169,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The word 'Courts'$s$, $s$Tap the large word “COURTS” within the sentence.$s$,
-    $s$The word names the institution being accused, but it is not presented in neutral print. Its scale and rough black material make the term feel heavy, blunt, and already implicated before the sentence is fully read.$s$, $s$Does the word feel like evidence, accusation, or verdict?$s$,
-    39, 38, true
+    $s$The lower left black mass$s$, $s$Tap the broad black panel on the left, whose top edge sits noticeably lower than the panel on the right.$s$,
+    $s$The left mass appears heavy and expansive but physically subordinate to the taller right panel. Serra described these horizontal diptychs as comparisons of different weights rather than conventional figure-ground compositions.$s$, $s$Does the lower height make this panel feel weaker or simply different?$s$,
+    25, 55, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The sentence crowded by black$s$, $s$Look where the letters press tightly against the surrounding black paintstick.$s$,
-    $s$The text remains legible, but it is nearly swallowed by the same dense material that carries it. Reading becomes an effort, which makes the political statement feel obstructed rather than calmly delivered.$s$, $s$Does the black field strengthen the message or make it harder to access?$s$,
-    61, 57, true
+    $s$The tall black panel on the right$s$, $s$Look at the immense right-hand mass rising almost to the top edge.$s$,
+    $s$Its greater height and uninterrupted black surface give it more visual authority. Once the political title is known, the imbalance can feel less neutral—as though one side already possesses institutional advantage.$s$, $s$Does the right panel seem dominant because of size, position, or the title?$s$,
+    73, 45, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The rough paintstick edge$s$, $s$Zoom into an outer edge or irregular passage where the black material shows streaks, clumps, or uneven pressure.$s$,
-    $s$The drawing is not simply typography enlarged on paper. The paintstick leaves a thick, resistant surface, so language becomes bodily and abrasive. The claim arrives as something pushed and rubbed into place.$s$, $s$Would the sentence feel as forceful if it were printed cleanly?$s$,
-    78, 76, true
+    $s$The white wedge between them$s$, $s$Tap the narrow white gap that descends sharply between the two black panels near the center.$s$,
+    $s$The gap is not an even border. It begins broad at the top and narrows into a pointed divide, making separation feel active and pressured rather than calm. The empty paper carries as much tension as the black paintstick.$s$, $s$Does this white space divide the panels or force them into confrontation?$s$,
+    44, 31, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -3206,9 +3206,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Choose one dark line and follow it as far as you can. Do not worry if you lose it—notice where another line takes over, crosses it, or leaves a pocket of yellow between them.$s$, $s$Now step back and see the painting as a group rather than a tangle. Do the lines feel like separate voices moving together, or one structure that keeps dividing into different paths?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.516/$s$, $s$https://gagosian.com/artists/brice-marden/$s$, $s$SFMOMA describes The Sisters as a dynamic tangle of colored lines weaving, bobbing, and coiling across a sunny yellow ground while leaving that ground visible between them. Gagosian characterizes Marden’s mature work through intuitive calligraphic gesture. The hotspots focus on an almost-closed loop, a charged near-contact, and a line continuing toward the edge.$s$,
-    $s$High$s$, false, $s$Coordinates are based on the full official image. Confirm the exact near-contact point at high resolution before launch.$s$,
+    $s$Choose one colored ribbon and follow it until another line crosses, hides, or redirects it. The painting becomes easier to enter when you treat each path as an individual movement rather than one tangled mass.$s$, $s$Step back and compare the darker blue network on the left with the warmer yellow-orange movement on the right. Do they feel like separate presences sharing one space?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.516/$s$, $s$https://www.sfmoma.org/artwork/FC.516/#audio$s$, $s$The exact image and SFMOMA audio description were visually audited together. The previous upper-center loop and near-contact points were difficult to identify consistently. They were replaced with the clearly visible dark blue left path, golden right ribbon, and brown line partly exiting near the upper-right edge.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three coordinates directly match distinct colored paths described by SFMOMA’s image and audio.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -3229,21 +3229,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The loop that nearly closes$s$, $s$Tap the large dark loop near the upper center, where the line curves back toward itself but leaves a narrow opening.$s$,
-    $s$The almost-closed shape gives the eye the satisfaction of a form without fully sealing it off. Because the gap remains, the yellow ground continues to flow through the loop, keeping the line from becoming a fixed object.$s$, $s$Does the small opening make the loop feel unfinished, or more alive?$s$,
-    52, 28, true
+    $s$The dark blue path on the left$s$, $s$Tap the deep blue line curving through the upper-left quadrant, where it bends inward and crosses lighter gray and brown paths.$s$,
+    $s$SFMOMA’s audio associates the darker blue figure with one of Marden’s daughters. Even without that story, its cooler color and more compact path give the left side a distinct visual personality within the larger network.$s$, $s$Does the dark blue line feel more contained or more forceful than the warmer lines?$s$,
+    28, 28, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$Two lines passing without touching$s$, $s$Look just left of center for a narrow yellow gap between two dark lines that run close together.$s$,
-    $s$The tension comes from near-contact rather than collision. The lines seem aware of one another, yet each preserves its own path. That small interval makes the empty yellow space feel as active as the painted marks.$s$, $s$Would the relationship feel calmer or more final if the lines actually touched?$s$,
-    38, 51, true
+    $s$The golden ribbon on the right$s$, $s$Look at the yellow-orange line looping through the middle-right side.$s$,
+    $s$The artist’s daughters recalled that Marden associated the golden right-hand ribbon with Mirabelle, whose name evokes golden-yellow plums. The line remains abstract, but its warmth and open looping path make it feel different from the darker network opposite it.$s$, $s$Does knowing the family association make this line feel more figure-like?$s$,
+    74, 48, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The line turning at the edge$s$, $s$Follow a dark line toward the lower-right edge, where it bends sharply or disappears beyond the canvas.$s$,
-    $s$The line does not treat the edge as a place to conclude neatly. It arrives with momentum and seems capable of continuing outside the painting, making the visible network feel like one section of something larger.$s$, $s$What kind of path do you imagine continuing beyond the edge?$s$,
-    80, 77, true
+    $s$The brown line nearly leaving at the top$s$, $s$Follow the reddish-brown ribbon upward along the right edge to the point near the top where it partly exits the canvas before turning back.$s$,
+    $s$The edge does not simply stop the line. It creates the impression that the path almost escapes and then returns, echoing the sisters’ description of the painting as balancing what is kept inside with what is nearly leaving.$s$, $s$Does the line feel contained by the canvas or only temporarily visible within it?$s$,
+    78, 7, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -3266,9 +3266,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Let the dark gray-green field register first. Then follow the heavier bands slowly, as if they were writing carved into stone but stripped of readable words.$s$, $s$Step back and ask whether the painting feels mournful because of the title, or whether the weight, pace, and color of the lines already create that mood on their own.$s$,
-    $s$https://www.sfmoma.org/artwork/FC.579/$s$, $s$https://matthewmarks.com/exhibitions/brice-marden-two-new-paintings-with-five-chinese-tang-dynasty-stone-epitaphs-05-1997$s$, $s$SFMOMA confirms the 1996–97 oil-on-linen painting. Matthew Marks documents its original presentation alongside five Chinese Tang dynasty stone epitaphs, supporting a careful connection between the title, stone-like ground, and inscription-like linear structure without claiming the bands form readable text. The hotspots isolate the muted yellow line, a central crossing, and an active gray interval.$s$,
-    $s$High$s$, false, $s$Coordinates are based on the supplied full image. The yellow band and central knot should be verified against the highest-resolution version because the palette is deliberately subdued.$s$,
+    $s$Follow the green, yellow, and pale blue ribbons separately before letting them merge into one network. Each color creates its own route across the gray field, but crossings continually make those routes difficult to preserve.$s$, $s$Step back and ask whether the painting feels like writing without words, a map without destinations, or several bodies moving through the same constrained space.$s$,
+    $s$https://www.sfmoma.org/artwork/FC.579/$s$, $s$https://matthewmarks.com/exhibitions/brice-marden-two-new-paintings-with-five-chinese-tang-dynasty-stone-epitaphs-05-1997$s$, $s$The exact SFMOMA image was visually audited. The former upper yellow point did not land on the clearest yellow passage, and the lower gray pocket was too subjective. Revised hotspots identify the unmistakable upper-left yellow arc, central green crossing, and pale blue lower sweep.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three coordinates directly match visible yellow, green, and pale blue paths.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -3289,21 +3289,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The yellow line under pressure$s$, $s$Tap the muted yellow-green band near the upper half, where it threads between darker gray and black lines.$s$,
-    $s$The color is not bright enough to become a cheerful accent. It feels slightly sour and constrained by the heavier bands around it, introducing a weak pulse of light into an otherwise grave surface.$s$, $s$Does this yellow line offer relief, or make the surrounding darkness feel heavier?$s$,
-    56, 31, true
+    $s$The yellow arc at the upper left$s$, $s$Tap the bright yellow line curving around the broad upper-left loop.$s$,
+    $s$This is one of the clearest yellow passages in the painting. It runs beside a darker green path without perfectly following it, creating the sense of two related movements that repeatedly separate and reunite.$s$, $s$Does the yellow seem to shadow the green line or pursue its own route?$s$,
+    23, 18, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The knot of dark crossings$s$, $s$Look near the center where several thick lines overlap or press tightly past one another.$s$,
-    $s$The crossings create a dense visual weight, as if several paths have accumulated in one place. Yet the lines do not merge into one solid mass; each remains partly traceable, so the painting holds compression and independence together.$s$, $s$Can you still follow one line through the knot?$s$,
-    51, 52, true
+    $s$The green crossing near the center$s$, $s$Look at the dark green intersection near the middle, where one long horizontal curve passes through several vertical and looping paths.$s$,
+    $s$The crossing gives the network a temporary center of gravity. Multiple routes occupy the same area without blending into one shape, so compression and independence remain visible at once.$s$, $s$How many separate lines can you trace through this crossing?$s$,
+    51, 51, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The gray ground between bands$s$, $s$Focus on a quiet gray-green pocket enclosed by several dark curves in the lower-left area.$s$,
-    $s$The ground can resemble stone, but it is not passive background. The lines carve it into uneven spaces that feel held, compressed, or briefly opened. In a painting titled *Epitaph*, the empty interval can feel like a pause in language.$s$, $s$Does this space feel silent, enclosed, or still moving?$s$,
-    28, 72, true
+    $s$The pale blue sweep near the bottom$s$, $s$Tap the broad pale blue curve rising from the lower-left and passing behind the darker green and yellow loops near the bottom.$s$,
+    $s$The blue is quieter than the dark green and bright yellow, so it can disappear at first glance. Once noticed, it adds another spatial layer, seeming to pass behind the stronger lines and deepen the otherwise flat gray field.$s$, $s$Does the pale blue line feel farther away because it is less forceful?$s$,
+    42, 83, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -3326,9 +3326,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Let the title suggest a field, but do not search for stalks. Instead, look for how repeated marks gather, separate, and begin to feel abundant without becoming a literal landscape.$s$, $s$Step back and ask whether the painting now feels empty or full. Has the title helped you see wheat, or only made you more aware of repetition and growth?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.787/$s$, $s$https://www.sfmoma.org/artist/Agnes_Martin/$s$, $s$SFMOMA’s Agnes Martin material notes that her rare titled works, including Wheat, refer to natural phenomena without becoming traditional landscapes. The hotspots focus on visible changes in density, open intervals, and continuation at the edge rather than claiming literal stalks.$s$,
-    $s$High$s$, false, $s$Coordinates are based on the full official reproduction. Because the changes are subtle, verify all three targets against the highest-resolution image before launch.$s$,
+    $s$Begin with the broad pale cross dividing the interior into four softly colored fields. Then compare that warm center with the cool gray-green border around the entire square.$s$, $s$Step back and ask how the title changes these simple divisions. Do the four pale areas begin to feel like fields, light, or something growing—or do they remain quiet blocks of color?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.787/$s$, $s$https://www.sfmoma.org/artist/Agnes_Martin/$s$, $s$The exact SFMOMA image was visually audited. The previous description of repeated vertical marks and varying density was incompatible with the image, which clearly shows four pale fields divided by a broad cross and enclosed by a gray-green border.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND FULLY REVISED: all three previous hotspots were replaced with the central vertical band, horizontal division, and outer border.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -3349,21 +3349,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The denser vertical band$s$, $s$Look near the center-left for a passage where the repeated marks stand closer together and feel darker than the surrounding field.$s$,
-    $s$The slight increase in density creates the sense of something gathering without outlining a recognizable object. A tiny change in spacing is enough to make one area feel more fertile, crowded, or active than another.$s$, $s$How much does the mood change when the marks move only slightly closer together?$s$,
-    34, 48, true
+    $s$The broad vertical band$s$, $s$Tap the pale vertical strip running through the center from top to bottom.$s$,
+    $s$This band separates the left and right fields without using a hard outline. Its near-white color creates a pause inside the warmer yellow area, making the painting feel divided and connected at the same time.$s$, $s$Does the central band feel like an empty path or a source of light?$s$,
+    50, 48, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The quieter strip beside it$s$, $s$Tap a paler, more open passage immediately beside one of the denser bands.$s$,
-    $s$This interval gives the eye room to compare rather than simply count marks. The painting’s rhythm depends on alternation between concentration and release, much as a field can appear different when wind passes through it.$s$, $s$Does this lighter strip feel empty, or like a pause inside something continuous?$s$,
-    57, 49, true
+    $s$The horizontal division$s$, $s$Look at the pale horizontal band crossing the painting slightly above the midpoint.$s$,
+    $s$Together with the vertical strip, it forms a simple cross and creates four unequal-looking fields. The structure is extremely clear, but the soft boundaries prevent it from feeling rigid or diagrammatic.$s$, $s$Do the four surrounding fields feel equal despite their subtle tonal differences?$s$,
+    50, 45, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The pattern meeting the edge$s$, $s$Look where the repeated structure reaches the right edge of the canvas.$s$,
-    $s$The painting ends physically, but the pattern does not arrive at a visual conclusion. It seems capable of continuing, which makes the canvas feel like one selected portion of a much larger field.$s$, $s$Do you imagine the pattern stopping here or extending beyond the frame?$s$,
-    84, 50, true
+    $s$The cool outer border$s$, $s$Tap the gray-green band surrounding the warm interior near the upper-left edge.$s$,
+    $s$The border changes the entire temperature of the painting. It contains the pale yellow center while also making that center appear warmer and more luminous by contrast.$s$, $s$Would the central fields feel as warm without this cool frame?$s$,
+    12, 18, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -3386,9 +3386,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Give your eyes time to adjust before looking for a focal point. Follow one faint graphite line and notice every small place where it wavers, fades, or changes pressure.$s$, $s$Now see the entire grid again. Does it feel strict because it is measured, or gentle because the hand never becomes perfectly mechanical?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.788/$s$, $s$https://www.metmuseum.org/art/collection/search/483560$s$, $s$SFMOMA confirms the use of gesso, graphite, and ink on linen. The Met’s discussion of Martin’s hand-drawn geometry supports attention to lines that tremble and stutter rather than behaving like machine ruling. The hotspots isolate line variation, a central crossing, and an imperfect edge termination.$s$,
-    $s$High$s$, false, $s$Coordinates indicate subtle features rather than bold motifs. Final manual verification at full resolution is essential.$s$,
+    $s$Let the broad square grid appear before inspecting the finer lines inside it. The painting is not one uniform graph: large divisions and closely spaced ruling coexist on the same pale surface.$s$, $s$Step back and ask whether the grid feels strict or fragile. Does its order come from perfect geometry, or from many faint handmade lines working together?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.788/$s$, $s$https://openspace.sfmoma.org/2017/02/agnes-martins-world-facing-grid/$s$, $s$The exact SFMOMA image was visually audited. The former claims about one trembling line and a specific line stopping short were too fine to verify consistently. Revised points identify clearly visible major horizontal and vertical divisions and an edge intersection.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REVISED: all coordinates now land on stable, visible grid structures rather than unprovable microscopic irregularities.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -3409,21 +3409,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The line that trembles$s$, $s$Tap a horizontal graphite line near the upper third and follow it across the canvas.$s$,
-    $s$The line appears orderly from a distance, but close looking reveals tiny changes in pressure and direction. Martin’s grid is controlled without being machine-perfect, so calm emerges from sustained human attention rather than flawless geometry.$s$, $s$Where does the line first stop looking perfectly straight?$s$,
-    50, 32, true
+    $s$A major horizontal division$s$, $s$Tap the darker horizontal grid line running across the upper third.$s$,
+    $s$This line divides the canvas into large horizontal zones and is visibly stronger than the fine ruling around it. The hierarchy keeps the grid from becoming one undifferentiated pattern.$s$, $s$How does this stronger line change the scale of the squares you see?$s$,
+    50, 25, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$One crossing in the grid$s$, $s$Look at an intersection near the center where a horizontal and vertical line meet.$s$,
-    $s$The crossing is extremely simple, yet the entire painting depends on thousands of relationships like this one. No intersection becomes a dramatic focal point; meaning accumulates through equality and repetition.$s$, $s$Does this crossing feel important on its own, or only because it belongs to the whole?$s$,
-    51, 51, true
+    $s$A major vertical division$s$, $s$Look at the darker vertical line just left of center, where it crosses the broad horizontal structure.$s$,
+    $s$The intersection makes the painting’s nested organization visible: large squares are built from smaller intervals. One crossing therefore reveals two scales of measurement at once.$s$, $s$Do you notice the large square first or the smaller lines within it?$s$,
+    38, 51, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The grid stopping short$s$, $s$Look near an outer edge where a graphite line ends just before, or meets, the boundary.$s$,
-    $s$The slight irregularity makes the grid feel made rather than imposed. The edge reveals how carefully the structure was brought into relation with the physical canvas.$s$, $s$Does the small gap disturb the order or make it more believable?$s$,
-    82, 73, true
+    $s$The grid near the lower-right edge$s$, $s$Tap a clearly visible intersection close to the lower-right border.$s$,
+    $s$The regular structure continues almost to the edge but does not disguise the physical linen beneath it. The pale margin and slight irregularity keep the grid from feeling printed or mechanically imposed.$s$, $s$Does the edge make the grid feel finished or merely cropped?$s$,
+    83, 76, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -3446,9 +3446,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Do not expect a summer scene. Let the pale warmth reach you slowly, then notice how the grid holds that warmth in measured intervals rather than letting it spread freely.$s$, $s$Step back and ask what remains of summer when scenery, people, and weather are removed. Is it color, rhythm, lightness, or simply a passing feeling?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.691/$s$, $s$https://www.sfmoma.org/artist/Agnes_Martin/$s$, $s$SFMOMA’s artist material emphasizes Martin’s use of natural titles without traditional depiction. The hotspot choices focus on slow-emerging warmth, subtle variation in hand-drawn pressure, and the grid’s continuation against the physical edge.$s$,
-    $s$High$s$, false, $s$The color differences are delicate and may change with screen calibration. Confirm the selected warm cell and graphite crossing in the exact app image.$s$,
+    $s$Let the pale warm field register slowly, then follow the graphite structure that divides it. Avoid searching for one dramatic focal point; the painting depends on comparison across the whole surface.$s$, $s$Step back and ask what the title contributes. Does the measured structure feel seasonal because of its warmth, lightness, and gradual shifts rather than any pictured landscape?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.691/$s$, $s$https://www.sfmoma.org/artist/Agnes_Martin/$s$, $s$The SFMOMA reproduction was visually checked at available resolution. The former claims about one uniquely warmer square and one darker crossing were too specific for reliable digital verification. Revised hotspots use stable upper, central, and lower structural zones.$s$,
+    $s$Medium$s$, false, $s$VISUALLY AUDITED WITH SUBTLETY LIMITATION: coordinates match visible regions, but exact color temperature depends on the final screen and image calibration.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -3469,21 +3469,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The warm square that appears late$s$, $s$Choose a pale square near the upper center that begins to look warmer only after several seconds.$s$,
-    $s$The color is so restrained that perception happens gradually. What first looks almost white can shift toward cream, peach, or yellow through comparison with neighboring cells.$s$, $s$Did the color change, or did your eyes become more sensitive?$s$,
-    52, 29, true
+    $s$The upper warm field$s$, $s$Tap the pale cream-yellow area in the upper-center portion.$s$,
+    $s$This broad area carries the painting’s warmth without depicting sunlight or a field. Its effect depends on sustained looking and comparison with cooler or lighter passages nearby.$s$, $s$Does the color feel warmer after you have looked at the rest of the canvas?$s$,
+    52, 28, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The darker graphite crossing$s$, $s$Look at a crossing slightly below center where the graphite appears a little darker or more firmly pressed.$s$,
-    $s$This tiny increase in pressure interrupts the painting’s near-uniform calm. It reminds us that the grid was repeatedly drawn by hand and that variation can enter even the most disciplined structure.$s$, $s$Does this darker crossing become a focal point once you notice it?$s$,
-    47, 58, true
+    $s$The central graphite structure$s$, $s$Look at a clearly visible graphite crossing near the middle.$s$,
+    $s$The crossing anchors the soft color inside a measured system. Martin’s geometry does not eliminate sensation; it creates the quiet conditions in which small tonal differences become noticeable.$s$, $s$Does the line interrupt the color or help you perceive it?$s$,
+    50, 51, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The rhythm at the lower edge$s$, $s$Follow the final row of cells along the bottom.$s$,
-    $s$The repeated intervals create a steady cadence, but the boundary ends the rhythm abruptly. The title’s word “drift” becomes visible here: the pattern feels continuous even as the canvas cuts it off.$s$, $s$Does the last row feel complete, or like one moment in an ongoing sequence?$s$,
-    50, 84, true
+    $s$The lower field approaching the edge$s$, $s$Tap the pale area near the lower center, just above the bottom boundary.$s$,
+    $s$The composition continues its restrained rhythm almost to the edge. The boundary ends the physical canvas, but the repeated intervals make the structure feel capable of continuing.$s$, $s$Does the bottom feel like a conclusion or a crop from something larger?$s$,
+    50, 82, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -3506,9 +3506,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Let the dark blue field register before searching for the grid. Then move closer until faint lines and flashes of gold begin to rise from the surface.$s$, $s$Step back and ask whether the title has turned the grid into water for you. Does the painting feel like a sea at night, or like darkness organized into a quiet visual rhythm?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.459/$s$, $s$https://www.sfmoma.org/read/angles-on-agnes/$s$, $s$SFMOMA confirms the unusual combination of crayon, gold leaf, and oil on linen. Its Agnes Martin gallery material highlights Night Sea as a central work. The hotspots distinguish reflective gold, materially varied darkness, and a hand-drawn line meeting the edge.$s$,
-    $s$High$s$, false, $s$Gold-leaf visibility changes with lighting and photography. Hotspot 1 must be checked against the exact reproduction and may be more effective with an installation image or alternate-light view.$s$,
+    $s$Let the deep blue-black field register first, then look for the faint gold and crayon grid emerging from it. The structure becomes visible slowly, more like reflected light than a boldly drawn pattern.$s$, $s$Step back and ask whether the title turns the grid into water for you. Does the painting feel like a sea at night, or like darkness measured into quiet intervals?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.459/$s$, $s$https://www.sfmoma.org/read/angles-on-agnes/$s$, $s$The official reproduction and confirmed gold-leaf medium were visually audited. The coordinates point to a visible upper gold line, central dark interval, and left-edge grid passage. Because gold changes with lighting, the first hotspot remains installation-dependent.$s$,
+    $s$High$s$, false, $s$VISUALLY AUDITED AND REFINED: all coordinates match stable regions; gold-leaf intensity may differ between the photograph and gallery installation.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -3529,21 +3529,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The gold line catching light$s$, $s$Tap one thin gold-leaf line near the upper half and shift your viewing angle slightly.$s$,
-    $s$The line can brighten or recede depending on the light and your position. It behaves less like a fixed painted stripe than a reflection on dark water—present, then suddenly difficult to see.$s$, $s$Does the line seem to move when you move?$s$,
-    51, 35, true
+    $s$A gold horizontal line$s$, $s$Tap a visible gold-toned horizontal line in the upper-middle portion.$s$,
+    $s$Gold leaf can brighten or recede as light and viewpoint change. The line therefore behaves less like fixed yellow paint and more like a reflection that appears briefly across dark water.$s$, $s$Does the line seem brighter when you shift your viewing position?$s$,
+    50, 35, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The blue-black interval$s$, $s$Look between two horizontal lines where the dark field seems almost empty.$s$,
-    $s$The interval is not one uniform blue. Oil, crayon, and the linen surface create small changes in tone and texture, so the darkness feels layered rather than flat.$s$, $s$How many different blues or blacks can you find in this narrow band?$s$,
-    50, 55, true
+    $s$A dark interval between lines$s$, $s$Look into the blue-black band between two horizontal lines near the center.$s$,
+    $s$The ground is not a single flat color. Oil, crayon, linen, and reflected light create subtle tonal variation, giving the darkness material depth.$s$, $s$How many different dark blues or blacks can you distinguish here?$s$,
+    50, 53, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The imperfect meeting at the edge$s$, $s$Follow a horizontal line toward the left edge, where it ends or meets the border unevenly.$s$,
-    $s$The slight irregularity keeps the grid from becoming an impersonal system. The line carries the scale of a hand moving across six feet of linen, with each tiny variation preserved.$s$, $s$Does the uneven ending make the work feel more fragile?$s$,
-    15, 68, true
+    $s$The grid reaching the left edge$s$, $s$Tap the place where one horizontal line approaches the left boundary.$s$,
+    $s$The faint structure extends across the broad field without becoming a heavy frame. At the edge, the viewer becomes aware of both the repeated grid and the physical limit of the linen.$s$, $s$Does the edge stop the imagined sea or only the painting?$s$,
+    12, 68, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -3566,9 +3566,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Compare two neighboring horizontal bands before trying to see the whole painting. They may look identical at first, but their colors and widths begin to separate with time.$s$, $s$Now step back until the bands merge into one atmosphere. Does the painting feel repetitive, or does repetition make small differences unusually vivid?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.711/$s$, $s$https://www.sfmoma.org/artist/Agnes_Martin/$s$, $s$SFMOMA confirms acrylic paint, colored pencil, and gesso on linen. The hotspots distinguish subtle temperature difference, the soft pencil divider, and variation within an apparently uniform band.$s$,
-    $s$High$s$, false, $s$Color-based coordinates are sensitive to reproduction and display settings. Confirm the cooler band in the production image.$s$,
+    $s$Compare the horizontal bands one at a time. Their widths and pale colors appear restrained, but each band changes because of the stripe immediately above and below it.$s$, $s$Step back until the separate bands begin to merge into one atmosphere. Does repetition erase difference or make small differences more powerful?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.711/$s$, $s$https://www.sfmoma.org/artist/Agnes_Martin/$s$, $s$The exact image was reviewed at available digital resolution. The former claim that one band visibly changed near the far-right edge was not dependable. Revised points use three stable horizontal features that remain valid across screen calibrations.$s$,
+    $s$Medium$s$, false, $s$VISUALLY AUDITED WITH COLOR LIMITATION: coordinates directly match bands and a divider, but nuanced color comparisons require the final calibrated image.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -3589,21 +3589,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The band that leans cooler$s$, $s$Tap a pale band near the upper third that appears slightly bluer or grayer than the band beneath it.$s$,
-    $s$The difference is modest, but the painting gives it room to matter. Because no bold shape competes for attention, a small temperature shift can change the emotional character of an entire section.$s$, $s$Would you have noticed this color outside such a quiet painting?$s$,
-    50, 31, true
+    $s$An upper horizontal band$s$, $s$Tap a clearly visible pale band near the upper third.$s$,
+    $s$This stripe establishes the painting’s measured horizontal rhythm. Its color matters less as an isolated swatch than as one term in a sequence of neighboring bands.$s$, $s$How does this band change when you compare it with the one directly below?$s$,
+    50, 30, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The pencil boundary$s$, $s$Zoom into the thin colored-pencil line separating two central bands.$s$,
-    $s$The line organizes the surface without acting like a heavy border. Its softness allows the bands to remain related even as it measures the interval between them.$s$, $s$Does the line divide the colors or help them speak to each other?$s$,
+    $s$A central colored-pencil divider$s$, $s$Look at the thin horizontal line separating two bands near the center.$s$,
+    $s$The colored-pencil boundary organizes the surface without becoming a heavy contour. It measures the interval while allowing the colors on either side to remain visually connected.$s$, $s$Does the line divide the bands or make their relationship clearer?$s$,
     50, 51, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The band that changes near the edge$s$, $s$Follow one horizontal stripe toward the far right, looking for slight variation in application or tone.$s$,
-    $s$The band is not an industrial strip laid down with perfect uniformity. Small shifts in the acrylic reveal process and keep repetition from becoming sterile.$s$, $s$Where does the band feel most visibly handmade?$s$,
-    82, 68, true
+    $s$A lower horizontal band$s$, $s$Tap a broad band in the lower third and compare it with the upper one.$s$,
+    $s$Repeated structure encourages the eye to notice minute shifts in tone and width. The lower band may seem different even when the materials and format remain consistent.$s$, $s$Does this lower stripe feel heavier, cooler, or simply lower because of its position?$s$,
+    50, 73, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -3626,9 +3626,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Let your breathing slow to the pace of the bands. Instead of searching for the most important stripe, notice how each one depends on the intervals above and below it.$s$, $s$Step back and see whether the painting now feels still. Are the bands resting in place, or does your eye continue moving gently up and down between them?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.305/$s$, $s$https://www.sfmoma.org/artist/Agnes_Martin/$s$, $s$SFMOMA confirms the 1988 acrylic-and-graphite medium. The hotspots focus on perceived rather than literal interval width, a graphite divider losing strength, and a pale upper band becoming visible through comparison.$s$,
-    $s$High$s$, false, $s$Subtle colors and line fading require high-resolution display and careful calibration. Coordinates should be checked on the final device.$s$,
+    $s$Follow the horizontal graphite lines from top to bottom and notice how they create broad, nearly white bands. The work asks you to compare intervals that initially seem identical.$s$, $s$Step back and decide whether the painting feels empty or carefully full. How much visual activity can emerge from lines and colors that almost disappear?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.305/$s$, $s$https://www.sfmoma.org/artist/Agnes_Martin/$s$, $s$The official image was visually reviewed. The previous claims about one widest interval and one specifically fading line were not reliably verifiable. Revised hotspots identify stable upper and lower dividers and the central pale band.$s$,
+    $s$Medium$s$, false, $s$VISUALLY AUDITED WITH SUBTLETY LIMITATION: all coordinates match visible structural zones; line strength may vary by reproduction.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -3649,21 +3649,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The widest-looking interval$s$, $s$Compare the spaces around the center and choose the one that appears widest, even if the measurement is nearly the same.$s$,
-    $s$Perceived width changes with color and neighboring lines. A pale interval can feel more expansive than a darker one, showing that measurement and experience are not identical.$s$, $s$Is this band truly wider, or does its color make it seem that way?$s$,
-    50, 48, true
+    $s$The upper graphite divider$s$, $s$Tap a visible horizontal line near the upper quarter.$s$,
+    $s$The line is delicate, but it establishes a clear interval without sealing it into a hard-edged stripe. Measurement remains present while the surface stays open and luminous.$s$, $s$Does the line feel precise or vulnerable?$s$,
+    50, 25, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The graphite line that fades$s$, $s$Follow a central graphite divider until it becomes faint or nearly disappears.$s$,
-    $s$The weakening line keeps the structure open. It measures without fully enclosing, allowing adjacent bands to remain visually connected.$s$, $s$Does the fading line create calm or uncertainty?$s$,
-    67, 56, true
+    $s$The central pale band$s$, $s$Look at the broad, nearly white interval around the center.$s$,
+    $s$The band may appear empty at first, yet its tone is defined by the graphite lines and neighboring fields. Martin makes comparison—not strong contrast—the main act of seeing.$s$, $s$Does the band become more visible the longer you compare it?$s$,
+    50, 50, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The pale band near the top$s$, $s$Look at one of the highest bands, where the acrylic color approaches the surrounding lightness.$s$,
-    $s$This nearly disappearing color asks for sustained attention. The band becomes visible through comparison rather than contrast, so seeing it feels gradual and participatory.$s$, $s$How long did it take before this band separated from the one beside it?$s$,
-    51, 18, true
+    $s$The lower graphite divider$s$, $s$Tap a horizontal line in the lower third.$s$,
+    $s$Repeating a similar line lower down creates rhythm without dramatic progression. The eye begins to register spacing, pressure, and subtle tonal difference rather than searching for a focal point.$s$, $s$Does this line feel identical to the upper divider?$s$,
+    50, 73, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,
@@ -3686,9 +3686,9 @@ with target as (
      confidence, human_reviewed, admin_notes,
      review_status, is_published)
   select target.artwork_id,
-    $s$Take in the pastel bands without naming their colors too quickly. Let the pinks, blues, yellows, and whites shift as they sit beside one another.$s$, $s$Now step back and ask what kind of feeling the painting creates without showing any event. Does its lightness feel joyful, delicate, distant, or more complicated than those words?$s$,
-    $s$https://www.sfmoma.org/artwork/FC.549/$s$, $s$https://www.sfmoma.org/artist/Agnes_Martin/$s$, $s$SFMOMA confirms the 1995 acrylic-and-graphite painting. The hotspots focus on interaction between pastel neighbors, a delicate graphite divider, and a nearly white stripe that becomes visible only through sustained comparison.$s$,
-    $s$High$s$, false, $s$Coordinates are representative. Pastel differences can shift substantially by screen and photograph; manually verify the selected bands in the app image.$s$,
+    $s$Move slowly from the upper bands to the lower ones, noticing pale blue, pink, peach, yellow, and near-white shifts. Avoid naming one stripe as the main subject; the experience lies in their sequence.$s$, $s$Step back and ask what kind of feeling the painting creates without depicting an event. Does its lightness feel joyful, delicate, distant, or quietly unstable?$s$,
+    $s$https://www.sfmoma.org/artwork/FC.549/$s$, $s$https://www.sfmoma.org/artist/Agnes_Martin/$s$, $s$The official reproduction was visually reviewed. The former hotspot naming one exact pink-blue adjacency and a nearly white lower stripe was too dependent on screen rendering. Revised targets identify stable cool, graphite, and warm horizontal zones.$s$,
+    $s$Medium$s$, false, $s$VISUALLY AUDITED WITH COLOR LIMITATION: all coordinates match visible bands and a divider; final color names should be checked on the production display.$s$,
     $s$approved$s$, true
   from target
   on conflict (artwork_id) do update set
@@ -3709,21 +3709,21 @@ insert into public.guided_looking_hotspots
   (set_id, artwork_id, hotspot_number, title, what_to_look_at,
    why_it_matters, visitor_question, x_coordinate, y_coordinate, is_published)
   select up_set.id, up_set.artwork_id, 1::int,
-    $s$The pink band changing beside blue$s$, $s$Tap a pale pink stripe near the upper half and compare it with the cooler band directly beside it.$s$,
-    $s$The pink seems warmer because of the blue nearby, while the blue may appear clearer because of the pink. Martin lets emotion emerge through relationships between restrained colors rather than one dramatic hue.$s$, $s$Which band changes more because of its neighbor?$s$,
-    50, 34, true
+    $s$A cool upper band$s$, $s$Tap a pale blue or gray-blue stripe in the upper third.$s$,
+    $s$The cool band changes the apparent warmth of the stripes around it. Martin lets color operate relationally: a restrained blue can make a neighboring cream or pink feel unexpectedly luminous.$s$, $s$Which neighboring band changes most because of this cool stripe?$s$,
+    50, 29, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 2::int,
-    $s$The graphite line still visible$s$, $s$Zoom into one thin graphite divider crossing the pastel surface.$s$,
-    $s$The line prevents the colors from dissolving completely into one another, but it remains too delicate to dominate them. Structure and softness coexist.$s$, $s$Does the line make the colors feel more separate or more carefully connected?$s$,
-    50, 54, true
+    $s$A central graphite divider$s$, $s$Look at a thin graphite line near the middle of the canvas.$s$,
+    $s$The line prevents the pastel fields from dissolving into one haze, but it remains too quiet to dominate them. Structure and softness coexist on the same surface.$s$, $s$Does the line separate the colors or hold them in balance?$s$,
+    50, 52, true
   from up_set
   union all
   select up_set.id, up_set.artwork_id, 3::int,
-    $s$The nearly white band$s$, $s$Look at a very pale stripe near the lower portion that almost merges with the canvas.$s$,
-    $s$This band sits on the threshold of visibility. Its slight difference from white becomes meaningful because the entire painting has trained the eye to notice less.$s$, $s$Would this color seem visible in a louder painting?$s$,
-    50, 77, true
+    $s$A pale warm band below$s$, $s$Tap a cream, peach, or pink-tinged band in the lower third.$s$,
+    $s$Placed beneath cooler stripes, this band can feel warmer than its pigment alone would suggest. The painting turns comparison into an emotional experience without using dramatic color.$s$, $s$Does this lower band seem warmer because of its own color or because of what surrounds it?$s$,
+    50, 74, true
   from up_set
 on conflict (artwork_id, hotspot_number) do update set
   set_id           = excluded.set_id,

@@ -45,7 +45,7 @@ APP_ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 PROJECT_ROOT = os.path.abspath(os.path.join(APP_ROOT, ".."))
 
 WORKBOOK = os.path.join(
-    PROJECT_ROOT, "Look_Closer_Guided_Looking_Content.xlsx"
+    PROJECT_ROOT, "Look Closer Feature Explanations.xlsx"
 )
 CATALOG = os.path.join(APP_ROOT, "src", "data", "artworks.generated.json")
 SHEET = "Guided Looking Data"
