@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { resolveArtworkImage } from '../lib/imageResolver.js'
+import { resolveArtworkImage, localFallbackImage } from '../lib/imageResolver.js'
 
 // Elegant placeholder shown when an image is missing or fails to load.
 // Uses the same footprint so layout never shifts. Citation is rendered by the
@@ -26,17 +26,34 @@ function Placeholder({ artist, title }) {
  * citation directly underneath (small, elegant).
  */
 export default function ArtworkImage({ artwork, className = '', rounded = 'rounded-2xl' }) {
-  const [failed, setFailed] = useState(false)
-
   // Resolve the image through the central resolver (spec §27–§33) so image
   // choice + placeholder decisions live in one place.
   const resolved = resolveArtworkImage(artwork)
-  const showPlaceholder = !resolved.url || failed
+
+  // Runtime fallback chain: the verified online image can 403/404 when the CDN
+  // moves it. On error we first swap to the device-local reference photo (if
+  // one exists and we're not already showing it); only if that also fails do we
+  // show the placeholder. `src` starts at the resolved URL.
+  const localUrl = localFallbackImage(artwork)
+  const [src, setSrc] = useState(resolved.url)
+  const [failed, setFailed] = useState(false)
+
+  const handleError = () => {
+    if (localUrl && src !== localUrl) {
+      setSrc(localUrl) // remote failed — try the local photo
+    } else {
+      setFailed(true) // local also failed (or none) — placeholder
+    }
+  }
+
+  const showPlaceholder = !src || failed
 
   // Caption: for a verified online image, credit its actual source; otherwise
-  // fall back to the built citation for the local reference photo.
+  // fall back to the built citation for the local reference photo. If we fell
+  // back to the local photo at runtime, `src` no longer matches the preferred
+  // URL, so the local citation is used correctly.
   const isVerified =
-    !showPlaceholder && resolved.url === artwork.preferredImageUrl
+    !showPlaceholder && src === artwork.preferredImageUrl
   const caption = isVerified
     ? [
         [artwork.artist, artwork.title].filter(Boolean).join(', '),
@@ -54,10 +71,10 @@ export default function ArtworkImage({ artwork, className = '', rounded = 'round
           <Placeholder artist={artwork.artist} title={artwork.title} />
         ) : (
           <img
-            src={resolved.url}
+            src={src}
             alt={`${artwork.artist}, ${artwork.title}`}
             loading="lazy"
-            onError={() => setFailed(true)}
+            onError={handleError}
             className="block w-full object-cover"
           />
         )}

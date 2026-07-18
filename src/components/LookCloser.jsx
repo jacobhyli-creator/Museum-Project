@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { resolveArtworkImage } from '../lib/imageResolver.js'
+import { resolveArtworkImage, localFallbackImage } from '../lib/imageResolver.js'
 
 // "Look Closer" — an optional guided-looking panel shown beneath an artwork's
 // explanation. Collapsed, it's a calm invitation card; expanded, it shows the
@@ -22,14 +22,20 @@ export default function LookCloser({ artwork, onOpen }) {
   const data = artwork?.lookCloser
   const [open, setOpen] = useState(false)
   const [activeHotspot, setActiveHotspot] = useState(null) // hotspot number
-  const [imgFailed, setImgFailed] = useState(false)
+
+  const resolved = resolveArtworkImage(artwork)
+  // Runtime fallback: if the verified remote image 403s (CDN moved), swap to
+  // the device-local photo before giving up. `imageUrl` starts at the resolved
+  // URL; a failed load walks it down to local, then to null (unavailable card).
+  const localUrl = localFallbackImage(artwork)
+  const [imageUrl, setImageUrl] = useState(resolved.url)
+  const handleImgError = () => {
+    setImageUrl((cur) => (localUrl && cur !== localUrl ? localUrl : null))
+  }
 
   if (!data || !Array.isArray(data.hotspots) || data.hotspots.length === 0) {
     return null
   }
-
-  const resolved = resolveArtworkImage(artwork)
-  const imageUrl = !imgFailed ? resolved.url : null
   const active = data.hotspots.find((h) => h.number === activeHotspot) || null
 
   // When a hotspot is active, zoom the image toward its (x%, y%). Because the
@@ -103,7 +109,7 @@ export default function LookCloser({ artwork, onOpen }) {
               src={imageUrl}
               alt={`${artwork.artist}, ${artwork.title}`}
               loading="lazy"
-              onError={() => setImgFailed(true)}
+              onError={handleImgError}
               className="block max-h-[70vh] w-full object-contain"
             />
 

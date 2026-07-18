@@ -117,6 +117,25 @@ export function resolveArtworkImage(artwork) {
 }
 
 /**
+ * The device-local reference photo URL for an artwork, if one exists, else null.
+ * Used as a RUNTIME fallback: verified online images (SFMOMA CDN, foundation
+ * sites) are hotlinked and periodically move, returning 403/404 at load time.
+ * When that happens the display components fall back to this local photo before
+ * the placeholder, so a moved remote URL never blanks out an image. Distinct
+ * from resolveArtworkImage's build-time choice — this is only consulted after a
+ * remote image actually fails to load in the browser.
+ */
+export function localFallbackImage(artwork) {
+  const local = artwork?.imageUrl
+  if (typeof local === 'string' && local.startsWith('/artworks/')) {
+    // Respect Vite's base path so it resolves under any deploy sub-path.
+    const base = (import.meta.env && import.meta.env.BASE_URL) || '/'
+    return base.replace(/\/$/, '') + local
+  }
+  return null
+}
+
+/**
  * Build the human review queue (spec §31–§33): every artwork whose resolved
  * image is low-confidence or missing, with the reason, so a curator can fix it.
  */

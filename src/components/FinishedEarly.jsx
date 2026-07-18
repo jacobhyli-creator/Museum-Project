@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { getArtworkById } from '../data/artworks.js'
-import { resolveArtworkImage } from '../lib/imageResolver.js'
+import { resolveArtworkImage, localFallbackImage } from '../lib/imageResolver.js'
 import { extraCountForRemaining } from '../lib/continuation.js'
 
 // FinishedEarly — shown at the COMPLETE screen when the visitor finishes with
@@ -25,14 +25,26 @@ function ExtraCard({ art, actionLabel, onAction, behind = false }) {
   const full = getArtworkById(art.id) || art
   const resolved = resolveArtworkImage(full)
   const room = typeof full.roomNumber === 'number' ? full.roomNumber : null
+
+  // Same runtime fallback as ArtworkImage: if the remote thumbnail 403s (CDN
+  // moved), swap to the device-local photo before showing "No image".
+  const localUrl = localFallbackImage(full)
+  const [thumbSrc, setThumbSrc] = useState(resolved?.url || null)
+  const [thumbFailed, setThumbFailed] = useState(false)
+  const handleThumbError = () => {
+    if (localUrl && thumbSrc !== localUrl) setThumbSrc(localUrl)
+    else setThumbFailed(true)
+  }
+
   return (
     <li className="flex items-center gap-3 rounded-xl border border-line bg-white px-3 py-2.5">
       <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-cream">
-        {resolved?.url ? (
+        {thumbSrc && !thumbFailed ? (
           <img
-            src={resolved.url}
+            src={thumbSrc}
             alt={`${full.artist}, ${full.title}`}
             loading="lazy"
+            onError={handleThumbError}
             className="h-full w-full object-cover"
           />
         ) : (

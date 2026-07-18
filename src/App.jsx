@@ -204,6 +204,11 @@ function TourApp() {
   const [missedEarlier, setMissedEarlier] = useState([])
   // Wall-clock start of the tour, used to compute elapsed/remaining time.
   const tourStartRef = useRef(null)
+  // The finished-early "minutes remaining" is computed ONCE, the first time the
+  // visitor reaches the end of their original route. Re-entering the tour to add
+  // forward extras must NOT shrink it (that would make the keep-exploring panel
+  // silently disappear after a couple of extras). null = not yet anchored.
+  const finishedEarlyAnchorRef = useRef(null)
 
   // Consumer account state. `optedIn` is the master consent flag; when false we
   // persist nothing (event logging stays disabled, favorites/prefs not saved).
@@ -586,10 +591,16 @@ function TourApp() {
         for (const art of route) next = applySignal(next, art, 'completed')
         return next
       })
-      const startedMs = tourStartRef.current
-      const elapsedMin = startedMs ? (Date.now() - startedMs) / 60000 : 0
-      const selectedMin = typeof enginePrefs.time === 'number' ? enginePrefs.time : 0
-      setFinishedEarlyRemaining(Math.max(0, selectedMin - elapsedMin))
+      // Anchor "minutes remaining" ONCE (the first time the original route ends).
+      // Re-entering the tour to walk through added extras must not recompute it,
+      // otherwise the keep-exploring panel shrinks away as the clock advances.
+      if (finishedEarlyAnchorRef.current == null) {
+        const startedMs = tourStartRef.current
+        const elapsedMin = startedMs ? (Date.now() - startedMs) / 60000 : 0
+        const selectedMin = typeof enginePrefs.time === 'number' ? enginePrefs.time : 0
+        finishedEarlyAnchorRef.current = Math.max(0, selectedMin - elapsedMin)
+      }
+      setFinishedEarlyRemaining(finishedEarlyAnchorRef.current)
     }
 
     // Log the just-completed stop, and on the final stop close out the session
@@ -784,6 +795,7 @@ function TourApp() {
     setMissedEarlier([])
     setFinishedEarlyRemaining(0)
     tourStartRef.current = null
+    finishedEarlyAnchorRef.current = null
   }
 
   const startNewTour = () => {
@@ -863,21 +875,48 @@ function TourApp() {
     }
   }
 
-  // Accept one forward extra: append it to the route and RE-ENTER the tour at
-  // the appended index (confirmed decision). Forward-only holds because the
-  // extra was drawn from buildContinuation's forward-sequenced set.
+  // Accept a forward extra and RE-ENTER the tour (confirmed decision). To fix the
+  // dead-end where a single appended stop had no in-tour "next", tapping "Add" on
+  // a forward extra QUEUES the whole still-offered forward set into the route so
+  // the visitor walks through them with the normal Next button, only returning to
+  // the completion screen at the true end.
+  //
+  // CRITICAL: the appended works keep their forward-sequenced order (as produced
+  // by buildContinuation/planFromRoom) so the route stays same-room-or-forward —
+  // we must NOT hoist the tapped card to the front, or a later-room card tapped
+  // first would create a backward step. Instead we start playback AT the tapped
+  // work's position in the newly-appended tail. Behind-you ("missed earlier")
+  // picks are single-add only — they require walking back, so we don't chain them.
   const handleAddExtra = (art) => {
     if (!art?.id) return
+    const isBehind = missedEarlier.some((a) => a.id === art.id)
     setRoute((r) => {
-      if (r.some((a) => a.id === art.id)) return r
-      const next = [...r, art]
+      const existing = new Set(r.map((a) => a.id))
+      // Forward: queue the tapped work AND everything recommended after it (in
+      // forward order), so the visitor walks tapped -> next -> ... with Next and
+      // never has a queued work sitting behind their entry point. Behind-you:
+      // append only the tapped work.
+      let queue
+      if (isBehind) {
+        queue = [art]
+      } else {
+        const from = continuationExtra.findIndex((a) => a.id === art.id)
+        queue = from >= 0 ? continuationExtra.slice(from) : [art]
+      }
+      const toAppend = queue.filter((a) => a?.id && !existing.has(a.id))
+      if (toAppend.length === 0) return r
+      const next = [...r, ...toAppend]
       assertForwardOnly(next, 'after add-extra')
-      setTourIndex(next.length - 1)
+      setTourIndex(r.length) // re-enter at the tapped work (first of the appended tail)
       return next
     })
-    // Drop the accepted work from the offered lists so it can't be added twice.
-    setContinuationExtra((xs) => xs.filter((a) => a.id !== art.id))
-    setMissedEarlier((xs) => xs.filter((a) => a.id !== art.id))
+    // Clear the offered lists — the forward set is now queued in the route; the
+    // behind-you list is intentionally single-shot.
+    if (isBehind) {
+      setMissedEarlier((xs) => xs.filter((a) => a.id !== art.id))
+    } else {
+      setContinuationExtra([])
+    }
     tourStartRef.current = tourStartRef.current || Date.now()
     setScreen(SCREENS.TOUR)
   }
