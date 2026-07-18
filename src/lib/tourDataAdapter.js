@@ -102,6 +102,15 @@ export function mapDbArtwork(row) {
 
     // Image fields consumed by imageResolver.js / ArtworkImage.jsx.
     preferredImageUrl,
+    // Device-local reference photo path (public/artworks/<code>.jpg), keyed by
+    // the stable artwork code exactly like the generated dataset. Supabase does
+    // not store this, but every catalogued work has one, so we derive it here.
+    // It is the RUNTIME fallback (localFallbackImage): when a hotlinked online
+    // image 403s because the SFMOMA CDN moved it, the display components fall
+    // back to this local photo instead of blanking out. Without this field,
+    // Supabase-loaded artworks had no fallback and a moved URL went straight to
+    // the placeholder.
+    imageUrl: row.code ? `/artworks/${row.code}.jpg` : null,
     preferredImageSourcePage: current?.source_page || null,
     preferredImageSourceType,
     preferredImageCredit,
