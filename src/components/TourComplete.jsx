@@ -1,4 +1,7 @@
 import { ThemeTags } from './ui.jsx'
+import PostTourRecap from './PostTourRecap.jsx'
+import FinishedEarly from './FinishedEarly.jsx'
+import { isFinishedEarly } from '../lib/continuation.js'
 
 export default function TourComplete({
   prefs,
@@ -8,9 +11,23 @@ export default function TourComplete({
   onFeedback,
   onNewTour,
   onChangeExhibition,
+  // Personalization / continuation (all optional — the screen degrades to the
+  // original summary when these aren't provided).
+  sessionProfile = null,
+  savedCodes = [],
+  optedIn = false,
+  onUnsave,
+  remaining = 0,
+  onRecommendMore,
+  onShowMissedEarlier,
+  continuationExtra = [],
+  missedEarlier = [],
+  onAddExtra,
+  onEndTour,
 }) {
   const { completed, liked, skipped, favoriteThemes } = stats
   const nav = narrative || {}
+  const showFinishedEarly = isFinishedEarly(remaining)
 
   return (
     <div className="app-frame">
@@ -44,6 +61,29 @@ export default function TourComplete({
           <StatCard value={liked} label="Liked" />
           <StatCard value={skipped} label="Skipped" />
         </div>
+
+        {/* Reflective recap + saved artworks (this visit only — no tracking). */}
+        <PostTourRecap
+          sessionProfile={sessionProfile}
+          savedCodes={savedCodes}
+          optedIn={optedIn}
+          onUnsave={onUnsave}
+          stats={stats}
+        />
+
+        {/* Finished-early continuation — forward-only "keep exploring", plus a
+            separate opt-in "behind you" list. Shown only with time to spare. */}
+        {showFinishedEarly && (
+          <FinishedEarly
+            remaining={remaining}
+            onRecommendMore={onRecommendMore}
+            onEndTour={onEndTour}
+            continuationExtra={continuationExtra}
+            onAddExtra={onAddExtra}
+            onShowMissedEarlier={onShowMissedEarlier}
+            missedEarlier={missedEarlier}
+          />
+        )}
 
         {favoriteThemes.length > 0 && (
           <div className="mt-4 rounded-2xl border border-line bg-white/60 p-4 shadow-card">

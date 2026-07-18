@@ -1145,6 +1145,86 @@ export async function getArtworkEngagement(limit = 10) {
   }
 }
 
+// --- Learning & Personalization reads (master prompt PART 8) ---------------
+// Read-only aggregates for the admin "Learning & Personalization" dashboard.
+// All are admin-RLS scoped (is_admin()) and return the uniform { data, error }
+// shape. They read only the additive 0016 tables plus behavior_events, so they
+// never affect the tour or the existing analytics.
+
+// Save/favorite engagement: how many saves exist and the most-saved works.
+// Reads the reused favorite_artworks table joined to artwork codes/titles.
+export async function getSavedArtworkStats(limit = 10) {
+  if (!isSupabaseEnabled()) return NOT_CONFIGURED
+  const favs = await supabase
+    .from('favorite_artworks')
+    .select('artwork_id, artworks ( code, title, artist )')
+  if (favs.error) return { data: null, error: favs.error }
+
+  const m = new Map()
+  for (const r of favs.data || []) {
+    const a = r.artworks || {}
+    const code = a.code || r.artwork_id
+    if (!code) continue
+    const cur = m.get(code) || { code, title: a.title || null, artist: a.artist || null, count: 0 }
+    cur.count += 1
+    m.set(code, cur)
+  }
+  const top = [...m.values()].sort((a, b) => b.count - a.count).slice(0, limit)
+  return { data: { totalSaves: favs.data?.length || 0, top }, error: null }
+}
+
+// Recommendation decisions log (forward continuation + missed-earlier), newest
+// first, with the per-candidate continuationScore breakdowns for debugging.
+export async function listRecommendationDecisions(limit = 25) {
+  if (!isSupabaseEnabled()) return NOT_CONFIGURED
+  return supabase
+    .from('recommendation_decisions')
+    .select('id, session_id, mode, current_room, candidates, created_at')
+    .order('created_at', { ascending: false })
+    .limit(limit)
+}
+
+// Session preference trends: reads persisted per-session profiles and reduces
+// them into the most-common leaned-toward themes/tones across sessions, so the
+// admin can see aggregate taste without inspecting any single visitor.
+export async function getSessionProfileTrends(limit = 200) {
+  if (!isSupabaseEnabled()) return NOT_CONFIGURED
+  const res = await supabase
+    .from('session_preference_profile')
+    .select('theme_weights, emotional_tone_weights, signal_counts, created_at')
+    .order('created_at', { ascending: false })
+    .limit(limit)
+  if (res.error) return { data: null, error: res.error }
+
+  const themeTally = new Map()
+  const toneTally = new Map()
+  const signalTally = new Map()
+  const addPositive = (map, weights) => {
+    for (const [k, v] of Object.entries(weights || {})) {
+      if (typeof v === 'number' && v > 0) map.set(k, (map.get(k) || 0) + 1)
+    }
+  }
+  for (const row of res.data || []) {
+    addPositive(themeTally, row.theme_weights)
+    addPositive(toneTally, row.emotional_tone_weights)
+    for (const [k, v] of Object.entries(row.signal_counts || {})) {
+      if (typeof v === 'number') signalTally.set(k, (signalTally.get(k) || 0) + v)
+    }
+  }
+  const top = (map) =>
+    [...map.entries()].map(([key, count]) => ({ key, count })).sort((a, b) => b.count - a.count)
+
+  return {
+    data: {
+      sessions: res.data?.length || 0,
+      topThemes: top(themeTally).slice(0, 10),
+      topTones: top(toneTally).slice(0, 10),
+      signalCounts: top(signalTally),
+    },
+    error: null,
+  }
+}
+
 // --- Offline training dataset export (master prompt PART 6) ----------------
 // Pull the behavior stream joined with artwork features into a flat array an
 // admin can download as JSON/CSV for offline Stage-2+ model training. Read-only;

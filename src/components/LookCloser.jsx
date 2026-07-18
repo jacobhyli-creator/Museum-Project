@@ -18,7 +18,7 @@ import { resolveArtworkImage } from '../lib/imageResolver.js'
 // 2.1x reads well on phones without cutting the detail awkwardly.
 const HOTSPOT_ZOOM = 2.1
 
-export default function LookCloser({ artwork }) {
+export default function LookCloser({ artwork, onOpen }) {
   const data = artwork?.lookCloser
   const [open, setOpen] = useState(false)
   const [activeHotspot, setActiveHotspot] = useState(null) // hotspot number
@@ -46,7 +46,10 @@ export default function LookCloser({ artwork }) {
       <section className="mt-5">
         <button
           type="button"
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setOpen(true)
+            onOpen?.()
+          }}
           className="w-full rounded-2xl border border-dashed border-gold/50 bg-gold/5 px-5 py-5 text-left transition-all duration-200 active:scale-[0.99]"
         >
           <span className="eyebrow text-bronze">Look closer</span>

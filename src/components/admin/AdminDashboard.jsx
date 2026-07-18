@@ -7,6 +7,7 @@ import ImageReview from './ImageReview.jsx'
 import ImageAudit from './ImageAudit.jsx'
 import AnalyticsDashboard from './AnalyticsDashboard.jsx'
 import MLDashboard from './MLDashboard.jsx'
+import LearningDashboard from './LearningDashboard.jsx'
 import AudioNarration from './AudioNarration.jsx'
 import ExplanationImport from './ExplanationImport.jsx'
 import LookCloserAdmin from './LookCloserAdmin.jsx'
@@ -28,6 +29,7 @@ const SECTIONS = [
   { key: 'rules', label: 'Rules', enabled: false },
   { key: 'analytics', label: 'Analytics', enabled: true },
   { key: 'ml', label: 'ML', enabled: true },
+  { key: 'learning', label: 'Learning & Personalization', enabled: true },
 ]
 
 export default function AdminDashboard({ email }) {
@@ -84,6 +86,7 @@ export default function AdminDashboard({ email }) {
         {section === 'import' && <ExplanationImport />}
         {section === 'analytics' && <AnalyticsDashboard />}
         {section === 'ml' && <MLDashboard />}
+        {section === 'learning' && <LearningDashboard />}
       </ErrorBoundary>
     </div>
   )

@@ -70,6 +70,7 @@ export default function AudioControls({
   sessionId = null,
   audioPrefs = null,
   onPrefsChange,
+  onPlay,
 }) {
   // --- Selection state (session-only unless the caller persists it) ---------
   const [language, setLanguage] = useState(audioPrefs?.language || 'en')
@@ -111,7 +112,10 @@ export default function AudioControls({
   const narration = useNarration(
     { artworkCode, style, languageCode: language, voiceKey, speed: rate, currentText: text },
     {
-      onPlay: () => logAudioPlay(artworkCode, detail, sessionId),
+      onPlay: () => {
+        logAudioPlay(artworkCode, detail, sessionId)
+        if (typeof onPlay === 'function') onPlay()
+      },
       onPause: () => logAudioPause(artworkCode, detail, sessionId),
       onComplete: () => logAudioComplete(artworkCode, detail, sessionId),
       onStop: () => logAudioStop(artworkCode, detail, sessionId),
@@ -337,7 +341,12 @@ export default function AudioControls({
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={fallback.toggle}
+                  onClick={() => {
+                    if (fallback.status !== READ_STATUS.PLAYING && typeof onPlay === 'function') {
+                      onPlay()
+                    }
+                    fallback.toggle()
+                  }}
                   className="inline-flex items-center gap-1.5 rounded-full bg-charcoal px-4 py-2 text-[13px] font-medium text-cream transition-transform active:scale-[0.98]"
                 >
                   <span aria-hidden>

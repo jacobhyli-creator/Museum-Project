@@ -18,6 +18,10 @@ export default function ArtworkTour({
   onNext,
   onSkip,
   onLike,
+  onSave,
+  saved = false,
+  onLookCloserOpen,
+  onAudioPlay,
   sessionId = null,
   audioPrefs = null,
   onAudioPrefsChange,
@@ -124,7 +128,7 @@ export default function ArtworkTour({
 
               {/* Guided-looking panel. Renders only when approved + published
                   Look Closer data exists for this artwork; otherwise hidden. */}
-              <LookCloser artwork={art} />
+              <LookCloser artwork={art} onOpen={() => onLookCloserOpen?.(art)} />
 
               {/* Optional audio read-aloud of the explanation shown above. Reads
                   only this text (in the current style); never autoplays. Keyed
@@ -139,6 +143,7 @@ export default function ArtworkTour({
                 sessionId={sessionId}
                 audioPrefs={audioPrefs}
                 onPrefsChange={onAudioPrefsChange}
+                onPlay={() => onAudioPlay?.(art)}
               />
 
               {note && (note.connectionToPrev || note.hintToNext || note.themeReminder) && (
@@ -175,6 +180,32 @@ export default function ArtworkTour({
         <button className="btn-primary" onClick={onNext} disabled={!revealed}>
           {isLast ? 'Finish tour' : 'Next'}
         </button>
+
+        {/* Save toggle — an explicit "keep this" action, DISTINCT from Like.
+            Filled bookmark + gold accent when saved; Like below is a lighter
+            in-the-moment reaction. */}
+        <button
+          type="button"
+          aria-pressed={saved}
+          onClick={() => onSave?.(art)}
+          className={`flex w-full items-center justify-center gap-2 rounded-full border px-4 py-3 text-[14px] font-semibold transition-all duration-200 active:scale-[0.99] ${
+            saved
+              ? 'border-gold bg-gold/15 text-bronze'
+              : 'border-line bg-white text-charcoal hover:border-gold/60'
+          }`}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden
+            fill={saved ? 'currentColor' : 'none'}>
+            <path
+              d="M6 3.5h12a1 1 0 0 1 1 1V21l-7-4-7 4V4.5a1 1 0 0 1 1-1z"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinejoin="round"
+            />
+          </svg>
+          {saved ? 'Saved' : 'Save artwork'}
+        </button>
+
         <div className="flex gap-3">
           <button className="btn-secondary" onClick={onSkip}>
             Skip

@@ -252,6 +252,52 @@ export async function completeSession({ sessionId, counts } = {}) {
   })
 }
 
+// --- Save / Look Closer / continuation analytics (master prompt PART 1/2/4) -
+// All three write into the SAME opt-in behavior_events stream (and, for
+// continuation, the recommendation_decisions log) so the ML foundation gets a
+// clean signal history. No-op unless signed-in AND opted-in, like every logger
+// here. Anonymous saves live only in localStorage (savedArtworks.js) and never
+// reach these functions.
+
+// A visitor saved (or unsaved) an artwork. `action` is 'save' | 'unsave'.
+export async function logSaveEvent({ sessionId, code, action = 'save' } = {}) {
+  return safe(async () => {
+    const uid = await userId()
+    await mirror({ uid, sessionId, code, eventType: `favorite_${action}`, payload: {} })
+  })
+}
+
+// A visitor opened the guided-looking ("Look Closer") panel on an artwork — a
+// moderate positive engagement signal.
+export async function logLookCloserEvent({ sessionId, code } = {}) {
+  return safe(async () => {
+    const uid = await userId()
+    await mirror({ uid, sessionId, code, eventType: 'look_closer_open', payload: {} })
+  })
+}
+
+// A finished-early continuation decision. `mode` is 'forward' | 'missed_earlier'.
+// Mirrors an event AND inserts a recommendation_decisions row carrying the full
+// per-candidate continuationScore breakdowns for offline evaluation/debugging.
+export async function logContinuation({ sessionId, mode = 'forward', currentRoom, candidates } = {}) {
+  return safe(async () => {
+    const uid = await userId()
+    const normalized = Array.isArray(candidates) ? candidates : []
+    await supabase.from('recommendation_decisions').insert({
+      session_id: sessionId ?? null,
+      mode,
+      current_room: typeof currentRoom === 'number' ? currentRoom : null,
+      candidates: normalized,
+    })
+    await mirror({
+      uid,
+      sessionId,
+      eventType: `continuation_${mode}`,
+      payload: { currentRoom, count: normalized.length },
+    })
+  })
+}
+
 // --- Audio narration analytics ---------------------------------------------
 // Logs audio engagement into the SAME opt-in behavior_events stream. No-op
 // unless signed-in AND opted-in (same as every other logger here). `action` is

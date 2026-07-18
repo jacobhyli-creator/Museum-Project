@@ -33,7 +33,6 @@ import {
   saveCurrentPreferences,
   saveAudioPreferences,
   listFavorites,
-  addFavorite,
 } from './lib/userData.js'
 import {
   loadPreferenceProfile,
@@ -49,7 +48,25 @@ import {
   logRouteVersion,
   logFeedback,
   completeSession,
+  logSaveEvent,
+  logLookCloserEvent,
+  logContinuation,
 } from './lib/eventLog.js'
+import { createSessionProfile, applySignal } from './lib/sessionProfile.js'
+import {
+  saveArtwork,
+  unsaveArtwork,
+  listSaved,
+  readLocal,
+  importLocalToAccount,
+} from './lib/savedArtworks.js'
+import {
+  isFinishedEarly,
+  extraCountForRemaining,
+  buildContinuation,
+  buildMissedEarlier,
+} from './lib/continuation.js'
+import SavedArtworks from './components/SavedArtworks.jsx'
 
 // Hidden admin entry: visiting a URL whose path ends in /admin renders the
 // admin area instead of the public tour. Evaluated once at module load so it
@@ -133,6 +150,14 @@ function TourApp() {
     loadArtworks()
   }, [])
 
+  // Hydrate any device-local saves (anon path) on mount so the Saved Artworks
+  // list and the Save toggle reflect prior device saves immediately. Pure read
+  // of localStorage — no network, safe for anonymous visitors.
+  useEffect(() => {
+    const local = readLocal()
+    if (local.length) setSavedCodes((codes) => Array.from(new Set([...codes, ...local])))
+  }, [])
+
   // Backend -> public sync (master prompt PART 4): whenever the visitor returns
   // to the museum screen (the start of a NEW session), re-fetch live content so
   // admin-published changes appear without a redeploy. Fire-and-forget; a failed
@@ -162,6 +187,23 @@ function TourApp() {
   const [likedIds, setLikedIds] = useState([])
   const [completedIds, setCompletedIds] = useState([])
   const [skippedCount, setSkippedCount] = useState(0)
+
+  // ---- Personalization / Save / continuation state (PART 1/3/4/5/6/7) ------
+  // In-memory session preference profile — works for EVERYONE (anon or signed
+  // in). Pure data carried in state for the length of one tour; never persisted
+  // for anon/opted-out visitors. Rebuilt on reset.
+  const [sessionProfile, setSessionProfile] = useState(() => createSessionProfile())
+  // The visitor's saved artwork CODES (Set-deduped). Hydrated from localStorage
+  // on mount (anon) and from the account on sign-in + opt-in. Distinct from
+  // likedIds — Save is the explicit "keep this" action.
+  const [savedCodes, setSavedCodes] = useState([])
+  // Finished-early continuation: minutes remaining vs the chosen time, the
+  // forward-only extras the visitor can add, and the SEPARATE behind-you list.
+  const [finishedEarlyRemaining, setFinishedEarlyRemaining] = useState(0)
+  const [continuationExtra, setContinuationExtra] = useState([])
+  const [missedEarlier, setMissedEarlier] = useState([])
+  // Wall-clock start of the tour, used to compute elapsed/remaining time.
+  const tourStartRef = useRef(null)
 
   // Consumer account state. `optedIn` is the master consent flag; when false we
   // persist nothing (event logging stays disabled, favorites/prefs not saved).
@@ -284,6 +326,16 @@ function TourApp() {
     if (Array.isArray(favs?.data) && favs.data.length) {
       setLikedIds((ids) => Array.from(new Set([...ids, ...favs.data])))
     }
+
+    // Auto-import any device-local saves into the account (confirmed product
+    // decision), then hydrate savedCodes from the union of account + local so
+    // the Saved Artworks list reflects everything. Best-effort; failures leave
+    // the local saves intact for a later retry.
+    await importLocalToAccount()
+    const saved = await listSaved({ optedIn: true })
+    if (Array.isArray(saved?.data)) {
+      setSavedCodes((codes) => Array.from(new Set([...codes, ...saved.data])))
+    }
   }
 
   // When a visitor changes their audio language/voice/speed, keep it for the
@@ -295,6 +347,57 @@ function TourApp() {
       if (optedIn) saveAudioPreferences(merged)
       return merged
     })
+  }
+
+  // ---- Save / Look Closer / audio signals (PART 1/5/6) ---------------------
+
+  // Save an artwork (explicit "keep this" — stronger than Like). Optimistically
+  // dedupes into savedCodes, feeds the in-memory session profile a 'favorite'
+  // signal (anon-safe), and persists per the visitor's consent: opted-in +
+  // signed-in writes to the account (favorite_artworks) + the long-term profile
+  // + the behavior_events stream; everyone else keeps it device-local only.
+  const handleSave = (art) => {
+    if (!art?.id) return
+    setSavedCodes((codes) => (codes.includes(art.id) ? codes : [...codes, art.id]))
+    setSessionProfile((p) => applySignal(p, art, 'favorite'))
+    if (optedIn) {
+      saveArtwork(art.id, { optedIn: true })
+      recordPreferenceSignal(art, 'favorite')
+      logSaveEvent({ sessionId: tourSessionId, code: art.id, action: 'save' })
+    } else {
+      saveArtwork(art.id, { optedIn: false })
+    }
+  }
+
+  // Unsave an artwork. Mirrors handleSave: removes locally + (opted-in) from the
+  // account, and logs the unsave. The session profile is left as-is — the visit
+  // still expressed interest at the moment of saving.
+  const handleUnsave = (code) => {
+    if (!code) return
+    setSavedCodes((codes) => codes.filter((c) => c !== code))
+    if (optedIn) {
+      unsaveArtwork(code, { optedIn: true })
+      logSaveEvent({ sessionId: tourSessionId, code, action: 'unsave' })
+    } else {
+      unsaveArtwork(code, { optedIn: false })
+    }
+  }
+
+  // A visitor opened the "Look Closer" guided-looking panel — a moderate
+  // positive engagement signal. Feeds the session profile (anon-safe) and the
+  // opt-in behavior_events stream.
+  const handleLookCloserOpen = (art) => {
+    if (!art?.id) return
+    setSessionProfile((p) => applySignal(p, art, 'lookCloser'))
+    if (optedIn) logLookCloserEvent({ sessionId: tourSessionId, code: art.id })
+  }
+
+  // A visitor played the audio narration — a moderate positive engagement
+  // signal. The AudioControls component already logs the granular audio_play
+  // event; here we only fold it into the session profile (anon-safe).
+  const handleAudioPlay = (art) => {
+    if (!art?.id) return
+    setSessionProfile((p) => applySignal(p, art, 'audio'))
   }
 
   // ---- Navigation handlers -------------------------------------------------
@@ -410,14 +513,23 @@ function TourApp() {
   const flushDwell = () => {
     const d = dwellRef.current
     dwellRef.current = null
-    if (!optedIn || !tourSessionId || !d?.enteredAt) return
+    if (!d?.enteredAt || !d?.enteredAtMs) return
+    const dwellMs = Date.now() - d.enteredAtMs
+    const art = route.find((a) => a.id === d.code)
+
+    // In-memory session profile learns from EVERY dwell (anon-safe). A long
+    // dwell nudges the work's dimensions up; short glances are neutral (the
+    // shared signalMagnitude returns 0 for them) so applySignal only bumps the
+    // count. This runs for anonymous visitors too — nothing is persisted.
+    if (art) setSessionProfile((p) => applySignal(p, art, 'dwell', { dwellMs }))
+
+    // Persistence + long-term learning stay opt-in only.
+    if (!optedIn || !tourSessionId) return
     const enteredAt = d.enteredAt
     const leftAt = new Date().toISOString()
-    const dwellMs = Date.now() - d.enteredAtMs
     logDwell({ sessionId: tourSessionId, code: d.code, dwellMs, enteredAt, leftAt })
     // Learn long-term from a LONG dwell only (moderate positive signal); short
     // glances are neutral and recordPreferenceSignal no-ops on them (PART 5).
-    const art = route.find((a) => a.id === d.code)
     if (art) recordPreferenceSignal(art, 'dwell', { dwellMs })
   }
 
@@ -427,6 +539,13 @@ function TourApp() {
     setCompletedIds([])
     routeVersionRef.current = 0
     dwellRef.current = null
+    // Anchor the wall clock for finished-early time accounting (PART 3).
+    tourStartRef.current = Date.now()
+    // Clear any continuation state from a prior tour so the completion screen
+    // starts fresh.
+    setContinuationExtra([])
+    setMissedEarlier([])
+    setFinishedEarlyRemaining(0)
 
     // Open a DB tour session for opt-in users (no-op otherwise). Fire-and-forget:
     // the tour UI never waits on logging. The first stop is recorded once the
@@ -456,6 +575,22 @@ function TourApp() {
     )
 
     const atEnd = tourIndex >= route.length - 1
+
+    // On the final stop: fold a 'completed' signal into the in-memory session
+    // profile for every work seen (anon-safe) and compute how much time remains
+    // versus the selected tour time so the completion screen can offer to keep
+    // exploring (PART 3). Elapsed uses the wall clock anchored in startTour.
+    if (atEnd) {
+      setSessionProfile((p) => {
+        let next = p
+        for (const art of route) next = applySignal(next, art, 'completed')
+        return next
+      })
+      const startedMs = tourStartRef.current
+      const elapsedMin = startedMs ? (Date.now() - startedMs) / 60000 : 0
+      const selectedMin = typeof enginePrefs.time === 'number' ? enginePrefs.time : 0
+      setFinishedEarlyRemaining(Math.max(0, selectedMin - elapsedMin))
+    }
 
     // Log the just-completed stop, and on the final stop close out the session
     // with its outcome counters (opt-in only; no-ops otherwise).
@@ -578,15 +713,17 @@ function TourApp() {
     setLikedIds((ids) => (ids.includes(art.id) ? ids : [...ids, art.id]))
     setModal({ type: 'like', data: { themes: art.themes } })
 
-    // Persist the like as a behavior event and a permanent favorite (opt-in
-    // only; both are no-ops otherwise). A like is a strong positive signal.
+    // A Like is now a LIGHTER, in-the-moment reaction (PART 1 confirmed
+    // decision): saving is owned by the explicit Save button. Feed the
+    // in-memory session profile a 'like' signal for everyone (anon-safe).
+    setSessionProfile((p) => applySignal(p, art, 'like'))
+
+    // Persist the like as a behavior event (opt-in only). NOTE: no longer adds
+    // a favorite — Save owns Saved Artworks now — and records only the 'like'
+    // long-term signal, not 'favorite'.
     if (optedIn && tourSessionId) {
       logLike({ sessionId: tourSessionId, code: art.id })
-      addFavorite(art.id)
-      // Learn long-term: a like AND a favorite both push this work's dimensions
-      // up in the historical profile (PART 5). Favorite is the stronger signal.
       recordPreferenceSignal(art, 'like')
-      recordPreferenceSignal(art, 'favorite')
     }
   }
 
@@ -639,6 +776,14 @@ function TourApp() {
     setCompletedIds([])
     setSkippedCount(0)
     setTourSessionId(null)
+    // Reset in-memory personalization + continuation state for a fresh tour.
+    // NOTE: deliberately keep `savedCodes` so device (anon) saves survive a
+    // "new tour" — the visitor's saved artworks are not tour-scoped.
+    setSessionProfile(createSessionProfile())
+    setContinuationExtra([])
+    setMissedEarlier([])
+    setFinishedEarlyRemaining(0)
+    tourStartRef.current = null
   }
 
   const startNewTour = () => {
@@ -672,6 +817,100 @@ function TourApp() {
     }
   }
 
+  // ---- Finished-early continuation (PART 4/5/10) ---------------------------
+
+  // The room the visitor is physically standing in at the end of the route —
+  // the last stop's room. Continuation is anchored here so extras are always
+  // same-room-or-forward (the forward-only routing rule is ABSOLUTE, PART 10).
+  const endRoom = () => {
+    for (let i = route.length - 1; i >= 0; i--) {
+      const r = route[i]?.roomNumber
+      if (typeof r === 'number') return r
+    }
+    return 1
+  }
+
+  // Build the FORWARD "keep exploring" set. The ML/session profile only ranks
+  // PREFERENCE; buildContinuation hard-excludes anything behind the visitor and
+  // sequences the extras forward-only. We assert the invariant on the combined
+  // route as a DEV safety net, then surface the extras for the visitor to add.
+  const handleRecommendMore = () => {
+    const currentRoom = endRoom()
+    const count = extraCountForRemaining(finishedEarlyRemaining)
+    const visitedIds = route.map((a) => a.id)
+    const { extras, ranked } = buildContinuation({
+      scoredPool: scoredAll,
+      visitedIds,
+      currentRoom,
+      count,
+      sessionProfile,
+    })
+    assertForwardOnly([...route, ...extras], 'finished-early continuation')
+    setContinuationExtra(extras)
+    // Log the decision with per-candidate breakdowns for offline evaluation
+    // (opt-in only; no-op otherwise).
+    if (optedIn) {
+      logContinuation({
+        sessionId: tourSessionId,
+        mode: 'forward',
+        currentRoom,
+        candidates: ranked.map((r) => ({
+          code: r.art?.id ?? null,
+          score: r.score,
+          breakdown: r.breakdown,
+        })),
+      })
+    }
+  }
+
+  // Accept one forward extra: append it to the route and RE-ENTER the tour at
+  // the appended index (confirmed decision). Forward-only holds because the
+  // extra was drawn from buildContinuation's forward-sequenced set.
+  const handleAddExtra = (art) => {
+    if (!art?.id) return
+    setRoute((r) => {
+      if (r.some((a) => a.id === art.id)) return r
+      const next = [...r, art]
+      assertForwardOnly(next, 'after add-extra')
+      setTourIndex(next.length - 1)
+      return next
+    })
+    // Drop the accepted work from the offered lists so it can't be added twice.
+    setContinuationExtra((xs) => xs.filter((a) => a.id !== art.id))
+    setMissedEarlier((xs) => xs.filter((a) => a.id !== art.id))
+    tourStartRef.current = tourStartRef.current || Date.now()
+    setScreen(SCREENS.TOUR)
+  }
+
+  // Build the SEPARATE "missed earlier (behind you)" list. Never merged into the
+  // forward continuation — these are explicitly behind the visitor and the UI
+  // warns they'd need to walk back.
+  const handleShowMissedEarlier = () => {
+    const currentRoom = endRoom()
+    const count = extraCountForRemaining(finishedEarlyRemaining)
+    const visitedIds = route.map((a) => a.id)
+    const behind = buildMissedEarlier({
+      scoredPool: scoredAll,
+      visitedIds,
+      currentRoom,
+      count,
+      sessionProfile,
+    })
+    setMissedEarlier(behind)
+    if (optedIn) {
+      logContinuation({
+        sessionId: tourSessionId,
+        mode: 'missed_earlier',
+        currentRoom,
+        candidates: behind.map((a) => ({ code: a.id })),
+      })
+    }
+  }
+
+  // End the tour from the finished-early prompt — proceed to feedback like a
+  // normal completion.
+  const handleEndTour = () => setScreen(SCREENS.FEEDBACK)
+
   // ---- Derived narrative (front-end template logic, recomputed on change) --
 
   // Route story: theme, through-line, per-stop connections. Recomputed whenever
@@ -698,6 +937,14 @@ function TourApp() {
     liked: likedIds.length,
     skipped: skippedCount,
     favoriteThemes,
+    // Post-tour recap fields (PART 11). `viewed` counts stops actually seen;
+    // `saved` the current saved set; times are the elapsed vs chosen minutes.
+    viewed: completedArtworks.length || route.length,
+    saved: savedCodes.length,
+    totalTimeMin: tourStartRef.current
+      ? Math.max(0, Math.round((Date.now() - tourStartRef.current) / 60000))
+      : undefined,
+    selectedTimeMin: typeof enginePrefs.time === 'number' ? enginePrefs.time : undefined,
   }
 
   // ---- Render --------------------------------------------------------------
@@ -768,6 +1015,10 @@ function TourApp() {
           sessionId={tourSessionId}
           audioPrefs={audioPrefs}
           onAudioPrefsChange={handleAudioPrefsChange}
+          onSave={handleSave}
+          saved={savedCodes.includes(route[Math.min(tourIndex, route.length - 1)]?.id)}
+          onLookCloserOpen={handleLookCloserOpen}
+          onAudioPlay={handleAudioPlay}
         />
       )}
 
@@ -780,6 +1031,17 @@ function TourApp() {
           onFeedback={() => setScreen(SCREENS.FEEDBACK)}
           onNewTour={startNewTour}
           onChangeExhibition={changeExhibition}
+          sessionProfile={sessionProfile}
+          savedCodes={savedCodes}
+          optedIn={optedIn}
+          onUnsave={handleUnsave}
+          remaining={finishedEarlyRemaining}
+          onRecommendMore={handleRecommendMore}
+          onShowMissedEarlier={handleShowMissedEarlier}
+          continuationExtra={continuationExtra}
+          missedEarlier={missedEarlier}
+          onAddExtra={handleAddExtra}
+          onEndTour={handleEndTour}
         />
       )}
 
