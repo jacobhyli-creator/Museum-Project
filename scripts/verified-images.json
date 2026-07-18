@@ -2,71 +2,577 @@
   "_meta": {
     "description": "Build-time verified online artwork images (spec Part 2 §22-§34). Resolved via live web search against title/artist/year/museum, NOT at visitor runtime. Local ZIP/visitor photos remain reference-only. Confidence: artist +30, title +35, year +15, museum +10, official source +10. >=90 accept, 75-89 review, <75 reject/needs-review.",
     "resolvedAt": "2026-07-07",
-    "primarySource": "San Francisco Museum of Modern Art official collection pages (sfmoma.org/artwork/{accession}/)"
+    "primarySource": "San Francisco Museum of Modern Art official collection pages (sfmoma.org/artwork/{accession}/)",
+    "lastImageRefresh": "2026-07-18",
+    "refreshNote": "Refreshed 18 SFMOMA CDN URLs that returned 403 (objects re-uploaded to new dated paths)."
   },
   "images": {
-    "A001": { "accession": "FC.787", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/05/12221051/FC.787_5064.10Z_MARTIN_NP14r4_FINAL-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.787/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match." },
-    "A002": { "accession": "FC.788", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/05/13005648/FC.788_5064.10R_MARTIN_NP_13r3_FINAL-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.788/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match." },
-    "A003": { "accession": "FC.691", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08175646/FC.691_5064.10R_MARTIN_691r2_cv_FINAL-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.691/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match (1965)." },
-    "A004": { "accession": "FC.459", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08175951/FC.459_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.459/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match." },
-    "A005": { "accession": "FC.711", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08192538/FC.711_5064.R10R_MARTIN_711R5_p_FINAL-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.711/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match." },
-    "A006": { "accession": "FC.305", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08231506/FC.305_01_g02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.305/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match (1988)." },
-    "A007": { "accession": "FC.549", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08225559/FC.549_5064.10R_MARTIN_549R9_FINAL-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.549/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match (1995)." },
-    "A008": { "accession": "FC.605.A-B", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08225906/FC.605.A-B_01_f02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.605.A-B/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match." },
-    "A009": { "accession": "FC.556", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08225727/FC.556_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.556/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match." },
-    "A010": { "accession": "FC.608", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08191116/FC.608_01_P02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.608/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match." },
-    "A011": { "accession": "FC.499", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08163133/FC.499_01_P02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.499/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 97, "imageSelectionReason": "Official SFMOMA collection page; artist and year match. SFMOMA titles this 'Telephone [1l]' vs 'Telephone [1]'; same work." },
-    "A012": { "accession": "FC.675", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/05/12225447/FC.675_94_Warhol_3_Before_After_FC.675_01_f02.tif-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.675/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match." },
-    "A013": { "accession": "FC.229", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08181620/FC.229_01_P02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.229/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 97, "imageSelectionReason": "Official SFMOMA collection page; artist and year (1979/1986) match. SFMOMA titles this 'Nine Marilyns [Reversal series]'; same work." },
-    "A014": { "accession": "FC.609", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08191925/Warhol_E_2016_2368_REPLACEMENT_G02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.609/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match." },
-    "A015": { "accession": "FC.620", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08230058/FC.620_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.620/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match." },
-    "A016": { "accession": "FC.616", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08163330/FC.616_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.616/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match (80-inch Self-Portrait)." },
-    "A017": { "accession": "FC.507", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08180421/FC.507_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.507/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match." },
-    "A018": { "accession": "FC.516", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/05/13040648/FC.516_01_f02_HR_FINAL-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.516/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year (1991-93) all match." },
-    "A019": { "accession": "FC.579", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08201649/FC.579_10Q_MARDEN_579R2_FINAL-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.579/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year (1996-97) all match." },
-    "A020": { "accession": null, "preferredImageUrl": null, "preferredImageSourcePage": null, "imageSourceType": null, "imageCredit": null, "imageMatchConfidence": 0, "imageSelectionReason": "No verifiable official SFMOMA page found for Brice Marden 'Untitled' 1988. Needs image review." },
-    "A021": { "accession": "FC.626", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08175512/FC.626_01_f02_FINAL-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.626/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match." },
-    "A022": { "accession": "FC.625", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08164051/FC.625_01_P02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.625/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Agnes/maquette) and year all match." },
-    "A023": { "accession": "FC.697", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/05/12231333/FC.697_25681_CLOSE-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.697/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Roy I) and year all match." },
-    "A024": { "accession": "FC.844", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08174754/FC.844_01_P02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.844/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Roy/maquette) and year all match." },
-    "A025": { "accession": "FC.615", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08192145/FC.615_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.615/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (John) and year all match." },
-    "A026": { "accession": "FC.586", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08180745/FC.586_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.586/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match." },
-    "A027": { "accession": "FC.460", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08180124/FC.460_01_P02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.460/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Untitled) and year (1968) all match." },
-    "A028": { "accession": "2000.204", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08192659/2000.204_01_b02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/2000.204/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Untitled) and year (1971) all match." },
-    "A029": { "accession": "FC.807", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08231354/FC.807_5064.Twombly_Notes_Alt_Ian%20Reeves_FINAL-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.807/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year (2005-07) all match." },
-    "A030": { "accession": "FC.416", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08181804/FC.416_01_B02_FINAL-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.416/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year (1971) all match." },
-    "A031": { "accession": "FC.824", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08181029/FC.824_01_B02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.824/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year (1969) all match." },
-    "A032": { "accession": "FC.519", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08180632/FC.519_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.519/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year (1987) all match." },
-    "A033": { "accession": "FC.277.A-B", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08202602/FC.277.A-B_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.277.A-B/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match." },
-    "A034": { "accession": "FC.461", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08230256/FC.461_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.461/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Wald (4)/Forest [4]) and year match." },
-    "A035": { "accession": "FC.440", "preferredImageUrl": null, "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.440/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 85, "imageSelectionReason": "Official SFMOMA page confirms artist, title, year (Abstraktes Bild, 1990, FC.440) but the artwork image is not published online. Needs image review." },
-    "A036": { "accession": "FC.738", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08231748/FC.738_10U_RICHTER_738R3_p-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.738/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Fenster/Window) and year match." },
-    "A037": { "accession": "FC.643", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08231622/FC.643_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.643/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (256 Farben/256 Colors) and year 1974/1984 match." },
-    "A038": { "accession": "98.527", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08201922/FC.623_01_H02.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/98.527/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page (98.527); artist, title (Seestueck/Seascape) and year 1998 match." },
-    "A039": { "accession": "FC.293", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08193024/FC.293_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.293/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Portrait Mueller) and year 1965 match." },
-    "A040": { "accession": "FC.309", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08202737/FC.309_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.309/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Gymnastik/Gymnastics) and year 1967 match." },
-    "A041": { "accession": "FC.498", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08230947/FC.498_10T_RICHTER_498R2-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.498/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Brigid Polk) and year 1971 match." },
-    "A042": { "accession": "FC.838.A-C", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08180912/FC.838.A-C_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.838.A-C/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page (triptych FC.838.A-C); artist, title (Bracket) and year 1989 match." },
-    "A043": { "accession": null, "preferredImageUrl": "https://www.joanmitchellfoundation.org/uploads/artwork/mitchell/0870-1990-1991-Sunflowers-Joan-Mitchell.jpg", "preferredImageSourcePage": "https://www.joanmitchellfoundation.org/joan-mitchell/artwork/0870-sunflowers", "imageSourceType": "Artist Foundation", "imageCredit": "Estate of Joan Mitchell / Joan Mitchell Foundation", "imageMatchConfidence": 70, "imageSelectionReason": "No SFMOMA page; Sunflowers (1990-91) in a private collection. Verified via official Joan Mitchell Foundation catalogue. Needs image review." },
-    "A044": { "accession": null, "preferredImageUrl": "https://www.joanmitchellfoundation.org/uploads/artwork/mitchell/_2500xAUTO_crop_center-center_65_none/0996-1983-La_Grande_Vallee_XIV-Joan-Mitchell.jpg", "preferredImageSourcePage": "https://www.joanmitchellfoundation.org/joan-mitchell/artwork/0996-la-grande-vallée-xiv-for-a-little-while", "imageSourceType": "Artist Foundation", "imageCredit": "Estate of Joan Mitchell / Joan Mitchell Foundation", "imageMatchConfidence": 70, "imageSelectionReason": "No SFMOMA page; La Grande Vallee XIV (1983) held at Centre Pompidou. Verified via official Joan Mitchell Foundation catalogue. Needs image review." },
-    "A045": { "accession": "FC.475", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08180247/FC.475_01_P02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.475/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Rug III) and year 1976 match." },
-    "A046": { "accession": "FC.752", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08165218/FC.752_5064.10J_GUSTON_752R4_HR_FINAL-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.752/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (The Street) and year 1956 match." },
-    "A047": { "accession": "FC.681", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08202234/FC.681_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.681/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Brushes) and year 1978 match." },
-    "A048": { "accession": "FC.779", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/04/30010952/FC.779_01_P02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.779/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Late Fall) and year 1963 match." },
-    "A049": { "accession": "FC.501", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08203643/FC.501_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.501/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (As It Goes) and year 1978 match." },
-    "A050": { "accession": "FC.276.A-B", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/23025733/FC.276.A-B_01_f02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.276.A-B/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Melnikov II) and year 1987 match." },
-    "A051": { "accession": "94.453.A-D", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/22230309/FC.439.A-D_94.453.A-D_01_cropped_G02_Serra_HouseOfCards_View2_HiRes-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/94.453.A-D/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (House of Cards) and year 1969/1978 match." },
-    "A052": { "accession": "94.454.A-D", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/23023445/94.454.A-D_01_P02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/94.454.A-D/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Doors) and year 1966-67 match." },
-    "A053": { "accession": "94.451.A-B", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/24152759/94.451.A-B_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/94.451.A-B/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Floor Pole Prop) and year 1969 match." },
-    "A054": { "accession": "94.449", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/22200850/94.449_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/94.449/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (The United States Courts Are Partial to Government) and year 1989 match." },
-    "A055": { "accession": "99.374", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08181415/99.374_01_H02.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/99.374/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Figures with Sunset) and year 1978 match." },
-    "A056": { "accession": "FC.704", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08174142/FC.704%20-%20primary_02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.704/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Coup de Chapeau II) and year 1996 match." },
-    "A057": { "accession": "FC.612", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08204023/FC.612_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.612/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Live Ammo (Tzing!)) and year 1962 match." },
-    "A058": { "accession": "FC.604", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08193525/FC.604_01_H02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.604/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Portable Radio) and year 1962 match." },
-    "A059": { "accession": "FC.705", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/06183523/FC.705_01_P02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.705/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Tire) and year 1962 match." },
-    "A060": { "accession": "FC.735", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/05/12215437/FC.735_10T_POLKE_735R4_FINAL-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.735/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Ohne Titel) and year 2003 match." },
-    "A061": { "accession": "FC.394", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08230829/FC.394_01_f02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.394/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Ohne Titel) and year 1983 match." },
-    "A062": { "accession": "FC.312", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/05/07084210/FC.312_01_P02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.312/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Springbrunnen/Fountain) and year 1966 match." },
-    "A063": { "accession": "FC.428.2", "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08193228/FC.428.2_01_P02-web.jpg", "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.428.2/", "imageSourceType": "Official Museum", "imageCredit": "San Francisco Museum of Modern Art", "imageMatchConfidence": 100, "imageSelectionReason": "Official SFMOMA collection page; artist, title (Ohne Titel) and year 1968 match." }
+    "A001": {
+      "accession": "FC.787",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/05/12221051/FC.787_5064.10Z_MARTIN_NP14r4_FINAL-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.787/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match."
+    },
+    "A002": {
+      "accession": "FC.788",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/05/13005648/FC.788_5064.10R_MARTIN_NP_13r3_FINAL-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.788/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match."
+    },
+    "A003": {
+      "accession": "FC.691",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08175646/FC.691_5064.10R_MARTIN_691r2_cv_FINAL-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.691/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match (1965)."
+    },
+    "A004": {
+      "accession": "FC.459",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08175951/FC.459_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.459/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match."
+    },
+    "A005": {
+      "accession": "FC.711",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08192538/FC.711_5064.R10R_MARTIN_711R5_p_FINAL-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.711/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match."
+    },
+    "A006": {
+      "accession": "FC.305",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08231506/FC.305_01_g02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.305/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match (1988)."
+    },
+    "A007": {
+      "accession": "FC.549",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08225559/FC.549_5064.10R_MARTIN_549R9_FINAL-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.549/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match (1995)."
+    },
+    "A008": {
+      "accession": "FC.605.A-B",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/14193620/FC.605.A-B_01_f02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.605.A-B/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match."
+    },
+    "A009": {
+      "accession": "FC.556",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08225727/FC.556_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.556/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match."
+    },
+    "A010": {
+      "accession": "FC.608",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/14105637/FC.608_01_P02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.608/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match."
+    },
+    "A011": {
+      "accession": "FC.499",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/15193728/FC.499_01_P02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.499/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 97,
+      "imageSelectionReason": "Official SFMOMA collection page; artist and year match. SFMOMA titles this 'Telephone [1l]' vs 'Telephone [1]'; same work."
+    },
+    "A012": {
+      "accession": "FC.675",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/05/12225447/FC.675_94_Warhol_3_Before_After_FC.675_01_f02.tif-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.675/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match."
+    },
+    "A013": {
+      "accession": "FC.229",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/15203036/FC.229_01_P02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.229/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 97,
+      "imageSelectionReason": "Official SFMOMA collection page; artist and year (1979/1986) match. SFMOMA titles this 'Nine Marilyns [Reversal series]'; same work."
+    },
+    "A014": {
+      "accession": "FC.609",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/14091305/Warhol_E_2016_2368_REPLACEMENT_G02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.609/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match."
+    },
+    "A015": {
+      "accession": "FC.620",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08230058/FC.620_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.620/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match."
+    },
+    "A016": {
+      "accession": "FC.616",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/15181736/FC.616_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.616/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match (80-inch Self-Portrait)."
+    },
+    "A017": {
+      "accession": "FC.507",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/15201331/FC.507_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.507/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match."
+    },
+    "A018": {
+      "accession": "FC.516",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/05/13040648/FC.516_01_f02_HR_FINAL-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.516/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year (1991-93) all match."
+    },
+    "A019": {
+      "accession": "FC.579",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08201649/FC.579_10Q_MARDEN_579R2_FINAL-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.579/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year (1996-97) all match."
+    },
+    "A020": {
+      "accession": null,
+      "preferredImageUrl": null,
+      "preferredImageSourcePage": null,
+      "imageSourceType": null,
+      "imageCredit": null,
+      "imageMatchConfidence": 0,
+      "imageSelectionReason": "No verifiable official SFMOMA page found for Brice Marden 'Untitled' 1988. Needs image review."
+    },
+    "A021": {
+      "accession": "FC.626",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/15212521/FC.626_01_f02_FINAL-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.626/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match."
+    },
+    "A022": {
+      "accession": "FC.625",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08164051/FC.625_01_P02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.625/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Agnes/maquette) and year all match."
+    },
+    "A023": {
+      "accession": "FC.697",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/05/12231333/FC.697_25681_CLOSE-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.697/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Roy I) and year all match."
+    },
+    "A024": {
+      "accession": "FC.844",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08174754/FC.844_01_P02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.844/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Roy/maquette) and year all match."
+    },
+    "A025": {
+      "accession": "FC.615",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08192145/FC.615_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.615/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (John) and year all match."
+    },
+    "A026": {
+      "accession": "FC.586",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/15201240/FC.586_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.586/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match."
+    },
+    "A027": {
+      "accession": "FC.460",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08180124/FC.460_01_P02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.460/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Untitled) and year (1968) all match."
+    },
+    "A028": {
+      "accession": "2000.204",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08192659/2000.204_01_b02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/2000.204/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Untitled) and year (1971) all match."
+    },
+    "A029": {
+      "accession": "FC.807",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08231354/FC.807_5064.Twombly_Notes_Alt_Ian%20Reeves_FINAL-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.807/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year (2005-07) all match."
+    },
+    "A030": {
+      "accession": "FC.416",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08181804/FC.416_01_B02_FINAL-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.416/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year (1971) all match."
+    },
+    "A031": {
+      "accession": "FC.824",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/15210943/FC.824_01_B02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.824/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year (1969) all match."
+    },
+    "A032": {
+      "accession": "FC.519",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/15203244/FC.519_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.519/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year (1987) all match."
+    },
+    "A033": {
+      "accession": "FC.277.A-B",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08202602/FC.277.A-B_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.277.A-B/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title and year all match."
+    },
+    "A034": {
+      "accession": "FC.461",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08230256/FC.461_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.461/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Wald (4)/Forest [4]) and year match."
+    },
+    "A035": {
+      "accession": "FC.440",
+      "preferredImageUrl": null,
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.440/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 85,
+      "imageSelectionReason": "Official SFMOMA page confirms artist, title, year (Abstraktes Bild, 1990, FC.440) but the artwork image is not published online. Needs image review."
+    },
+    "A036": {
+      "accession": "FC.738",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08231748/FC.738_10U_RICHTER_738R3_p-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.738/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Fenster/Window) and year match."
+    },
+    "A037": {
+      "accession": "FC.643",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08231622/FC.643_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.643/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (256 Farben/256 Colors) and year 1974/1984 match."
+    },
+    "A038": {
+      "accession": "98.527",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08201922/FC.623_01_H02.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/98.527/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page (98.527); artist, title (Seestueck/Seascape) and year 1998 match."
+    },
+    "A039": {
+      "accession": "FC.293",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08193024/FC.293_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.293/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Portrait Mueller) and year 1965 match."
+    },
+    "A040": {
+      "accession": "FC.309",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08202737/FC.309_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.309/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Gymnastik/Gymnastics) and year 1967 match."
+    },
+    "A041": {
+      "accession": "FC.498",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/14201442/FC.498_10T_RICHTER_498R2-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.498/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Brigid Polk) and year 1971 match."
+    },
+    "A042": {
+      "accession": "FC.838.A-C",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/15214008/FC.838.A-C_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.838.A-C/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page (triptych FC.838.A-C); artist, title (Bracket) and year 1989 match."
+    },
+    "A043": {
+      "accession": null,
+      "preferredImageUrl": "https://www.joanmitchellfoundation.org/uploads/artwork/mitchell/0870-1990-1991-Sunflowers-Joan-Mitchell.jpg",
+      "preferredImageSourcePage": "https://www.joanmitchellfoundation.org/joan-mitchell/artwork/0870-sunflowers",
+      "imageSourceType": "Artist Foundation",
+      "imageCredit": "Estate of Joan Mitchell / Joan Mitchell Foundation",
+      "imageMatchConfidence": 70,
+      "imageSelectionReason": "No SFMOMA page; Sunflowers (1990-91) in a private collection. Verified via official Joan Mitchell Foundation catalogue. Needs image review."
+    },
+    "A044": {
+      "accession": null,
+      "preferredImageUrl": "https://www.joanmitchellfoundation.org/uploads/artwork/mitchell/_2500xAUTO_crop_center-center_65_none/0996-1983-La_Grande_Vallee_XIV-Joan-Mitchell.jpg",
+      "preferredImageSourcePage": "https://www.joanmitchellfoundation.org/joan-mitchell/artwork/0996-la-grande-vallée-xiv-for-a-little-while",
+      "imageSourceType": "Artist Foundation",
+      "imageCredit": "Estate of Joan Mitchell / Joan Mitchell Foundation",
+      "imageMatchConfidence": 70,
+      "imageSelectionReason": "No SFMOMA page; La Grande Vallee XIV (1983) held at Centre Pompidou. Verified via official Joan Mitchell Foundation catalogue. Needs image review."
+    },
+    "A045": {
+      "accession": "FC.475",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08180247/FC.475_01_P02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.475/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Rug III) and year 1976 match."
+    },
+    "A046": {
+      "accession": "FC.752",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/15192936/FC.752_5064.10J_GUSTON_752R4_HR_FINAL-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.752/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (The Street) and year 1956 match."
+    },
+    "A047": {
+      "accession": "FC.681",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08202234/FC.681_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.681/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Brushes) and year 1978 match."
+    },
+    "A048": {
+      "accession": "FC.779",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/04/30010952/FC.779_01_P02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.779/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Late Fall) and year 1963 match."
+    },
+    "A049": {
+      "accession": "FC.501",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08203643/FC.501_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.501/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (As It Goes) and year 1978 match."
+    },
+    "A050": {
+      "accession": "FC.276.A-B",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/23025733/FC.276.A-B_01_f02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.276.A-B/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Melnikov II) and year 1987 match."
+    },
+    "A051": {
+      "accession": "94.453.A-D",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/22230309/FC.439.A-D_94.453.A-D_01_cropped_G02_Serra_HouseOfCards_View2_HiRes-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/94.453.A-D/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (House of Cards) and year 1969/1978 match."
+    },
+    "A052": {
+      "accession": "94.454.A-D",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/23023445/94.454.A-D_01_P02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/94.454.A-D/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Doors) and year 1966-67 match."
+    },
+    "A053": {
+      "accession": "94.451.A-B",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/24152759/94.451.A-B_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/94.451.A-B/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Floor Pole Prop) and year 1969 match."
+    },
+    "A054": {
+      "accession": "94.449",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/22200850/94.449_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/94.449/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (The United States Courts Are Partial to Government) and year 1989 match."
+    },
+    "A055": {
+      "accession": "99.374",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08181415/99.374_01_H02.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/99.374/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Figures with Sunset) and year 1978 match."
+    },
+    "A056": {
+      "accession": "FC.704",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/15204338/FC.704%20-%20primary_02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.704/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Coup de Chapeau II) and year 1996 match."
+    },
+    "A057": {
+      "accession": "FC.612",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/14171004/FC.612_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.612/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Live Ammo (Tzing!)) and year 1962 match."
+    },
+    "A058": {
+      "accession": "FC.604",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08193525/FC.604_01_H02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.604/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Portable Radio) and year 1962 match."
+    },
+    "A059": {
+      "accession": "FC.705",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/14172537/FC.705_01_P02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.705/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Tire) and year 1962 match."
+    },
+    "A060": {
+      "accession": "FC.735",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/05/12215437/FC.735_10T_POLKE_735R4_FINAL-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.735/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Ohne Titel) and year 2003 match."
+    },
+    "A061": {
+      "accession": "FC.394",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/06/08230829/FC.394_01_f02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.394/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Ohne Titel) and year 1983 match."
+    },
+    "A062": {
+      "accession": "FC.312",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/05/07084210/FC.312_01_P02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.312/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Springbrunnen/Fountain) and year 1966 match."
+    },
+    "A063": {
+      "accession": "FC.428.2",
+      "preferredImageUrl": "https://d1hhug17qm51in.cloudfront.net/www-media/2026/07/13235453/FC.428.2_01_P02-web.jpg",
+      "preferredImageSourcePage": "https://www.sfmoma.org/artwork/FC.428.2/",
+      "imageSourceType": "Official Museum",
+      "imageCredit": "San Francisco Museum of Modern Art",
+      "imageMatchConfidence": 100,
+      "imageSelectionReason": "Official SFMOMA collection page; artist, title (Ohne Titel) and year 1968 match."
+    }
   }
 }
