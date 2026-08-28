@@ -14,8 +14,15 @@
 // Source-type priority (spec §29):
 //   1. Verified online image (>=90 confidence)  → preferredImageUrl
 //   2. Lower-confidence verified online match (75–89) → preferredImageUrl, flagged
-//   3. Local reference photo (only if no verified image)  → imageUrl
+//   3. Local reference photo — ONLY if verified to depict this work → imageUrl
 //   4. Placeholder                              → elegant "image forthcoming" tile
+//
+// NOTE on (3): the local photo library was bulk-assigned by position, not
+// matched per artwork, so an unverified local photo is almost always a
+// different artist's work. It is therefore never displayed unless explicitly
+// verified. A moved museum URL is repaired for real by
+// scripts/refresh-images.mjs, which re-finds the image on the museum's own
+// object page.
 // ---------------------------------------------------------------------------
 
 // Confidence bands (0–1). Verified online images carry their own 0–100 match
@@ -85,12 +92,13 @@ export function resolveArtworkImage(artwork) {
   }
 
   // -- 3: local reference photo (only when no verified online image) --------
-  // The local converted visitor photo is reference-only; it's used here solely
-  // as a fallback so a work isn't a bare placeholder, and it's always flagged
-  // for review since it's not an official reproduction.
+  // The local converted visitor photo is reference-only. It is shown ONLY when
+  // someone has confirmed it actually depicts THIS artwork (see
+  // hasVerifiedLocalPhoto) — the photo library was bulk-assigned by position,
+  // so an unverified local photo is usually a different artist's work entirely.
   const local = artwork.imageUrl
   const isLocal = typeof local === 'string' && local.startsWith('/artworks/')
-  if (isLocal && !artwork.imagePlaceholderFallback) {
+  if (isLocal && !artwork.imagePlaceholderFallback && hasVerifiedLocalPhoto(artwork)) {
     const confidence = CONFIDENCE.driveFallbackUnreviewed
     return {
       url: local,
@@ -117,17 +125,42 @@ export function resolveArtworkImage(artwork) {
 }
 
 /**
- * The device-local reference photo URL for an artwork, if one exists, else null.
- * Used as a RUNTIME fallback: verified online images (SFMOMA CDN, foundation
- * sites) are hotlinked and periodically move, returning 403/404 at load time.
- * When that happens the display components fall back to this local photo before
- * the placeholder, so a moved remote URL never blanks out an image. Distinct
- * from resolveArtworkImage's build-time choice — this is only consulted after a
- * remote image actually fails to load in the browser.
+ * Has a human confirmed that this artwork's device-local photo actually shows
+ * THIS work?
+ *
+ * This gate exists because the local library in public/artworks/<CODE>.jpg was
+ * bulk-assigned: each artwork got the next visitor photo in sequence, not a
+ * photo matched to it. Every catalogued work's `sourcePhoto` is filed under a
+ * DIFFERENT artist than the work it is attached to (e.g. Agnes Martin's "Wheat"
+ * points at a photo shot in the Sigmar Polke room). Displaying one of these as
+ * though it were the artwork is worse than showing nothing: the visitor is told
+ * they are looking at a painting they are not.
+ *
+ * So an unverified local photo is never displayed. Set `localPhotoVerified` on
+ * an artwork (or mark it human-reviewed in the backend) once someone has
+ * actually looked at the photo and confirmed the match.
+ */
+export function hasVerifiedLocalPhoto(artwork) {
+  return artwork?.localPhotoVerified === true
+}
+
+/**
+ * The device-local reference photo URL for an artwork, if one exists AND has
+ * been verified to depict that artwork — otherwise null.
+ *
+ * Used as a RUNTIME fallback: hotlinked museum images (SFMOMA's CDN, foundation
+ * sites) periodically move and start returning 403/404 at load time. When that
+ * happens the display components consult this before giving up. Because the
+ * local photos are unverified by default this normally returns null, and the
+ * component shows the honest "image forthcoming" placeholder instead of a
+ * confidently-wrong painting.
+ *
+ * The real repair for a moved URL is scripts/refresh-images.mjs, which
+ * re-discovers the image's new location from the museum's own object page.
  */
 export function localFallbackImage(artwork) {
   const local = artwork?.imageUrl
-  if (typeof local === 'string' && local.startsWith('/artworks/')) {
+  if (typeof local === 'string' && local.startsWith('/artworks/') && hasVerifiedLocalPhoto(artwork)) {
     // Respect Vite's base path so it resolves under any deploy sub-path.
     const base = (import.meta.env && import.meta.env.BASE_URL) || '/'
     return base.replace(/\/$/, '') + local
