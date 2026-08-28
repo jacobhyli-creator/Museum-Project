@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "images:check": "node scripts/refresh-images.mjs",
+    "images:fix": "node scripts/refresh-images.mjs --apply",
+    "images:audit": "node scripts/audit-images.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.1",
