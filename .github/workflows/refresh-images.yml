@@ -1,0 +1,51 @@
+name: Refresh artwork images
+
+on:
+  schedule:
+    - cron: '20 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Report what would change without writing'
+        type: boolean
+        default: false
+
+concurrency:
+  group: refresh-images
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Check and repair image links
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          ARGS="--fail-on-unresolved --json image-report.json"
+          if [ "$DRY_RUN" != "true" ]; then
+            ARGS="--apply $ARGS"
+          fi
+          node scripts/refresh-images.mjs $ARGS
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: image-report
+          path: image-report.json
+          if-no-files-found: ignore
