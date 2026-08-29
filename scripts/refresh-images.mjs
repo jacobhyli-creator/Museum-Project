@@ -117,7 +117,24 @@ const ANON_KEY = env('VITE_SUPABASE_ANON_KEY') || env('SUPABASE_ANON_KEY')
 const SERVICE_KEY = env('SUPABASE_SERVICE_ROLE_KEY')
 
 if (!SUPABASE_URL || !ANON_KEY) {
-  console.error('Missing VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY.')
+  // Name the missing variable rather than the pair. In CI this is nearly always
+  // a secret that is misnamed or scoped to an environment the job cannot see,
+  // and a vague message sends you hunting through the wrong things.
+  const missing = []
+  if (!SUPABASE_URL) missing.push('VITE_SUPABASE_URL')
+  if (!ANON_KEY) missing.push('VITE_SUPABASE_ANON_KEY')
+  console.error(`\nMissing required config: ${missing.join(', ')}\n`)
+  console.error('Seen (presence only, values never printed):')
+  for (const k of ['VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY', 'SUPABASE_SERVICE_ROLE_KEY']) {
+    const fromEnv = Boolean(process.env[k])
+    const fromFile = Boolean(fileEnv[k])
+    const where = fromEnv ? 'environment' : fromFile ? '.env.local' : 'NOT SET'
+    console.error(`  ${k.padEnd(28)} ${where}`)
+  }
+  console.error(
+    '\nIn GitHub Actions these come from repository secrets. Environment-scoped\n' +
+      'secrets are not visible to a job that does not declare that environment.\n'
+  )
   process.exit(1)
 }
 
