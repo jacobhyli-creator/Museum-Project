@@ -95,6 +95,25 @@ const JSON_OUT = (() => {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
+// ---------------------------------------------------------------------------
+// supabase-js builds a RealtimeClient as soon as createClient() is called, and
+// that constructor resolves a WebSocket implementation up front. On Node < 22
+// there is no global WebSocket, so it throws before a single query runs — which
+// is how this script died on a CI runner pinned to Node 20.
+//
+// Nothing here uses realtime; it is REST reads and updates only. Supplying a
+// `transport` short-circuits the environment probe (realtime-js falls back to
+// detection only when transport is undefined), so we hand it the platform
+// WebSocket where one exists and an inert stub otherwise. The stub is never
+// instantiated — it exists solely to stop the constructor from probing.
+// ---------------------------------------------------------------------------
+class UnusedWebSocket {
+  constructor() {
+    throw new Error('refresh-images does not use Supabase realtime')
+  }
+}
+const REALTIME_OPTS = { transport: globalThis.WebSocket ?? UnusedWebSocket }
+
 // -- env ---------------------------------------------------------------------
 function readEnvFile() {
   const out = {}
@@ -327,7 +346,7 @@ commit;
 // -- main --------------------------------------------------------------------
 
 async function main() {
-  const reader = createClient(SUPABASE_URL, ANON_KEY)
+  const reader = createClient(SUPABASE_URL, ANON_KEY, { realtime: REALTIME_OPTS })
 
   const exh = await reader
     .from('exhibitions').select('id').eq('slug', EXHIBITION_SLUG).maybeSingle()
@@ -433,6 +452,7 @@ async function main() {
   if (SERVICE_KEY && !FORCE_SQL) {
     const writer = createClient(SUPABASE_URL, SERVICE_KEY, {
       auth: { persistSession: false, autoRefreshToken: false },
+      realtime: REALTIME_OPTS,
     })
     let ok = 0
     for (const r of repairs) {
