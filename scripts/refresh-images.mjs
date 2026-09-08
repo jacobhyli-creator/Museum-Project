@@ -84,9 +84,11 @@ const UA =
 const argv = process.argv.slice(2)
 const APPLY = argv.includes('--apply')
 const FORCE_SQL = argv.includes('--sql')
-// CI: exit non-zero when a dead link could NOT be repaired automatically, so the
-// scheduled run stays silent while it is self-healing and only alerts a human
-// when one genuinely needs attention.
+// CI: exit non-zero when any work was left undone -- a dead link that could not
+// be repaired, OR a repair that was found but never persisted to the database.
+// The scheduled run stays silent while it is genuinely self-healing, and only
+// alerts a human when something actually still needs attention. Reporting
+// success without writing is the one outcome this must never produce.
 const FAIL_ON_UNRESOLVED = argv.includes('--fail-on-unresolved')
 const JSON_OUT = (() => {
   const i = argv.indexOf('--json')
@@ -449,6 +451,12 @@ async function main() {
 
   // 3. Persist. Direct write when a service-role key is available; otherwise
   //    emit SQL so the repair is never simply lost.
+  //
+  // A repair that is found but not actually written is work left undone, and it
+  // MUST be reflected in the exit code. Otherwise the scheduled job reports
+  // success while the images stay broken -- which is exactly what happened for
+  // two weeks: green runs on Aug 31 and Sep 7 that persisted nothing.
+  let persistFailures = 0
   if (SERVICE_KEY && !FORCE_SQL) {
     const writer = createClient(SUPABASE_URL, SERVICE_KEY, {
       auth: { persistSession: false, autoRefreshToken: false },
@@ -459,6 +467,7 @@ async function main() {
       const art = await writer.from('artworks').select('id').eq('code', r.code).maybeSingle()
       if (art.error || !art.data) {
         console.error(`  ${r.code}: could not resolve artwork id`)
+        persistFailures++
         continue
       }
       const patch = { url: r.newUrl }
@@ -471,6 +480,7 @@ async function main() {
         .eq('is_current', true)
       if (up.error) {
         console.error(`  ${r.code}: write failed — ${up.error.message}`)
+        persistFailures++
         continue
       }
       await writer
@@ -485,16 +495,30 @@ async function main() {
   } else {
     const out = resolve(ROOT, `supabase/migrations/${nextMigrationName()}`)
     writeFileSync(out, buildSql(repairs))
-    console.log(
-      SERVICE_KEY
-        ? '\n--sql requested.'
-        : '\nNo SUPABASE_SERVICE_ROLE_KEY found, so the repairs were written as SQL instead.'
-    )
-    console.log(`SQL written to:\n  ${out}`)
+    if (SERVICE_KEY) {
+      console.log('\n--sql requested.')
+    } else {
+      // On a developer machine the SQL file is a genuine deliverable. On a CI
+      // runner the filesystem is thrown away at the end of the job, so this
+      // path silently changes nothing -- count it as undone work.
+      console.error(
+        '\nNo SUPABASE_SERVICE_ROLE_KEY found, so nothing was written to the ' +
+          'database.\nThe repairs were saved as SQL instead:'
+      )
+      persistFailures += repairs.length
+    }
+    console.log(`  ${out}`)
     console.log('Run it in the Supabase SQL editor to apply.\n')
   }
 
-  return unresolved.length
+  if (persistFailures > 0) {
+    console.error(
+      `${persistFailures} repair(s) were found but NOT saved to the database. ` +
+        'The images are still broken.\n'
+    )
+  }
+
+  return unresolved.length + persistFailures
 }
 
 /**
@@ -522,8 +546,9 @@ main()
   .then((unresolvedCount = 0) => {
     if (FAIL_ON_UNRESOLVED && unresolvedCount > 0) {
       console.error(
-        `\n${unresolvedCount} image link(s) could not be repaired automatically ` +
-          'and need a human. Failing so this run is not silently ignored.\n'
+        `\n${unresolvedCount} image issue(s) still outstanding after this run ` +
+          '(unrepairable links and/or repairs that were not saved).\n' +
+          'Failing so this run is not silently ignored.\n'
       )
       process.exit(2)
     }
