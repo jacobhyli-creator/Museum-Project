@@ -473,16 +473,35 @@ async function main() {
       const patch = { url: r.newUrl }
       if (r.tier === 'accession') patch.review_status = 'pending'
 
+      // .select() is what makes this verifiable. PostgREST answers a bare
+      // UPDATE with `error: null, data: null` whether it changed 62 rows or
+      // none, so a write silently discarded by RLS is indistinguishable from a
+      // successful one. Asking for the affected rows back turns "no error" into
+      // a real count. This is not hypothetical: with a key that does not bypass
+      // RLS, every write returned clean and the job reported "Wrote 3/3" for
+      // two weeks while the database was never touched.
       const up = await writer
         .from('artwork_images')
         .update(patch)
         .eq('artwork_id', art.data.id)
         .eq('is_current', true)
+        .select('id')
       if (up.error) {
         console.error(`  ${r.code}: write failed — ${up.error.message}`)
         persistFailures++
         continue
       }
+      if (!up.data || up.data.length === 0) {
+        console.error(
+          `  ${r.code}: update matched 0 rows — nothing was written. ` +
+            'The key in SUPABASE_SERVICE_ROLE_KEY is most likely not a ' +
+            'service-role/secret key, so RLS is discarding the write.'
+        )
+        persistFailures++
+        continue
+      }
+      // History row: 0 rows here is legitimate (an artwork need not have an
+      // active version row), so this is best-effort and never fails the run.
       await writer
         .from('artwork_image_versions')
         .update({ image_url: r.newUrl })
@@ -491,7 +510,9 @@ async function main() {
       ok++
     }
     console.log(`\nWrote ${ok}/${repairs.length} repairs to Supabase.`)
-    console.log('The tour reads these live — no redeploy needed.\n')
+    if (ok > 0) {
+      console.log('The tour reads these live — no redeploy needed.\n')
+    }
   } else {
     const out = resolve(ROOT, `supabase/migrations/${nextMigrationName()}`)
     writeFileSync(out, buildSql(repairs))
