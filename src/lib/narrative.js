@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// Route narrative generation (front-end template logic only — NO live AI).
+// Route narrative generation (front-end template logic only — no model calls).
 //
 // Turns a generated route + the user's preferences into a connected story:
 //   - routeTheme            one-line theme label for the whole route

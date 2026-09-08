@@ -4,7 +4,7 @@ export default function MuseumSelection({ selected, onSelect, onContinue }) {
   return (
     <div className="app-frame">
       <header className="animate-fadeUp px-6 pb-2 pt-10">
-        <p className="eyebrow mb-3">AI Personalized Museum Tour Guide</p>
+        <p className="eyebrow mb-3">Personalized Museum Tour Guide</p>
         <h1 className="font-serif text-[34px] leading-[1.05] text-charcoal">
           A personal curator for your museum visit
         </h1>
