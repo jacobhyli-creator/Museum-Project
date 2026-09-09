@@ -77,6 +77,15 @@ const EXHIBITION_SLUG = 'ways-of-seeing-fourteen-artists'
 // Be a polite scraper: one museum page at a time, with a pause between fetches.
 const PAGE_DELAY_MS = 500
 const FETCH_TIMEOUT_MS = 20000
+
+// A single failed request must never condemn an image. CDNs time out, throttle
+// bursts, and return the occasional 5xx, and this job now runs every day, so a
+// one-in-a-thousand blip would otherwise page a human about a healthy image.
+// Confirm a failure across separate attempts before believing it.
+const LIVENESS_ATTEMPTS = 3
+const RETRY_BACKOFF_MS = 700
+// Small gap between image checks so 62 requests don't arrive as one burst.
+const CHECK_DELAY_MS = 60
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
   '(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
@@ -206,20 +215,37 @@ async function fetchWithTimeout(url, opts = {}) {
   }
 }
 
-/** Does this URL currently serve a real image? */
-async function isLiveImage(url) {
-  if (!url || url.startsWith('/')) return false
-  try {
-    const res = await fetchWithTimeout(url, {
-      method: 'GET',
-      headers: { 'User-Agent': UA, Range: 'bytes=0-2048' },
-      redirect: 'follow',
-    })
-    const type = res.headers.get('content-type') || ''
-    return { ok: res.ok && type.startsWith('image/'), status: res.status, type }
-  } catch (e) {
-    return { ok: false, status: 0, type: '', error: e.message }
+/**
+ * Does this URL currently serve a real image?
+ *
+ * Retries before reporting a failure, because a transient blip is
+ * indistinguishable from real link rot on a single request — and acting on that
+ * mistake means either a false alarm or, worse, replacing an image that was
+ * never broken. Always returns the same shape, so callers can read `.ok` and
+ * `.status` without checking the type first.
+ */
+async function isLiveImage(url, { attempts = 1 } = {}) {
+  if (typeof url !== 'string' || !/^https?:\/\//i.test(url)) {
+    return { ok: false, status: 0, type: '', error: 'not an absolute http(s) url' }
   }
+  let last = { ok: false, status: 0, type: '', error: 'never attempted' }
+  for (let i = 0; i < Math.max(1, attempts); i++) {
+    if (i > 0) await sleep(RETRY_BACKOFF_MS * i)
+    try {
+      const res = await fetchWithTimeout(url, {
+        method: 'GET',
+        headers: { 'User-Agent': UA, Range: 'bytes=0-2048' },
+        redirect: 'follow',
+      })
+      const type = res.headers.get('content-type') || ''
+      const ok = res.ok && type.startsWith('image/')
+      last = { ok, status: res.status, type, attempts: i + 1 }
+      if (ok) return last
+    } catch (e) {
+      last = { ok: false, status: 0, type: '', error: e.message, attempts: i + 1 }
+    }
+  }
+  return last
 }
 
 // -- the repair --------------------------------------------------------------
@@ -391,12 +417,13 @@ async function main() {
       broken.push({ ...a, why: 'no image url stored' })
       continue
     }
-    const live = await isLiveImage(a.url)
+    const live = await isLiveImage(a.url, { attempts: LIVENESS_ATTEMPTS })
     if (live.ok) {
       healthy++
     } else {
       broken.push({ ...a, why: live.error ? live.error : `HTTP ${live.status}` })
     }
+    await sleep(CHECK_DELAY_MS)
   }
 
   console.log(`  ${healthy} loading · ${broken.length} broken\n`)
@@ -420,9 +447,21 @@ async function main() {
       console.log(`  ${a.code}  repaired  [${tag}]  ${a.title || ''}`)
       console.log(`        -> ${found.url}`)
     } else {
-      unresolved.push({ code: a.code, title: a.title, url: a.url, reason: found?.error || 'unknown' })
-      console.log(`  ${a.code}  UNRESOLVED  ${a.title || ''}`)
-      console.log(`        ${found?.error || 'unknown'}`)
+      // Last line of defence against a false alarm. Reaching here means the URL
+      // failed every liveness attempt AND no replacement was found on the museum
+      // page — which is also exactly what a CDN having a bad minute looks like,
+      // since the same outage breaks both lookups. Before waking a human, check
+      // the original once more: if it answers now, the link was never rotten.
+      const recheck = await isLiveImage(a.url, { attempts: LIVENESS_ATTEMPTS })
+      if (recheck.ok) {
+        healthy++
+        console.log(`  ${a.code}  recovered  ${a.title || ''}`)
+        console.log('        transient failure — the original URL loads again; no action needed')
+      } else {
+        unresolved.push({ code: a.code, title: a.title, url: a.url, reason: found?.error || 'unknown' })
+        console.log(`  ${a.code}  UNRESOLVED  ${a.title || ''}`)
+        console.log(`        ${found?.error || 'unknown'}`)
+      }
     }
     await sleep(PAGE_DELAY_MS)
   }
